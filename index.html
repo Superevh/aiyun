@@ -172,7 +172,9 @@
     .thinking-topics li { font-size: .78rem; color: var(--ink-3); line-height: 1.5; padding-left: 14px; position: relative; display: flex; align-items: flex-start; gap: 4px; }
     .thinking-topics li::before { content: '·'; position: absolute; left: 0; color: var(--brass); font-weight: 700; top: 0; }
     .thinking-topics li a { color: var(--ink-3); text-decoration: none; transition: color var(--T); flex: 1; min-width: 0; }
+    .thinking-topics li a::after { content: ' ↗'; font-size: .65rem; opacity: .45; transition: opacity var(--T); }
     .thinking-topics li a:hover { color: var(--brass); }
+    .thinking-topics li a:hover::after { opacity: .8; }
     .thinking-topics li > span:not(.item-actions) { flex: 1; min-width: 0; }
 
     /* Featured thought */

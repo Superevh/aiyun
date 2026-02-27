@@ -169,8 +169,11 @@
     .thinking-cat-icon { font-size: 1.4rem; margin-bottom: 14px; }
     .thinking-cat h3 { font-family: 'Crimson Pro', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); margin-bottom: 14px; }
     .thinking-topics { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    .thinking-topics li { font-size: .78rem; color: var(--ink-3); line-height: 1.5; padding-left: 14px; position: relative; }
-    .thinking-topics li::before { content: '·'; position: absolute; left: 0; color: var(--brass); font-weight: 700; }
+    .thinking-topics li { font-size: .78rem; color: var(--ink-3); line-height: 1.5; padding-left: 14px; position: relative; display: flex; align-items: flex-start; gap: 4px; }
+    .thinking-topics li::before { content: '·'; position: absolute; left: 0; color: var(--brass); font-weight: 700; top: 0; }
+    .thinking-topics li a { color: var(--ink-3); text-decoration: none; transition: color var(--T); flex: 1; min-width: 0; }
+    .thinking-topics li a:hover { color: var(--brass); }
+    .thinking-topics li > span:not(.item-actions) { flex: 1; min-width: 0; }
 
     /* Featured thought */
     .featured-thoughts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
@@ -250,48 +253,43 @@
     .fade.on { opacity: 1; transform: none; }
 
     /* ══ ARTICLE MANAGEMENT ══ */
-    .add-article-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--brass); color: var(--warm-white); border: none; border-radius: 999px; padding: 10px 22px; font-size: .8rem; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--T); margin-top: 32px; }
+    .thinking-mgmt-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .add-article-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--brass); color: var(--warm-white); border: none; border-radius: 999px; padding: 10px 22px; font-size: .8rem; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--T); }
     .add-article-btn:hover { background: var(--brass-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(160,120,64,.25); }
+    .edit-mode-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1.5px solid var(--cream-3); border-radius: 999px; padding: 8px 16px; font-size: .75rem; font-weight: 500; color: var(--ink-3); font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--T); }
+    .edit-mode-btn:hover, .edit-mode-btn.active { border-color: var(--brass); color: var(--brass); background: rgba(160,120,64,.04); }
+    .item-actions { display: none; gap: 3px; flex-shrink: 0; }
+    .editing .item-actions { display: flex; }
+    .item-del { background: none; border: none; cursor: pointer; color: var(--ink-5); padding: 2px 3px; border-radius: 3px; transition: color var(--T); line-height: 1; display: flex; align-items: center; }
+    .item-del:hover { color: #b94040; }
 
-    /* Modal */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(30,26,20,.6); backdrop-filter: blur(6px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity var(--T); }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal { background: var(--warm-white); border-radius: var(--radius); padding: 40px; width: 100%; max-width: 520px; transform: translateY(16px); transition: transform var(--T); box-shadow: 0 32px 80px rgba(30,26,20,.18); }
-    .modal-overlay.open .modal { transform: none; }
-    .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
-    .modal-title { font-family: 'Crimson Pro', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 4px; }
-    .modal-sub { font-size: .8rem; color: var(--ink-4); }
-    .modal-close { background: none; border: none; cursor: pointer; color: var(--ink-4); padding: 4px; border-radius: 6px; transition: color var(--T); line-height: 1; }
-    .modal-close:hover { color: var(--ink); }
-    .form-group { margin-bottom: 18px; }
-    .form-label { display: block; font-size: .72rem; font-weight: 600; color: var(--ink-3); margin-bottom: 7px; letter-spacing: .4px; text-transform: uppercase; }
-    .form-input, .form-textarea, .form-select { width: 100%; border: 1.5px solid var(--cream-3); border-radius: 10px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: .875rem; color: var(--ink); background: var(--warm-white); transition: border-color var(--T); outline: none; }
-    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--brass); }
-    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.65; }
-    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%239B8C7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 28px; }
-    .btn-cancel { background: none; border: 1.5px solid var(--cream-3); border-radius: 999px; padding: 9px 20px; font-size: .8rem; font-weight: 500; color: var(--ink-3); cursor: pointer; font-family: 'Inter', sans-serif; transition: all var(--T); }
-    .btn-cancel:hover { border-color: var(--parchment); color: var(--ink); }
-    .btn-save { background: var(--brass); border: none; border-radius: 999px; padding: 9px 22px; font-size: .8rem; font-weight: 500; color: var(--warm-white); cursor: pointer; font-family: 'Inter', sans-serif; transition: all var(--T); }
-    .btn-save:hover { background: var(--brass-light); }
-
-    /* Saved articles list */
-    .articles-section { margin-top: 36px; }
-    .articles-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .articles-section-label { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .9px; color: var(--ink-4); }
-    .articles-count { font-size: .7rem; color: var(--ink-5); background: var(--cream-2); padding: 2px 9px; border-radius: 999px; }
-    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-    .article-card { background: var(--warm-white); border: 1.5px solid var(--cream-3); border-radius: var(--radius); padding: 24px; transition: all var(--T); }
-    .article-card:hover { border-color: var(--brass); box-shadow: 0 8px 28px rgba(160,120,64,.08); }
-    .article-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-    .article-delete { background: none; border: none; cursor: pointer; color: var(--ink-5); padding: 2px 4px; border-radius: 4px; transition: color var(--T); line-height: 1; flex-shrink: 0; font-size: .78rem; }
-    .article-delete:hover { color: #b94040; }
-    .article-card h4 { font-family: 'Crimson Pro', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); margin-bottom: 7px; line-height: 1.4; }
-    .article-card p { font-size: .8rem; color: var(--ink-3); line-height: 1.7; margin-bottom: 14px; }
-    .article-card-footer { display: flex; align-items: center; justify-content: space-between; }
-    .article-date { font-size: .7rem; color: var(--ink-5); }
-    .articles-empty { text-align: center; padding: 36px 20px; color: var(--ink-4); font-size: .84rem; border: 1.5px dashed var(--cream-3); border-radius: var(--radius); line-height: 1.7; }
-    .articles-empty-icon { font-size: 1.6rem; display: block; margin-bottom: 10px; }
+    /* Article creation page */
+    .article-page { position: fixed; inset: 0; background: var(--warm-white); z-index: 600; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .38s cubic-bezier(.4,0,.2,1); overflow-y: auto; }
+    .article-page.open { transform: none; }
+    .article-page-nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid var(--cream-3); position: sticky; top: 0; background: rgba(253,251,248,.96); backdrop-filter: blur(16px); z-index: 2; }
+    .article-page-back { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; font-size: .84rem; font-weight: 500; color: var(--ink-3); font-family: 'Inter', sans-serif; transition: color var(--T); padding: 0; }
+    .article-page-back:hover { color: var(--ink); }
+    .article-page-title { font-family: 'Crimson Pro', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); }
+    .article-page-save { background: var(--brass); color: var(--warm-white); border: none; border-radius: 999px; padding: 9px 22px; font-size: .8rem; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--T); }
+    .article-page-save:hover { background: var(--brass-light); }
+    .article-page-body { max-width: 660px; margin: 0 auto; padding: 56px 24px 80px; width: 100%; }
+    .ap-heading { font-family: 'Crimson Pro', serif; font-size: 2.2rem; font-weight: 300; color: var(--ink); margin-bottom: 8px; letter-spacing: -.3px; }
+    .ap-sub { font-size: .875rem; color: var(--ink-4); margin-bottom: 44px; line-height: 1.7; }
+    .ap-form-group { margin-bottom: 22px; }
+    .ap-label { display: block; font-size: .72rem; font-weight: 600; color: var(--ink-3); margin-bottom: 8px; letter-spacing: .4px; text-transform: uppercase; }
+    .ap-input, .ap-textarea, .ap-select { width: 100%; border: 1.5px solid var(--cream-3); border-radius: 12px; padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: .9rem; color: var(--ink); background: var(--warm-white); transition: border-color var(--T), box-shadow var(--T); outline: none; }
+    .ap-input:focus, .ap-textarea:focus, .ap-select:focus { border-color: var(--brass); box-shadow: 0 0 0 3px rgba(160,120,64,.08); }
+    .ap-textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
+    .ap-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%239B8C7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer; }
+    .ap-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; border-top: 1px solid var(--cream-3); border-bottom: 1px solid var(--cream-3); margin-top: 8px; }
+    .ap-toggle-label { font-size: .9rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+    .ap-toggle-desc { font-size: .78rem; color: var(--ink-4); line-height: 1.5; }
+    .ap-toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .ap-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .ap-toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--cream-3); border-radius: 999px; transition: background var(--T); }
+    .ap-toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: transform var(--T); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+    .ap-toggle input:checked + .ap-toggle-slider { background: var(--brass); }
+    .ap-toggle input:checked + .ap-toggle-slider::before { transform: translateX(20px); }
 
     /* ══ MOBILE ══ */
     @media (max-width: 900px) { .nav-items { display: none; } .nav-bar { padding: 0 20px; } }
@@ -758,89 +756,25 @@
       <div class="section-rule"></div>
       <p class="section-sub">Not hot takes. My ongoing, evolving thinking on AI — what it changes, what it doesn't, and what most people are missing.</p>
     </div>
-    <div class="thinking-cats">
 
-      <div class="thinking-cat fade">
-        <div class="thinking-cat-icon">🧠</div>
-        <h3>Strategic Thinking</h3>
-        <ul class="thinking-topics">
-          <li>Why AI is the next literacy</li>
-          <li>Product–Channel–Community model</li>
-          <li>Storytelling in AI adoption</li>
-          <li>Why AI makes ways of working obsolete</li>
-          <li>AI democratisation & the future of expertise</li>
-          <li>"Connecting Strategy to Prototype" framework</li>
-        </ul>
-      </div>
-
-      <div class="thinking-cat fade" style="transition-delay:.08s">
-        <div class="thinking-cat-icon">💡</div>
-        <h3>Concepts</h3>
-        <ul class="thinking-topics">
-          <li>Chain prompting</li>
-          <li>Agentic workflows</li>
-          <li>MoE models explained simply</li>
-          <li>The economics of AI tasks vs roles</li>
-          <li>Why a diverse past gives you AI advantage</li>
-        </ul>
-      </div>
-
-      <div class="thinking-cat fade" style="transition-delay:.16s">
-        <div class="thinking-cat-icon">🌍</div>
-        <h3>Industry Thinking</h3>
-        <ul class="thinking-topics">
-          <li>Benchmarks: Atlassian, Microsoft, OpenAI, Anthropic</li>
-          <li>How organisations actually adopt AI</li>
-          <li>Learnings from conferences</li>
-          <li>AI in the 2032 Brisbane Olympics</li>
-          <li>The future of delivery</li>
-        </ul>
-      </div>
-
-      <div class="thinking-cat fade" style="transition-delay:.24s">
-        <div class="thinking-cat-icon">📓</div>
-        <h3>Daily Journals</h3>
-        <ul class="thinking-topics">
-          <li>Key insights learned with AI</li>
-          <li>Weekly and monthly highlights</li>
-          <li>Voice improvement journey</li>
-          <li>Observations on leadership and family</li>
-          <li>Emotional moments worth capturing</li>
-        </ul>
-      </div>
-
+    <!-- Management bar — above the cards -->
+    <div class="thinking-mgmt-bar">
+      <button class="add-article-btn" id="openArticlePage">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Article
+      </button>
+      <button class="edit-mode-btn" id="toggleEditMode">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit List
+      </button>
     </div>
 
-    <!-- Featured posts -->
+    <!-- Category cards — dynamically rendered by JS -->
+    <div class="thinking-cats" id="thinkingCats"></div>
+
+    <!-- Featured articles — dynamically rendered by JS -->
     <div style="margin-top:16px;">
-      <div class="featured-thoughts">
-        <a href="#" class="thought-card fade">
-          <span class="thought-tag-pill">Strategy</span>
-          <h3>Connecting Strategy to Prototype</h3>
-          <p>Most strategies don't survive contact with reality. Here's the framework I use to close that gap — faster, with AI in the loop.</p>
-          <div class="thought-read">Read →</div>
-        </a>
-        <a href="#" class="thought-card fade" style="transition-delay:.1s">
-          <span class="thought-tag-pill">Concept</span>
-          <h3>Why Your Diverse Past Gives You an AI Advantage</h3>
-          <p>AI rewards people who can connect dots across domains. Here's why a non-linear career is actually your superpower right now.</p>
-          <div class="thought-read">Read →</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Article management -->
-    <button class="add-article-btn" id="openArticleModal">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Add Article
-    </button>
-
-    <div class="articles-section" id="articlesSection">
-      <div class="articles-section-head">
-        <span class="articles-section-label">Saved Articles</span>
-        <span class="articles-count" id="articlesCount">0</span>
-      </div>
-      <div id="articlesGrid"></div>
+      <div class="featured-thoughts" id="featuredGrid"></div>
     </div>
 
   </div>
@@ -964,39 +898,52 @@
   </nav>
 </footer>
 
-<!-- ══ ADD ARTICLE MODAL ══ -->
-<div class="modal-overlay" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="modalTitle">New Article</div>
-        <div class="modal-sub">Save a thought, insight, or piece of writing to your AI Thinking collection.</div>
+<!-- ══ ARTICLE CREATION PAGE ══ -->
+<div class="article-page" id="articlePage" role="dialog" aria-modal="true" aria-labelledby="apPageTitle">
+  <nav class="article-page-nav">
+    <button class="article-page-back" id="closeArticlePage">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <span class="article-page-title" id="apPageTitle">New Article</span>
+    <button class="article-page-save" id="saveArticleBtn">Save Article</button>
+  </nav>
+  <div class="article-page-body">
+    <h2 class="ap-heading">Add an article</h2>
+    <p class="ap-sub">Fill in the details below. The article will appear in the matching category card automatically — and optionally as a featured card.</p>
+    <form id="articlePageForm" novalidate>
+      <div class="ap-form-group">
+        <label class="ap-label" for="apTitle">Title *</label>
+        <input class="ap-input" id="apTitle" type="text" placeholder="e.g. Why multi-modal AI changes everything" required>
       </div>
-      <button class="modal-close" id="closeArticleModal" aria-label="Close">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <form id="articleForm" novalidate>
-      <div class="form-group">
-        <label class="form-label" for="articleTitle">Title</label>
-        <input class="form-input" id="articleTitle" type="text" placeholder="e.g. Why AI changes how we think about strategy" required>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="articleCategory">Category</label>
-        <select class="form-select form-input" id="articleCategory">
-          <option value="Strategy">Strategic Thinking</option>
-          <option value="Concept">Concepts</option>
-          <option value="Industry">Industry Thinking</option>
-          <option value="Journal">Daily Journal</option>
+      <div class="ap-form-group">
+        <label class="ap-label" for="apCategory">Category *</label>
+        <select class="ap-select" id="apCategory">
+          <option value="Strategic Thinking">Strategic Thinking</option>
+          <option value="Concepts">Concepts</option>
+          <option value="Industry Thinking">Industry Thinking</option>
+          <option value="Daily Journals">Daily Journals</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="articleDesc">Description</label>
-        <textarea class="form-textarea form-input" id="articleDesc" placeholder="A short summary of the article or key idea…"></textarea>
+      <div class="ap-form-group">
+        <label class="ap-label" for="apUrl">Link / URL <span style="font-weight:400;color:var(--ink-5)">(optional)</span></label>
+        <input class="ap-input" id="apUrl" type="text" placeholder="https://… leave blank if not published yet">
       </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-cancel" id="cancelArticleModal">Cancel</button>
-        <button type="submit" class="btn-save">Save Article</button>
+      <div class="ap-form-group">
+        <label class="ap-label" for="apDesc">Description <span style="font-weight:400;color:var(--ink-5)">(optional — shown on featured cards)</span></label>
+        <textarea class="ap-textarea" id="apDesc" placeholder="A short summary of the key idea…"></textarea>
+      </div>
+      <div class="ap-form-group">
+        <div class="ap-toggle-row">
+          <div>
+            <div class="ap-toggle-label">Feature this article</div>
+            <div class="ap-toggle-desc">Show as a large card below the category grid, with description visible</div>
+          </div>
+          <label class="ap-toggle">
+            <input type="checkbox" id="apFeatured">
+            <span class="ap-toggle-slider"></span>
+          </label>
+        </div>
       </div>
     </form>
   </div>
@@ -1023,97 +970,158 @@
     });
   });
 
-  /* ══ ARTICLE MANAGEMENT ══ */
-  const STORAGE_KEY = 'aiyun_articles';
+  /* ══ ARTICLE MANAGEMENT CMS ══ */
+  const STORAGE_KEY = 'aiyun_v2';
+  const CAT_ICONS = { 'Strategic Thinking': '🧠', 'Concepts': '💡', 'Industry Thinking': '🌍', 'Daily Journals': '📓' };
 
-  function getArticles() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-    catch { return []; }
+  // Seed data — existing hardcoded articles become the defaults
+  const DEFAULTS = {
+    'Strategic Thinking': [
+      { id: 's1', title: 'Why AI is the next literacy', url: '', featured: false, description: '' },
+      { id: 's2', title: 'Product–Channel–Community model', url: '', featured: false, description: '' },
+      { id: 's3', title: 'Storytelling in AI adoption', url: '', featured: false, description: '' },
+      { id: 's4', title: 'Why AI makes ways of working obsolete', url: '', featured: false, description: '' },
+      { id: 's5', title: 'AI democratisation & the future of expertise', url: '', featured: false, description: '' },
+      { id: 's6', title: '"Connecting Strategy to Prototype" framework', url: '', featured: true, description: "Most strategies don't survive contact with reality. Here's the framework I use to close that gap — faster, with AI in the loop." }
+    ],
+    'Concepts': [
+      { id: 'c1', title: 'Chain prompting', url: '', featured: false, description: '' },
+      { id: 'c2', title: 'Agentic workflows', url: '', featured: false, description: '' },
+      { id: 'c3', title: 'MoE models explained simply', url: '', featured: false, description: '' },
+      { id: 'c4', title: 'The economics of AI tasks vs roles', url: '', featured: false, description: '' },
+      { id: 'c5', title: 'Why a diverse past gives you AI advantage', url: '', featured: true, description: "AI rewards people who can connect dots across domains. Here's why a non-linear career is actually your superpower right now." }
+    ],
+    'Industry Thinking': [
+      { id: 'i1', title: 'Benchmarks: Atlassian, Microsoft, OpenAI, Anthropic', url: '', featured: false, description: '' },
+      { id: 'i2', title: 'How organisations actually adopt AI', url: '', featured: false, description: '' },
+      { id: 'i3', title: 'Learnings from conferences', url: '', featured: false, description: '' },
+      { id: 'i4', title: 'AI in the 2032 Brisbane Olympics', url: '', featured: false, description: '' },
+      { id: 'i5', title: 'The future of delivery', url: '', featured: false, description: '' }
+    ],
+    'Daily Journals': [
+      { id: 'd1', title: 'Key insights learned with AI', url: '', featured: false, description: '' },
+      { id: 'd2', title: 'Weekly and monthly highlights', url: '', featured: false, description: '' },
+      { id: 'd3', title: 'Voice improvement journey', url: '', featured: false, description: '' },
+      { id: 'd4', title: 'Observations on leadership and family', url: '', featured: false, description: '' },
+      { id: 'd5', title: 'Emotional moments worth capturing', url: '', featured: false, description: '' }
+    ]
+  };
+
+  function getData() {
+    try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch {}
+    return JSON.parse(JSON.stringify(DEFAULTS));
   }
+  function saveData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+  function genId() { return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function esc(str) { return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  function saveArticles(articles) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
-  }
+  let editMode = false;
 
-  function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
-  }
-
-  function renderArticles() {
-    const articles = getArticles();
-    const grid = document.getElementById('articlesGrid');
-    const count = document.getElementById('articlesCount');
-    count.textContent = articles.length;
-
-    if (articles.length === 0) {
-      grid.innerHTML = '<div class="articles-empty"><span class="articles-empty-icon">✍️</span>No articles saved yet. Add your first thought above.</div>';
-      return;
-    }
-
-    grid.innerHTML = articles.map((a, i) => `
-      <div class="article-card">
-        <div class="article-card-top">
-          <span class="thought-tag-pill">${escapeHtml(a.category)}</span>
-          <button class="article-delete" data-index="${i}" aria-label="Delete article" title="Delete">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-          </button>
-        </div>
-        <h4>${escapeHtml(a.title)}</h4>
-        ${a.description ? `<p>${escapeHtml(a.description)}</p>` : ''}
-        <div class="article-card-footer">
-          <span class="article-date">${formatDate(a.date)}</span>
-          <span class="thought-read" style="font-size:.72rem">Read →</span>
-        </div>
+  function renderCats() {
+    const data = getData();
+    const wrap = document.getElementById('thinkingCats');
+    wrap.innerHTML = Object.entries(data).map(([cat, items], i) => `
+      <div class="thinking-cat${editMode ? ' editing' : ''}"${i ? ' style="transition-delay:' + (i * .08) + 's"' : ''}>
+        <div class="thinking-cat-icon">${CAT_ICONS[cat] || '📝'}</div>
+        <h3>${esc(cat)}</h3>
+        <ul class="thinking-topics">
+          ${items.map(item => `
+            <li data-id="${item.id}">
+              ${item.url
+                ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a>`
+                : `<span>${esc(item.title)}</span>`}
+              <span class="item-actions">
+                <button class="item-del" data-cat="${esc(cat)}" data-id="${item.id}" title="Remove" aria-label="Remove">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                </button>
+              </span>
+            </li>
+          `).join('')}
+        </ul>
       </div>
     `).join('');
 
-    grid.querySelectorAll('.article-delete').forEach(btn => {
+    wrap.querySelectorAll('.item-del').forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.index, 10);
-        const arts = getArticles();
-        arts.splice(idx, 1);
-        saveArticles(arts);
-        renderArticles();
+        const d = getData();
+        d[btn.dataset.cat] = d[btn.dataset.cat].filter(a => a.id !== btn.dataset.id);
+        saveData(d);
+        renderCats();
+        renderFeatured();
       });
     });
   }
 
-  function escapeHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function renderFeatured() {
+    const data = getData();
+    const grid = document.getElementById('featuredGrid');
+    const featured = [];
+    Object.entries(data).forEach(([cat, items]) => items.filter(a => a.featured).forEach(a => featured.push({ ...a, cat })));
+    if (!featured.length) { grid.innerHTML = ''; return; }
+    grid.innerHTML = featured.map(a => `
+      <a href="${a.url || '#'}" class="thought-card fade"${a.url ? ' target="_blank" rel="noopener"' : ''}>
+        <span class="thought-tag-pill">${esc(a.cat)}</span>
+        <h3>${esc(a.title)}</h3>
+        ${a.description ? `<p>${esc(a.description)}</p>` : ''}
+        <div class="thought-read">Read →</div>
+      </a>
+    `).join('');
+    grid.querySelectorAll('.fade').forEach(el => obs.observe(el));
   }
 
-  // Modal controls
-  const modal = document.getElementById('articleModal');
-  const form  = document.getElementById('articleForm');
-
-  function openModal() { modal.classList.add('open'); document.getElementById('articleTitle').focus(); }
-  function closeModal() { modal.classList.remove('open'); form.reset(); }
-
-  document.getElementById('openArticleModal').addEventListener('click', openModal);
-  document.getElementById('closeArticleModal').addEventListener('click', closeModal);
-  document.getElementById('cancelArticleModal').addEventListener('click', closeModal);
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const title = document.getElementById('articleTitle').value.trim();
-    if (!title) { document.getElementById('articleTitle').focus(); return; }
-    const article = {
-      title,
-      category: document.getElementById('articleCategory').value,
-      description: document.getElementById('articleDesc').value.trim(),
-      date: new Date().toISOString()
-    };
-    const arts = getArticles();
-    arts.unshift(article);
-    saveArticles(arts);
-    renderArticles();
-    closeModal();
+  // Edit mode toggle
+  const editBtn = document.getElementById('toggleEditMode');
+  editBtn.addEventListener('click', () => {
+    editMode = !editMode;
+    editBtn.classList.toggle('active', editMode);
+    editBtn.innerHTML = editMode
+      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Done`
+      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit List`;
+    renderCats();
   });
 
-  renderArticles();
+  // Article creation page
+  const articlePage = document.getElementById('articlePage');
+  const articlePageForm = document.getElementById('articlePageForm');
+
+  function openArticlePage() {
+    articlePage.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('apTitle').focus(), 380);
+  }
+  function closeArticlePage() {
+    articlePage.classList.remove('open');
+    document.body.style.overflow = '';
+    articlePageForm.reset();
+  }
+
+  document.getElementById('openArticlePage').addEventListener('click', openArticlePage);
+  document.getElementById('closeArticlePage').addEventListener('click', closeArticlePage);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && articlePage.classList.contains('open')) closeArticlePage(); });
+
+  document.getElementById('saveArticleBtn').addEventListener('click', () => {
+    const title = document.getElementById('apTitle').value.trim();
+    if (!title) { document.getElementById('apTitle').focus(); return; }
+    const newItem = {
+      id: genId(),
+      title,
+      url: document.getElementById('apUrl').value.trim(),
+      description: document.getElementById('apDesc').value.trim(),
+      featured: document.getElementById('apFeatured').checked
+    };
+    const data = getData();
+    const cat = document.getElementById('apCategory').value;
+    if (!data[cat]) data[cat] = [];
+    data[cat].unshift(newItem);
+    saveData(data);
+    renderCats();
+    renderFeatured();
+    closeArticlePage();
+  });
+
+  // Initial render
+  renderCats();
+  renderFeatured();
 </script>
 </body>
 </html>

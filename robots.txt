@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+# AI search and answer crawlers are welcome
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Allow: /
+
+Sitemap: https://aiyun.com.au/sitemap.xml

@@ -1,0 +1,10 @@
+# AIYun (Evan He)
+
+> AIYun (AI云, "Let AI Lift Us Higher") is the personal practice of Evan He, an AI explorer in Brisbane, Australia. Evan helps people and organisations use AI well through practical training, AI adoption support, bilingual (English and Chinese) content and small AI tools.
+
+## Key pages
+- [Home](https://aiyun.com.au/): About Evan, his AI tools, how-to videos and writing on AI
+- [AI Visibility Check](https://aiyun.com.au/ai-check/): Free tool that checks whether AI search engines and assistants can find, read and recommend a business website, with copy-ready fixes
+
+## Contact
+- Email: fillercreator@gmail.com

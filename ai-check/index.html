@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Visibility Check · Evan · AIYun</title>
+<meta name="description" content="Free check: can ChatGPT, Claude, Perplexity and Google's AI find, read and recommend your business? Get a score and copy-ready fixes in about 20 seconds.">
+<link rel="canonical" href="https://aiyun.com.au/ai-check/">
+<meta property="og:title" content="Can AI find and recommend your business?">
+<meta property="og:description" content="A free AI visibility check by Evan He (AIYun). Score your site and get copy-ready fixes.">
+<meta property="og:url" content="https://aiyun.com.au/ai-check/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AIYun">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"AI Visibility Check","url":"https://aiyun.com.au/ai-check/","applicationCategory":"BusinessApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"AUD"},"description":"Checks whether AI search engines and assistants can find, read and recommend a business website.","creator":{"@type":"Person","name":"Evan He","url":"https://aiyun.com.au/"},"inLanguage":["en","zh-Hans"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Matches the aiyun.com.au homepage: warm paper, brass accent, Crimson Pro display. */
+  :root{
+    --cream:#F8F5F0; --cream-2:#F2EDE5; --cream-3:#EAE3D8; --parchment:#E4DBCB; --paper:#FDFBF8;
+    --brass:#A07840; --brass-light:#C49A5A; --brass-dim:rgba(160,120,64,.13);
+    --ink:#1E1A14; --ink-2:#3A3228; --ink-3:#6B5E4E; --ink-4:#9A8C79;
+    --dark:#16120C; --dark-2:#1F1A12;
+    --good:#2E7D32; --good-bg:#EDF7EE; --warn:#A86200; --warn-bg:#FFF5E6; --bad:#B23A28; --bad-bg:#FBEDEA;
+    --radius:16px; --T:.24s cubic-bezier(.4,0,.2,1);
+    --serif:'Crimson Pro',Georgia,'Songti SC',serif;
+    --sans:'Inter','Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+  a{color:var(--brass)}
+  .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:6px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:20;background:rgba(253,251,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--cream-3)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+  .logo{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--ink);text-decoration:none}
+  .logo em{color:var(--brass);font-style:normal}
+  .nav-right{display:flex;align-items:center;gap:18px;font-size:.8rem}
+  .nav-right a{color:var(--ink-3);text-decoration:none;font-weight:500}
+  .nav-right a:hover{color:var(--brass)}
+  .lang{display:inline-flex;border:1.5px solid var(--cream-3);border-radius:999px;overflow:hidden}
+  .lang button{font:inherit;font-size:.75rem;font-weight:500;border:0;background:none;color:var(--ink-3);padding:4px 11px;cursor:pointer}
+  .lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+  /* hero */
+  .hero{padding:72px 0 44px;background:radial-gradient(ellipse 70% 60% at 85% 0%,var(--brass-dim),transparent 65%)}
+  .eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,6.4vw,4.4rem);line-height:1.05;letter-spacing:-.5px;margin:14px 0 18px;max-width:15ch;text-wrap:balance}
+  h1 em{font-style:italic;color:var(--brass)}
+  :lang(zh) h1{font-family:'Noto Sans SC',var(--sans);font-weight:500;letter-spacing:0;line-height:1.2;max-width:16ch}
+  .lede{color:var(--ink-3);font-size:1.02rem;max-width:58ch}
+  .scan-form{margin-top:30px;display:flex;gap:10px;max-width:640px;flex-wrap:wrap}
+  .scan-form input{flex:1 1 280px;min-width:0;font:inherit;font-size:1rem;padding:14px 18px;border:1.5px solid var(--parchment);border-radius:999px;background:#fff;color:var(--ink)}
+  .scan-form input:focus{border-color:var(--brass);outline:none;box-shadow:0 0 0 4px var(--brass-dim)}
+  .btn{font:inherit;font-weight:600;font-size:.9rem;border:0;border-radius:999px;padding:14px 26px;cursor:pointer;background:var(--brass);color:var(--paper);transition:all var(--T);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+  .btn:hover{background:#8C6634}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .btn.ghost{background:none;color:var(--ink-2);border:1.5px solid var(--parchment);font-weight:500}
+  .btn.ghost:hover{border-color:var(--brass);color:var(--brass)}
+  .btn.sm{padding:8px 16px;font-size:.8rem}
+  .fine{font-size:.78rem;color:var(--ink-4);margin-top:12px}
+  .err{color:var(--bad);font-size:.85rem;margin-top:12px}
+
+  /* sections */
+  section{padding:44px 0}
+  .h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,3.6vw,2.2rem);line-height:1.2;margin-bottom:10px;text-wrap:balance}
+  :lang(zh) .h2{font-family:'Noto Sans SC',var(--sans);font-weight:500}
+  .sub{color:var(--ink-3);max-width:62ch}
+  .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:26px}
+  .card{background:#fff;border:1.5px solid var(--cream-3);border-radius:var(--radius);padding:24px;min-width:0}
+  .card h3{font-family:var(--serif);font-weight:500;font-size:1.2rem;margin-bottom:6px}
+  :lang(zh) .card h3{font-family:'Noto Sans SC',var(--sans);font-weight:500;font-size:1.05rem}
+  .card p{color:var(--ink-3);font-size:.88rem}
+  .card .k{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin-bottom:10px}
+
+  /* progress */
+  .progress{display:flex;flex-direction:column;gap:8px;margin-top:22px;font-size:.88rem;color:var(--ink-3)}
+  .progress div{display:flex;gap:10px;align-items:center}
+  .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--parchment);border-top-color:var(--brass);animation:spin .8s linear infinite;flex:none}
+  .tick{width:14px;height:14px;flex:none;color:var(--good)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* summary */
+  .summary{display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;align-items:center}
+  @media (max-width:680px){.summary{grid-template-columns:minmax(0,1fr)}}
+  .ring{position:relative;width:200px;height:200px;margin:0 auto}
+  .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .val b{font-family:var(--serif);font-weight:300;font-size:4rem;line-height:1;font-variant-numeric:tabular-nums}
+  .ring .val span{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-top:4px}
+  .site-line{font-size:.85rem;color:var(--ink-4);overflow-wrap:anywhere}
+  .level{font-family:var(--serif);font-size:1.7rem;font-weight:400;line-height:1.25;margin:4px 0 14px}
+  :lang(zh) .level{font-family:'Noto Sans SC',var(--sans);font-weight:500;font-size:1.35rem}
+  .bars{display:flex;flex-direction:column;gap:10px;max-width:520px}
+  .bar{display:grid;grid-template-columns:minmax(0,1fr) 120px 36px;gap:12px;align-items:center;font-size:.86rem}
+  @media (max-width:440px){.bar{grid-template-columns:minmax(0,1fr) 80px 32px}}
+  .bar .track{height:8px;background:var(--cream-2);border-radius:99px;overflow:hidden}
+  .bar .track i{display:block;height:100%;border-radius:99px;background:var(--brass)}
+  .bar b{text-align:right;font-weight:500;font-variant-numeric:tabular-nums}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+  /* checks */
+  .group{margin-top:30px}
+  .group-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1.5px solid var(--cream-3);padding-bottom:8px;margin-bottom:4px}
+  .group-h h3{font-family:var(--serif);font-weight:500;font-size:1.25rem}
+  :lang(zh) .group-h h3{font-family:'Noto Sans SC',var(--sans);font-size:1.05rem}
+  .group-h span{font-size:.82rem;color:var(--ink-4);font-variant-numeric:tabular-nums}
+  details.check{border-bottom:1px solid var(--cream-3)}
+  details.check summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 0}
+  details.check summary::-webkit-details-marker{display:none}
+  .pill{font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:3px 9px;border-radius:999px;white-space:nowrap;margin-top:2px;align-self:start;line-height:1.5}
+  .pill.pass{background:var(--good-bg);color:var(--good)} .pill.warn{background:var(--warn-bg);color:var(--warn)} .pill.fail{background:var(--bad-bg);color:var(--bad)}
+  .check .name{font-weight:500}
+  .check .msg{font-size:.88rem;color:var(--ink-3);overflow-wrap:anywhere}
+  .chev{color:var(--ink-4);transition:transform var(--T);margin-top:4px}
+  details[open] .chev{transform:rotate(180deg)}
+  .fix{padding:0 0 18px;margin-left:0;display:flex;flex-direction:column;gap:10px;font-size:.88rem;color:var(--ink-2)}
+  .fix .lbl{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+  pre.code{background:var(--dark);color:#F3E9D8;border-radius:12px;padding:16px;font-size:.78rem;line-height:1.6;overflow-x:auto;white-space:pre;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .code-wrap{position:relative}
+  .code-wrap pre.code{padding-top:44px}
+  .code-wrap .btn{position:absolute;top:8px;right:8px;background:rgba(255,240,210,.12);color:#F3E9D8;padding:5px 12px;font-size:.72rem}
+
+  /* step 2 */
+  .step2{background:var(--cream);border-top:1px solid var(--cream-3);border-bottom:1px solid var(--cream-3)}
+  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:22px}
+  .field{display:flex;flex-direction:column;gap:6px;font-size:.82rem;color:var(--ink-3)}
+  .field b{color:var(--ink);font-weight:500}
+  .field input,.field textarea,.field select{font:inherit;font-size:.9rem;color:var(--ink);background:#fff;border:1.5px solid var(--parchment);border-radius:10px;padding:10px 12px;width:100%}
+  .field textarea{min-height:44px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--brass);outline:none}
+  .stats{display:flex;gap:30px;flex-wrap:wrap;margin:6px 0 18px}
+  .stats div{display:flex;flex-direction:column}
+  .stats b{font-family:var(--serif);font-weight:300;font-size:2.3rem;line-height:1.05;font-variant-numeric:tabular-nums}
+  .stats span{font-size:.76rem;color:var(--ink-4)}
+  .sov{display:flex;flex-direction:column;gap:8px;margin:10px 0 6px}
+  .sov .row{display:grid;grid-template-columns:150px minmax(0,1fr) 64px;gap:12px;align-items:center;font-size:.85rem}
+  @media (max-width:500px){.sov .row{grid-template-columns:96px minmax(0,1fr) 54px}}
+  .sov .row .n{text-align:right;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .sov .row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sov .row .track{height:16px;background:var(--cream-2);border-radius:4px;overflow:hidden}
+  .sov .row .track i{display:block;height:100%;background:var(--parchment)}
+  .sov .row.me .track i{background:var(--brass)}
+  .sov .row.me .nm{font-weight:600;color:var(--brass)}
+  .q{border-bottom:1px solid var(--cream-3)}
+  .q summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:12px 0;font-size:.9rem}
+  .q summary::-webkit-details-marker{display:none}
+  .q .ans{font-size:.85rem;color:var(--ink-3);background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+  .tag{font-size:.7rem;padding:2px 8px;border-radius:6px;background:var(--cream-2);color:var(--ink-3)}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:18px}
+  ul.plain{padding-left:18px;font-size:.88rem;color:var(--ink-3)}
+  .method{font-size:.8rem;color:var(--ink-4);margin-top:16px;max-width:70ch}
+
+  /* cta */
+  .cta{background:var(--dark);color:rgba(255,240,210,.85);padding:64px 0}
+  .cta h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.15;margin-bottom:12px;color:rgba(255,240,210,.9);text-wrap:balance}
+  :lang(zh) .cta h2{font-family:'Noto Sans SC',var(--sans);font-weight:500}
+  .cta h2 em{color:var(--brass-light);font-style:italic}
+  .cta p{color:rgba(255,240,210,.55);max-width:58ch}
+  .cta .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center}
+  .cta .mail{font-size:1rem;color:var(--brass-light);user-select:all}
+  .cta .btn.ghost{color:rgba(255,240,210,.8);border-color:rgba(255,240,210,.18)}
+  footer{background:var(--dark-2);color:rgba(255,235,200,.35);font-size:.78rem;padding:22px 0}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  footer b{color:var(--brass-light);font-weight:500;letter-spacing:.2em}
+  .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:999px;font-size:.82rem;z-index:50}
+  [hidden]{display:none!important}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/">Evan<em>.</em></a>
+    <div class="nav-right">
+      <a href="/#products" data-i18n="navTools">All tools</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-i18n="eyebrow">Free · AI Visibility Check</span>
+      <h1 data-i18n-html="h1">Can AI find, read and <em>recommend</em> your business?</h1>
+      <p class="lede" data-i18n="lede">More people now ask ChatGPT, Claude, Perplexity or Google's AI before they search. Enter your website and see how easy you are for AI to find, understand and cite, with copy-ready fixes for anything that's missing.</p>
+      <form class="scan-form" id="scanForm" novalidate>
+        <input id="url" name="url" aria-label="Website address" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourbusiness.com.au" data-i18n-ph="ph">
+        <button class="btn" id="scanBtn" type="submit" data-i18n="scanBtn">Check my site</button>
+      </form>
+      <p class="fine" data-i18n="fine">No sign-up. Takes about 20 seconds. We don't store the sites you check or your results.</p>
+      <p class="err" id="scanErr" role="alert" hidden></p>
+      <div class="progress" id="progress" hidden></div>
+    </div>
+  </section>
+
+  <section id="intro">
+    <div class="wrap">
+      <h2 class="h2" data-i18n="introH">Four questions AI asks about your site</h2>
+      <p class="sub" data-i18n="introSub">The check reads your site the way an AI crawler does: without logging in, often without running JavaScript.</p>
+      <div class="grid4">
+        <div class="card"><div class="k" data-i18n="g_access_k">Access</div><h3 data-i18n="g_access">Can AI get in?</h3><p data-i18n="g_access_d">Is your site open to the crawlers behind ChatGPT search, Perplexity, Claude and Google's AI?</p></div>
+        <div class="card"><div class="k" data-i18n="g_content_k">Content</div><h3 data-i18n="g_content">Can AI read it?</h3><p data-i18n="g_content_d">Is there real text a crawler can read, with a clear title, description and main heading?</p></div>
+        <div class="card"><div class="k" data-i18n="g_structure_k">Identity</div><h3 data-i18n="g_structure">Does AI know who you are?</h3><p data-i18n="g_structure_d">Do you describe your business in structured data that machines understand without guessing?</p></div>
+        <div class="card"><div class="k" data-i18n="g_agent_k">Next wave</div><h3 data-i18n="g_agent">Ready for AI agents?</h3><p data-i18n="g_agent_d">Newer, optional signals such as llms.txt, Markdown for agents and AI usage preferences.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" hidden>
+    <div class="wrap">
+      <div class="summary">
+        <div class="ring" id="ring"></div>
+        <div>
+          <div class="site-line" id="siteLine"></div>
+          <div class="level" id="level"></div>
+          <div class="bars" id="bars"></div>
+          <div class="actions">
+            <button class="btn sm" type="button" id="copyFixes" data-i18n="copyFixes">Copy fix list for my developer</button>
+            <button class="btn sm ghost" type="button" id="copyLink" data-i18n="copyLink">Copy link to this report</button>
+            <a class="btn sm ghost" href="#step2" data-i18n="toStep2">Does AI recommend me? →</a>
+          </div>
+        </div>
+      </div>
+      <div id="checks"></div>
+    </div>
+  </section>
+
+  <section class="step2" id="step2" hidden>
+    <div class="wrap">
+      <span class="eyebrow" data-i18n="s2eyebrow">Step 2</span>
+      <h2 class="h2" data-i18n="s2H">Does AI actually recommend you?</h2>
+      <p class="sub" data-i18n="s2Sub">A readable site is step one. Next we ask an AI assistant ten questions your customers might ask, without naming you, and see who it recommends.</p>
+      <div id="s2Off" hidden><p class="sub" style="margin-top:16px" data-i18n="s2Off">This step is switching on soon. In the meantime, email Evan and he'll run it for you by hand.</p></div>
+      <form id="visForm" novalidate>
+        <div class="form-grid">
+          <label class="field"><b data-i18n="fBrand">Business name</b><input id="fBrand" type="text" maxlength="80" required></label>
+          <label class="field"><b data-i18n="fCat">What you do, and where</b><input id="fCat" type="text" maxlength="120" required data-i18n-ph="fCatPh" placeholder="e.g. physiotherapy clinic in Brisbane"></label>
+          <label class="field"><b data-i18n="fMarket">Market</b><input id="fMarket" type="text" maxlength="60" value="Australia"></label>
+          <label class="field"><b data-i18n="fComp">Competitors (optional, up to 4)</b><textarea id="fComp" maxlength="260" data-i18n-ph="fCompPh" placeholder="One per line or separated by commas"></textarea></label>
+        </div>
+        <div class="actions"><button class="btn" id="visBtn" type="submit" data-i18n="visBtn">Ask AI (about 30 seconds)</button></div>
+        <p class="err" id="visErr" role="alert" hidden></p>
+        <div class="progress" id="visProgress" hidden></div>
+      </form>
+      <div id="visOut"></div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <h2 data-i18n-html="ctaH">Want help acting on <em>your result?</em></h2>
+      <p data-i18n="ctaP">I'm Evan, an AI explorer in Brisbane. I help businesses and teams use AI well, including getting found by it. Send me your report link and a line about your business; I read every email.</p>
+      <div class="row">
+        <span class="mail" id="mail">fillercreator@gmail.com</span>
+        <button class="btn sm ghost" type="button" id="copyMail" data-i18n="copyMail">Copy email</button>
+        <a class="btn sm" href="mailto:fillercreator@gmail.com?subject=AI%20Visibility%20Check" data-i18n="emailMe">Email Evan</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span><b>AIYUN</b> · Let AI lift us higher</span><span>Created by AI云</span></div>
+</footer>
+
+<script>
+(() => {
+'use strict';
+const API = (window.AIYUN_CHECK_API || '').replace(/\/$/, '');
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (s, d = {}) => String(s).replace(/\{(\w+)\}/g, (_, k) => d[k] ?? '');
+
+/* ---------------- copy ---------------- */
+const T = {
+en: {
+  navTools:'All tools', eyebrow:'Free · AI Visibility Check', h1:'Can AI find, read and <em>recommend</em> your business?',
+  lede:"More people now ask ChatGPT, Claude, Perplexity or Google's AI before they search. Enter your website and see how easy you are for AI to find, understand and cite, with copy-ready fixes for anything that's missing.",
+  ph:'yourbusiness.com.au', scanBtn:'Check my site', scanning:'Checking…',
+  fine:"No sign-up. Takes about 20 seconds. We don't store the sites you check or your results.",
+  introH:'Four questions AI asks about your site', introSub:'The check reads your site the way an AI crawler does: without logging in, often without running JavaScript.',
+  g_access_k:'Access', g_access:'Can AI get in?', g_access_d:"Is your site open to the crawlers behind ChatGPT search, Perplexity, Claude and Google's AI?",
+  g_content_k:'Content', g_content:'Can AI read it?', g_content_d:'Is there real text a crawler can read, with a clear title, description and main heading?',
+  g_structure_k:'Identity', g_structure:'Does AI know who you are?', g_structure_d:'Do you describe your business in structured data that machines understand without guessing?',
+  g_agent_k:'Next wave', g_agent:'Ready for AI agents?', g_agent_d:'Newer, optional signals such as llms.txt, Markdown for agents and AI usage preferences.',
+  p1:'Opening your homepage', p2:'Reading robots.txt and your sitemap', p3:'Looking for structured data', p4:'Scoring',
+  readiness:'AI readiness', levels:['Hard for AI to use','Partly ready for AI','Good, with a few gaps','Excellent'],
+  copyFixes:'Copy fix list for my developer', copyLink:'Copy link to this report', toStep2:'Does AI recommend me? →',
+  copied:'Copied', copyFail:'Copy failed. Select the text and copy it yourself.', copy:'Copy',
+  why:'Why it matters', how:'How to fix', allGood:'Nothing to fix here.',
+  errEmpty:'Enter a website address, like yourbusiness.com.au.', errBad:"That doesn't look like a public website address.",
+  errRate:'Too many checks from your connection. Try again in a few minutes.', errNet:"We couldn't reach the checking service. Try again in a minute.",
+  errOff:'The checker is being set up. Please come back soon.',
+  s2eyebrow:'Step 2', s2H:'Does AI actually recommend you?',
+  s2Sub:'A readable site is step one. Next we ask an AI assistant ten questions your customers might ask, without naming you, and see who it recommends.',
+  s2Off:"This step is switching on soon. In the meantime, email Evan and he'll run it for you by hand.",
+  fBrand:'Business name', fCat:'What you do, and where', fCatPh:'e.g. physiotherapy clinic in Brisbane', fMarket:'Market',
+  fComp:'Competitors (optional, up to 4)', fCompPh:'One per line or separated by commas',
+  visBtn:'Ask AI (about 30 seconds)', visRunning:'Asking AI…',
+  v1:'Writing questions your customers would ask', v2:'Asking them without mentioning you', v3:'Asking what AI knows about you',
+  visErrInput:'Add your business name and what you do.', visErrRate:"You've used today's free AI checks from this connection. Try again tomorrow.", visErrAi:'The AI step failed this time. Please try again.',
+  vScore:'AI visibility', mention:'Mentioned in', avgRank:'Average position', overall:'Overall score',
+  mentionedOf:'{n} of {t} answers', sovH:'Who AI recommends', qH:'The questions and what AI said', probeH:'What AI says about you',
+  knows:'How well AI knows you', tone:'Tone of its answer', pos:'What it likes', neg:'What it criticises', unsure:"What it isn't sure about",
+  first:'Recommended first', rankN:'Position {n}', missing:'Not mentioned', you:'(you)',
+  types:{info:'Learning', recommend:'Recommendations', compare:'Comparing', decide:'Ready to buy'},
+  method:'How this works: one AI model (Claude), each question asked once, in the language you chose. AI answers vary from run to run, so treat this as a snapshot, not a ranking. Position counts only the businesses you entered. Overall score = readiness 20% + mentions 35% + share of recommendations 25% + how AI describes you 20%.',
+  ctaH:'Want help acting on <em>your result?</em>',
+  ctaP:"I'm Evan, an AI explorer in Brisbane. I help businesses and teams use AI well, including getting found by it. Send me your report link and a line about your business; I read every email.",
+  copyMail:'Copy email', emailMe:'Email Evan',
+  promptHead:'Please make these changes to the website {site} so AI search engines and assistants can find, read and cite it. Keep existing content and design unchanged.',
+},
+zh: {
+  navTools:'全部工具', eyebrow:'免费 · AI 可见度体检', h1:'AI 能找到、读懂并<em>推荐</em>你的生意吗？',
+  lede:'越来越多人先问 ChatGPT、Claude、Perplexity、豆包或 Google 的 AI，再去搜索。输入你的网站，看看 AI 找到你、读懂你、引用你有多容易，缺什么都附上可以直接复制的修复方法。',
+  ph:'yourbusiness.com.au', scanBtn:'开始体检', scanning:'检查中…',
+  fine:'无需注册，大约 20 秒。我们不保存你检查的网站和结果。',
+  introH:'AI 会对你的网站问四个问题', introSub:'体检用 AI 爬虫的方式读你的网站：不登录，很多时候也不运行 JavaScript。',
+  g_access_k:'访问', g_access:'AI 进得来吗？', g_access_d:'ChatGPT 搜索、Perplexity、Claude 和 Google AI 背后的爬虫能访问你的网站吗？',
+  g_content_k:'内容', g_content:'AI 读得懂吗？', g_content_d:'页面有没有爬虫能直接读到的文字，标题、描述和主标题清楚吗？',
+  g_structure_k:'身份', g_structure:'AI 知道你是谁吗？', g_structure_d:'有没有用结构化数据说明你是谁、做什么，让机器不用猜？',
+  g_agent_k:'下一波', g_agent:'为 AI 智能体准备好了吗？', g_agent_d:'llms.txt、给智能体的 Markdown、AI 使用偏好声明等较新的可选信号。',
+  p1:'打开你的首页', p2:'读取 robots.txt 和站点地图', p3:'查找结构化数据', p4:'计算得分',
+  readiness:'AI 就绪度', levels:['AI 很难使用你的网站','部分就绪','良好，还有几处缺口','优秀'],
+  copyFixes:'复制修复清单给开发者', copyLink:'复制这份报告的链接', toStep2:'AI 会推荐我吗？→',
+  copied:'已复制', copyFail:'复制失败，请手动选择文字复制。', copy:'复制',
+  why:'为什么重要', how:'怎么改', allGood:'这一项不用改。',
+  errEmpty:'请输入网址，例如 yourbusiness.com.au。', errBad:'这看起来不是一个公开网站的地址。',
+  errRate:'你的网络检查次数太多了，请几分钟后再试。', errNet:'暂时连不上检查服务，请一分钟后再试。',
+  errOff:'体检服务正在上线，请稍后再来。',
+  s2eyebrow:'第二步', s2H:'AI 真的会推荐你吗？',
+  s2Sub:'网站读得懂只是第一步。接下来我们向 AI 助手提 10 个你的客户可能会问的问题，不提你的名字，看它推荐谁。',
+  s2Off:'这一步即将开放。在此之前，给 Evan 发邮件，他会手动帮你跑一次。',
+  fBrand:'品牌 / 公司名', fCat:'你做什么，在哪里', fCatPh:'例如：布里斯班的物理治疗诊所', fMarket:'目标市场',
+  fComp:'竞品（可选，最多 4 个）', fCompPh:'每行一个，或用逗号分隔',
+  visBtn:'问问 AI（约 30 秒）', visRunning:'正在问 AI…',
+  v1:'生成客户会问的问题', v2:'在不提你名字的情况下提问', v3:'问 AI 对你了解多少',
+  visErrInput:'请填写品牌名和你做什么。', visErrRate:'这个网络今天的免费 AI 检查次数已用完，请明天再试。', visErrAi:'这次 AI 检查失败了，请再试一次。',
+  vScore:'AI 可见度', mention:'被提到', avgRank:'平均名次', overall:'综合得分',
+  mentionedOf:'{t} 个回答里 {n} 个', sovH:'AI 推荐了谁', qH:'问题和 AI 的原话', probeH:'AI 怎么说你',
+  knows:'AI 对你的熟悉度', tone:'回答的倾向', pos:'正面印象', neg:'负面印象', unsure:'AI 不确定的信息',
+  first:'首位推荐', rankN:'第 {n} 位', missing:'没提到', you:'（你）',
+  types:{info:'了解信息', recommend:'求推荐', compare:'做比较', decide:'准备购买'},
+  method:'说明：使用一个 AI 模型（Claude），每个问题问一次，用你选的语言。AI 每次回答都会有变化，请把它当作一次快照，而不是排名。名次只在你填写的品牌之间比较。综合得分 = 就绪度 20% + 被提及 35% + 推荐份额 25% + AI 对你的描述 20%。',
+  ctaH:'想把结果<em>落到实处？</em>',
+  ctaP:'我是 Evan，在布里斯班做 AI 探索和落地，帮企业和团队把 AI 用好，也包括让 AI 找到你。把报告链接和一句话介绍发给我，每封邮件我都会看。',
+  copyMail:'复制邮箱', emailMe:'给 Evan 发邮件',
+  promptHead:'请修改网站 {site}，让 AI 搜索引擎和助手能找到、读懂并引用它。不要改动现有内容和设计。',
+}};
+
+/* per-check copy: name, why, and messages per status */
+const C = {
+en: {
+  reachable:{name:'Site opens for an automated visitor', why:'AI crawlers are automated visitors. If they get an error or a challenge page, they have nothing to read.',
+    pass:'Your page loaded over HTTPS.', warn:'Your page loaded, but not over HTTPS.',
+    fail:{refused:'Your site turned our crawler away (HTTP {status}). Firewall or bot-protection settings may be turning AI crawlers away too.', timeout:'Your page took too long to respond.', http:"Your page didn't load (HTTP {status}).", network:"We couldn't connect to this site.", not_html:"This address didn't return a web page.", not_public:'This address is not a public website.'},
+    fix:{refused:'In your firewall, CDN or security plugin (for example Cloudflare, Wordfence or your host), allow verified AI search crawlers such as OAI-SearchBot, ChatGPT-User, PerplexityBot and Claude-SearchBot, as well as Googlebot and Bingbot.', default:'Check the address, and that the site loads in a private browser window.', warn:'Turn on HTTPS. Most hosts offer a free certificate in one click.'}},
+  robots:{name:'robots.txt file', why:"robots.txt is the first file crawlers read. It tells them what they may visit and where your sitemap is.",
+    pass:'Found a robots.txt file.', warn:'No robots.txt found. Crawlers assume everything is allowed, but a clear file helps them and points to your sitemap.', fix:'Add a file called robots.txt at the root of your site with this content:'},
+  aiBots:{name:'AI crawlers allowed', why:'AI search tools fetch pages live to answer questions and cite sources. If they are blocked, you cannot be cited. Training crawlers are different: blocking them is a fair choice.',
+    pass:'None of the main AI search or answer crawlers are blocked.', warn:"AI search crawlers can visit. These training crawlers are blocked: {training}. That's a fair choice; it keeps your content out of model training without hiding you from AI search.",
+    fail:'These AI search crawlers are blocked: {search}. They fetch pages to answer people\'s questions, so blocked pages can\'t be cited.', fix:'In robots.txt, allow the AI search crawlers explicitly. You can keep training crawlers blocked if you prefer:'},
+  sitemap:{name:'Sitemap', why:'A sitemap lists every page you want found, so crawlers do not miss the ones that matter.',
+    pass:'Sitemap found: {url}', fail:'No sitemap found at /sitemap.xml or in robots.txt.',
+    fix:'Most site builders make one for you: WordPress with Yoast or Rank Math, and Shopify, Squarespace and Wix automatically. Then add this line to robots.txt:'},
+  indexable:{name:'Page allows indexing', why:'A noindex instruction tells search engines and AI crawlers to leave the page out completely.',
+    pass:'The page allows indexing.', fail:'The page carries a noindex instruction, so it is left out of search and AI answers.', fix:'Remove <meta name="robots" content="noindex"> from the page, or the X-Robots-Tag: noindex header from your server settings.'},
+  readableText:{name:'Text readable without JavaScript', why:"Many AI crawlers don't run JavaScript. If your words only appear after scripts run, they see a nearly empty page.",
+    pass:'Crawlers can read about {equiv} words without running JavaScript.', warn:'Only about {equiv} words are readable without JavaScript.', fail:'Almost nothing is readable without JavaScript (about {equiv} words). AI crawlers may see an empty page.',
+    fix:'Render your key content on the server (server-side rendering or pre-rendering). At minimum, put a plain paragraph in the HTML that says who you are, what you offer, who for and where.'},
+  titleMeta:{name:'Title and description', why:'The title and meta description are the summary AI tools and search engines read first.',
+    pass:'Title and description are set.', warn:'{missing} is missing.', fail:'Both the page title and the meta description are missing.', fix:'Add these to the <head> of your homepage and edit the wording:',
+    titleWord:'The meta description', descWord:'The page title'},
+  headings:{name:'Main heading', why:'A clear main heading (H1) tells crawlers what the page is about.', pass:'Main heading: “{h1}”', warn:'No main heading (H1) found.', fix:'Mark your main headline up as <h1>, and say plainly what you do.'},
+  lang:{name:'Language declared', why:'Declaring the language helps AI answer in the right language and region.', pass:'Language: {lang}', warn:"The page doesn't declare its language.", fix:'Add the language to the opening tag, for example <html lang="en-AU">.'},
+  schema:{name:'Structured data about your business', why:'Schema.org markup states who you are, what you offer and where, in a format machines read without guessing. It is one of the clearest signals you can give AI.',
+    pass:'Found: {types}.', warn:'Found structured data ({types}), but nothing that describes your business itself.', fail:'No structured data found.', fix:'Add this to the <head> of your homepage, fill in the gaps and remove what does not apply:'},
+  openGraph:{name:'Share preview (Open Graph)', why:'Open Graph tags give AI tools and social apps a clean title, summary and image for your page.',
+    pass:'Open Graph tags are set.', warn:'Some Open Graph tags are missing.', fail:'No Open Graph tags found.', fix:'Add these to the <head>:'},
+  llmsTxt:{name:'llms.txt (optional)', why:'llms.txt is a newer convention: a short Markdown guide to your site for AI tools. Few AI platforms read it yet, so it is low priority, but it costs little.',
+    pass:'llms.txt found.', warn:'No llms.txt yet.', fix:'Create a file called llms.txt at the root of your site. Here is a starting point built from your homepage:'},
+  markdown:{name:'Markdown for AI agents (optional)', why:'Some AI agents ask for a Markdown version of a page because it is cleaner to read than HTML. This is advanced and optional.',
+    pass:'Your site serves Markdown to agents that ask for it.', warn:'No Markdown version for agents.', fix:'If your site runs through Cloudflare, turn on "Markdown for Agents". Otherwise skip this until the basics are done.'},
+  contentSignals:{name:'AI usage preferences (optional)', why:'Content Signals is a newer robots.txt line that states whether AI may use your content for search, for answers, and for training.',
+    pass:'Content Signals are declared.', warn:'No Content Signals declared.', fix:'Add a line like this under "User-agent: *" in robots.txt, and set each value to what you want:'},
+},
+zh: {
+  reachable:{name:'自动访问者能打开网站', why:'AI 爬虫就是自动访问者。如果它拿到的是报错或验证页，就什么也读不到。',
+    pass:'页面已通过 HTTPS 正常打开。', warn:'页面能打开，但没有使用 HTTPS。',
+    fail:{refused:'你的网站拒绝了我们的爬虫（HTTP {status}）。防火墙或防机器人设置可能也在拦截 AI 爬虫。', timeout:'页面响应超时。', http:'页面没有正常打开（HTTP {status}）。', network:'连不上这个网站。', not_html:'这个地址返回的不是网页。', not_public:'这不是一个公开网站的地址。'},
+    fix:{refused:'在防火墙、CDN 或安全插件（如 Cloudflare、Wordfence 或主机商设置）里，放行经过验证的 AI 搜索爬虫：OAI-SearchBot、ChatGPT-User、PerplexityBot、Claude-SearchBot，以及 Googlebot 和 Bingbot。', default:'检查网址是否正确，并在浏览器无痕窗口里确认网站能打开。', warn:'开启 HTTPS。大多数主机商都能一键申请免费证书。'}},
+  robots:{name:'robots.txt 文件', why:'robots.txt 是爬虫最先读的文件，告诉它们能访问什么、站点地图在哪里。',
+    pass:'找到了 robots.txt。', warn:'没有找到 robots.txt。爬虫会默认全部允许，但一份清楚的文件能帮它们更好地抓取，并指向你的站点地图。', fix:'在网站根目录新建 robots.txt，内容如下：'},
+  aiBots:{name:'允许 AI 爬虫访问', why:'AI 搜索工具会实时抓取网页来回答问题并标注来源。被屏蔽就不可能被引用。训练爬虫不同，屏蔽它们是合理的选择。',
+    pass:'主流 AI 搜索和问答爬虫都没有被屏蔽。', warn:'AI 搜索爬虫可以访问。以下训练爬虫被屏蔽：{training}。这是合理的选择：内容不进模型训练，但不影响 AI 搜索找到你。',
+    fail:'以下 AI 搜索爬虫被屏蔽：{search}。它们抓取网页来回答用户问题，被屏蔽的页面无法被引用。', fix:'在 robots.txt 里明确放行 AI 搜索爬虫。如果愿意，训练爬虫可以继续屏蔽：'},
+  sitemap:{name:'站点地图', why:'站点地图列出你希望被找到的所有页面，避免爬虫漏掉重要页面。',
+    pass:'找到站点地图：{url}', fail:'在 /sitemap.xml 和 robots.txt 里都没有找到站点地图。',
+    fix:'大多数建站工具会自动生成：WordPress 用 Yoast 或 Rank Math，Shopify、Squarespace、Wix 自带。然后在 robots.txt 加上这一行：'},
+  indexable:{name:'页面允许被收录', why:'noindex 指令会让搜索引擎和 AI 爬虫完全忽略这个页面。',
+    pass:'页面允许被收录。', fail:'页面带有 noindex 指令，不会出现在搜索和 AI 回答里。', fix:'删除页面里的 <meta name="robots" content="noindex">，或服务器设置里的 X-Robots-Tag: noindex。'},
+  readableText:{name:'不运行 JavaScript 也能读到文字', why:'很多 AI 爬虫不运行 JavaScript。如果文字要等脚本运行后才出现，它们看到的几乎是空白页。',
+    pass:'不运行 JavaScript 也能读到约 {equiv} 个词。', warn:'不运行 JavaScript 只能读到约 {equiv} 个词。', fail:'不运行 JavaScript 几乎读不到内容（约 {equiv} 个词），AI 爬虫可能看到的是空白页。',
+    fix:'在服务器端渲染关键内容（SSR 或预渲染）。最起码，在 HTML 里放一段纯文字：你是谁、提供什么、服务谁、在哪里。'},
+  titleMeta:{name:'标题和描述', why:'页面标题和 meta 描述是 AI 工具和搜索引擎最先读的摘要。',
+    pass:'标题和描述都已设置。', warn:'{missing}缺失。', fail:'页面标题和 meta 描述都缺失。', fix:'把下面的内容加到首页的 <head> 里，再改写文字：',
+    titleWord:'meta 描述', descWord:'页面标题'},
+  headings:{name:'主标题', why:'清楚的主标题（H1）告诉爬虫这个页面讲什么。', pass:'主标题：“{h1}”', warn:'没有找到主标题（H1）。', fix:'把主标语标记为 <h1>，直白地写出你做什么。'},
+  lang:{name:'声明页面语言', why:'声明语言能帮 AI 用正确的语言和地区来回答。', pass:'语言：{lang}', warn:'页面没有声明语言。', fix:'在开头标签里加上语言，例如 <html lang="en-AU"> 或 <html lang="zh-CN">。'},
+  schema:{name:'关于你的结构化数据', why:'Schema.org 标记直接告诉机器你是谁、提供什么、在哪里，机器不用猜。这是你能给 AI 的最清楚的信号之一。',
+    pass:'找到：{types}。', warn:'找到了结构化数据（{types}），但没有描述你的企业本身。', fail:'没有找到结构化数据。', fix:'把下面这段加到首页 <head> 里，补全空缺，删掉不适用的项：'},
+  openGraph:{name:'分享预览（Open Graph）', why:'Open Graph 标签给 AI 工具和社交应用提供清楚的标题、摘要和图片。',
+    pass:'Open Graph 标签已设置。', warn:'部分 Open Graph 标签缺失。', fail:'没有找到 Open Graph 标签。', fix:'把下面的内容加到 <head> 里：'},
+  llmsTxt:{name:'llms.txt（可选）', why:'llms.txt 是一个较新的约定：用一份简短的 Markdown 文件向 AI 工具介绍你的网站。目前读取它的 AI 平台还不多，优先级低，但成本也很低。',
+    pass:'找到了 llms.txt。', warn:'还没有 llms.txt。', fix:'在网站根目录新建 llms.txt。下面是根据你首页生成的初稿：'},
+  markdown:{name:'给 AI 智能体的 Markdown（可选）', why:'有的 AI 智能体会请求网页的 Markdown 版本，因为比 HTML 更干净。这一项比较进阶，可以不做。',
+    pass:'你的网站会给请求它的智能体返回 Markdown。', warn:'没有给智能体提供 Markdown 版本。', fix:'如果网站经过 Cloudflare，可以开启 “Markdown for Agents”。否则先把基础项做好再说。'},
+  contentSignals:{name:'AI 使用偏好（可选）', why:'Content Signals 是 robots.txt 里较新的一行，声明 AI 能否把你的内容用于搜索、回答和训练。',
+    pass:'已声明 Content Signals。', warn:'没有声明 Content Signals。', fix:'在 robots.txt 的 “User-agent: *” 下面加一行，按你的意愿设置每个值：'},
+}};
+
+/* ---------------- state ---------------- */
+let lang = 'en', scan = null, vis = null, visEnabled = null;
+try { const saved = localStorage.getItem('aiyun-check-lang'); lang = saved || (/^zh/i.test(navigator.language) ? 'zh' : 'en'); } catch { lang = /^zh/i.test(navigator.language) ? 'zh' : 'en'; }
+const t = k => T[lang][k] ?? T.en[k] ?? k;
+
+function applyLang() {
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  if (scan) renderScan(); if (vis) renderVis();
+}
+document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
+  lang = b.dataset.lang; try { localStorage.setItem('aiyun-check-lang', lang); } catch {}
+  applyLang();
+}));
+
+function toast(m) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = m; document.body.append(el); setTimeout(() => el.remove(), 1800); }
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); toast(t('copied')); }
+  catch { toast(t('copyFail')); }
+}
+
+/* ---------------- snippets ---------------- */
+const SEARCH = ['OAI-SearchBot','ChatGPT-User','Claude-SearchBot','Claude-User','PerplexityBot','Perplexity-User'];
+function snippet(id, s) {
+  const site = s.site || {}; const origin = site.origin || ('https://' + (site.host || 'yoursite.com'));
+  const name = site.name || site.host || 'Your business';
+  const desc = site.description || (lang === 'zh' ? '一句话说明你做什么、服务谁、在哪里。' : 'One sentence on what you do, who for and where.');
+  switch (id) {
+    case 'robots': case 'aiBots': case 'contentSignals': {
+      const keepTraining = (s.checks.find(c => c.id === 'aiBots')?.data.blockedTraining || []);
+      let out = 'User-agent: *\nAllow: /\nContent-Signal: search=yes, ai-input=yes, ai-train=no\n';
+      out += '\n# AI search and answer crawlers\n' + SEARCH.map(b => 'User-agent: ' + b).join('\n') + '\nAllow: /\n';
+      if (keepTraining.length) out += '\n# Training crawlers you chose to block\n' + keepTraining.map(b => 'User-agent: ' + b).join('\n') + '\nDisallow: /\n';
+      out += '\nSitemap: ' + origin + '/sitemap.xml\n';
+      if (id === 'contentSignals') return 'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=no';
+      return out;
+    }
+    case 'sitemap': return 'Sitemap: ' + origin + '/sitemap.xml';
+    case 'titleMeta': return `<title>${name} | ${lang === 'zh' ? '你做什么，在哪里' : 'What you do, where'}</title>\n<meta name="description" content="${desc.replace(/"/g, '&quot;')}">`;
+    case 'schema': return JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Organization', name, url: origin + '/',
+      description: desc, logo: origin + '/logo.png', email: 'hello@' + (site.host || 'yoursite.com'),
+      address: { '@type': 'PostalAddress', addressLocality: lang === 'zh' ? '你的城市' : 'Your city', addressRegion: lang === 'zh' ? '州' : 'State', addressCountry: 'AU' },
+      sameAs: ['https://www.linkedin.com/company/…', 'https://www.facebook.com/…'],
+    }, null, 2).replace(/^/, '<script type="application/ld+json">\n') + '\n<\/script>';
+    case 'openGraph': return `<meta property="og:title" content="${name}">\n<meta property="og:description" content="${desc.replace(/"/g, '&quot;')}">\n<meta property="og:image" content="${origin}/share-image.jpg">\n<meta property="og:url" content="${origin}/">\n<meta property="og:site_name" content="${name}">`;
+    case 'llmsTxt': return `# ${name}\n\n> ${desc}\n\n## ${lang === 'zh' ? '主要页面' : 'Key pages'}\n- [${lang === 'zh' ? '首页' : 'Home'}](${origin}/): ${site.title || name}\n- [${lang === 'zh' ? '关于我们' : 'About'}](${origin}/about): ${lang === 'zh' ? '我们是谁' : 'Who we are'}\n- [${lang === 'zh' ? '服务' : 'Services'}](${origin}/services): ${lang === 'zh' ? '我们提供什么' : 'What we offer'}\n- [${lang === 'zh' ? '联系' : 'Contact'}](${origin}/contact): ${lang === 'zh' ? '联系方式' : 'How to reach us'}`;
+    default: return '';
+  }
+}
+const HAS_SNIPPET = new Set(['robots','aiBots','sitemap','titleMeta','schema','openGraph','llmsTxt','contentSignals']);
+
+function checkText(c) {
+  const L = C[lang][c.id] || C.en[c.id]; const d = c.data || {};
+  const data = { ...d, search: (d.blockedSearch || []).join(', '), training: (d.blockedTraining || []).join(', '), types: (d.types || []).join(', ') };
+  if (c.id === 'titleMeta' && c.status === 'warn') data.missing = d.title ? L.titleWord : L.descWord;
+  let msg = L[c.status];
+  if (typeof msg === 'object') msg = msg[d.error] || msg.http;
+  let fix = L.fix;
+  if (typeof fix === 'object') fix = c.status === 'warn' ? fix.warn : (fix[d.error] || fix.default);
+  return { name: L.name, why: L.why, msg: fmt(msg, data), fix };
+}
+
+/* ---------------- render: scan ---------------- */
+const GROUP_ORDER = ['access','content','structure','agent'];
+function ring(v) {
+  const r = 86, c = 2 * Math.PI * r, off = c * (1 - v / 100);
+  return `<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="${r}" fill="none" stroke="var(--cream-2)" stroke-width="12"/><circle cx="100" cy="100" r="${r}" fill="none" stroke="var(--brass)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><div class="val"><b>${v}</b><span>/ 100</span></div>`;
+}
+function levelFor(v) { const L = t('levels'); return v < 40 ? L[0] : v < 70 ? L[1] : v < 90 ? L[2] : L[3]; }
+
+function renderScan() {
+  const s = scan;
+  $('#results').hidden = false;
+  $('#ring').innerHTML = ring(s.score);
+  $('#ring').setAttribute('aria-label', t('readiness') + ' ' + s.score);
+  $('#siteLine').textContent = t('readiness') + ' · ' + (s.site.host || s.site.url || '');
+  $('#level').textContent = levelFor(s.score);
+  $('#bars').innerHTML = GROUP_ORDER.map(g => `<div class="bar"><span>${esc(t('g_' + g))}</span><span class="track"><i style="width:${s.groups[g] ?? 0}%"></i></span><b>${s.groups[g] ?? '–'}</b></div>`).join('');
+  const order = { fail: 0, warn: 1, pass: 2 };
+  $('#checks').innerHTML = GROUP_ORDER.map(g => {
+    const cs = s.checks.filter(c => c.group === g).sort((a, b) => order[a.status] - order[b.status] || b.weight - a.weight);
+    if (!cs.length) return '';
+    return `<div class="group"><div class="group-h"><h3>${esc(t('g_' + g))}</h3><span>${s.groups[g] ?? '–'} / 100</span></div>${cs.map(c => {
+      const x = checkText(c); const open = c.status === 'fail' ? ' open' : '';
+      const snip = c.status !== 'pass' && HAS_SNIPPET.has(c.id) ? snippet(c.id, s) : '';
+      const pill = { pass: lang === 'zh' ? '通过' : 'Good', warn: lang === 'zh' ? '可改进' : 'Improve', fail: lang === 'zh' ? '需修复' : 'Fix' }[c.status];
+      return `<details class="check"${open}><summary><span class="pill ${c.status}">${pill}</span><span><div class="name">${esc(x.name)}</div><div class="msg">${esc(x.msg)}</div></span><svg class="chev" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></summary>
+        <div class="fix"><div><div class="lbl">${esc(t('why'))}</div><div>${esc(x.why)}</div></div>
+        <div><div class="lbl">${esc(t('how'))}</div><div>${c.status === 'pass' ? esc(t('allGood')) : esc(x.fix)}</div></div>
+        ${snip ? `<div class="code-wrap"><pre class="code">${esc(snip)}</pre><button class="btn" type="button" data-copy="${esc(c.id)}">${esc(t('copy'))}</button></div>` : ''}</div></details>`;
+    }).join('')}</div>`;
+  }).join('');
+  document.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copyText(snippet(b.dataset.copy, scan)));
+}
+
+function fixList() {
+  const s = scan; const lines = [fmt(t('promptHead'), { site: s.site.url || s.site.host }), ''];
+  let n = 1;
+  for (const c of s.checks.filter(c => c.status !== 'pass').sort((a, b) => b.weight - a.weight)) {
+    const x = checkText(c);
+    lines.push(`${n++}. ${x.name}: ${x.msg}`, `   ${x.fix}`);
+    if (HAS_SNIPPET.has(c.id)) lines.push('', snippet(c.id, s).split('\n').map(l => '   ' + l).join('\n'), '');
+  }
+  lines.push('', '— AI Visibility Check · aiyun.com.au/ai-check');
+  return lines.join('\n');
+}
+$('#copyFixes').onclick = () => copyText(fixList());
+$('#copyLink').onclick = () => copyText(location.origin + location.pathname + '?url=' + encodeURIComponent(scan.site.host || scan.site.url));
+$('#copyMail').onclick = () => copyText('fillercreator@gmail.com');
+
+/* ---------------- progress helper ---------------- */
+function progress(el, steps) {
+  el.hidden = false; let i = 0;
+  const draw = () => { el.innerHTML = steps.map((s, k) => `<div>${k < i ? '<svg class="tick" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' : k === i ? '<span class="spin"></span>' : '<span style="width:14px"></span>'}<span>${esc(s)}</span></div>`).join(''); };
+  draw();
+  const timer = setInterval(() => { if (i < steps.length - 1) { i++; draw(); } }, 2600);
+  return () => { clearInterval(timer); el.hidden = true; el.innerHTML = ''; };
+}
+
+/* ---------------- run: scan ---------------- */
+async function runScan(url) {
+  const err = $('#scanErr'); err.hidden = true;
+  if (!url.trim()) { err.textContent = t('errEmpty'); err.hidden = false; $('#url').focus(); return; }
+  if (!API) { err.textContent = t('errOff'); err.hidden = false; return; }
+  const btn = $('#scanBtn'); btn.disabled = true; btn.textContent = t('scanning');
+  const stop = progress($('#progress'), [t('p1'), t('p2'), t('p3'), t('p4')]);
+  try {
+    const res = await fetch(API + '/api/scan', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url }) });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 400) throw new Error('bad');
+    if (res.status === 429) throw new Error('rate');
+    if (!res.ok) throw new Error('net');
+    scan = data; vis = null; $('#visOut').innerHTML = '';
+    $('#intro').hidden = true;
+    renderScan();
+    const host = scan.site.host || url;
+    history.replaceState(null, '', location.pathname + '?url=' + encodeURIComponent(host));
+    $('#fBrand').value = scan.site.name || '';
+    showStep2();
+    $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    err.textContent = t(e.message === 'bad' ? 'errBad' : e.message === 'rate' ? 'errRate' : 'errNet'); err.hidden = false;
+  } finally {
+    stop(); btn.disabled = false; btn.textContent = t('scanBtn');
+  }
+}
+$('#scanForm').addEventListener('submit', e => { e.preventDefault(); runScan($('#url').value); });
+
+async function showStep2() {
+  $('#step2').hidden = false;
+  if (visEnabled === null) {
+    try { const r = await fetch(API + '/api/visibility'); visEnabled = r.ok && (await r.json()).enabled === true; } catch { visEnabled = false; }
+  }
+  $('#s2Off').hidden = visEnabled; $('#visForm').hidden = !visEnabled;
+}
+
+/* ---------------- visibility ---------------- */
+function mentions(text, ents) {
+  const low = String(text || '').toLowerCase(); const hits = [];
+  for (const e of ents) {
+    let idx = -1;
+    for (const term of e.terms) { if (!term || term.length < 2) continue; const i = low.indexOf(term.toLowerCase()); if (i >= 0 && (idx < 0 || i < idx)) idx = i; }
+    if (idx >= 0) hits.push({ name: e.name, idx });
+  }
+  hits.sort((a, b) => a.idx - b.idx); const m = {}; hits.forEach((h, k) => m[h.name] = k + 1); return m;
+}
+function scoreVis(v) {
+  const brand = v.input.brand;
+  const ents = [{ name: brand, terms: [brand, ...(v.input.aliases || []), scan?.site?.host || ''].filter(Boolean) }, ...v.input.competitors.map(c => ({ name: c, terms: [c] }))];
+  v.questions.forEach(q => q.m = mentions(q.answer, ents));
+  const n = v.questions.length || 1;
+  const pos = r => !r ? 0 : r === 1 ? 1 : r <= 3 ? .75 : .5;
+  const inclusion = Math.round(v.questions.reduce((s, q) => s + pos(q.m[brand]), 0) / n * 100);
+  const counts = {}; ents.forEach(e => counts[e.name] = v.questions.filter(q => q.m[e.name]).length);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const share = total ? counts[brand] / total : 0;
+  const sov = v.input.competitors.length ? Math.round(Math.min(100, share * ents.length * 50)) : Math.round(counts[brand] / n * 100);
+  const ranks = v.questions.map(q => q.m[brand]).filter(Boolean);
+  const avgRank = ranks.length ? (ranks.reduce((a, b) => a + b, 0) / ranks.length) : null;
+  const p = v.probe || {};
+  const sentiment = Math.round(100 * (.4 * (p.recognized || 0) + .6 * (((p.sentiment || 0) + 1) / 2)));
+  const visScore = Math.round((inclusion * 35 + sov * 25 + sentiment * 20) / 80);
+  const overall = Math.round(.2 * (scan?.score || 0) + .35 * inclusion + .25 * sov + .2 * sentiment);
+  return { ents, counts, inclusion, sov, sentiment, visScore, overall, avgRank, mentioned: counts[brand] };
+}
+function renderVis() {
+  const v = vis, s = scoreVis(v), brand = v.input.brand, n = v.questions.length;
+  const maxC = Math.max(1, ...Object.values(s.counts));
+  const chip = r => !r ? `<span class="pill fail">${esc(t('missing'))}</span>` : r === 1 ? `<span class="pill pass">${esc(t('first'))}</span>` : `<span class="pill warn">${esc(fmt(t('rankN'), { n: r }))}</span>`;
+  const p = v.probe || {};
+  const list = (h, arr) => arr && arr.length ? `<div class="lbl" style="margin-top:12px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">${esc(h)}</div><ul class="plain">${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
+  $('#visOut').innerHTML = `
+  <div class="card" style="margin-top:26px">
+    <div class="stats">
+      <div><b>${s.overall}</b><span>${esc(t('overall'))}</span></div>
+      <div><b>${s.visScore}</b><span>${esc(t('vScore'))}</span></div>
+      <div><b>${s.mentioned}/${n}</b><span>${esc(t('mention'))}</span></div>
+      <div><b>${s.avgRank ? s.avgRank.toFixed(1) : '–'}</b><span>${esc(t('avgRank'))}</span></div>
+    </div>
+    <h3>${esc(t('sovH'))}</h3>
+    <div class="sov">${s.ents.map(e => `<div class="row ${e.name === brand ? 'me' : ''}"><span class="nm" title="${esc(e.name)}">${esc(e.name)}${e.name === brand ? ' ' + esc(t('you')) : ''}</span><span class="track"><i style="width:${s.counts[e.name] / maxC * 100}%"></i></span><span class="n">${s.counts[e.name]}/${n}</span></div>`).join('')}</div>
+  </div>
+  <div class="two">
+    <div class="card"><h3>${esc(t('qH'))}</h3>${v.questions.map(q => `<details class="q"><summary><span>${esc(q.q)}<div class="tags"><span class="tag">${esc(t('types')[q.type] || q.type)}</span>${v.input.competitors.filter(c => q.m[c]).map(c => `<span class="tag">${esc(c)}</span>`).join('')}</div></span>${chip(q.m[brand])}</summary><div class="ans">${esc(q.answer || '—')}</div></details>`).join('')}</div>
+    <div class="card"><h3>${esc(t('probeH'))}</h3>
+      <div class="stats"><div><b>${Math.round((p.recognized || 0) * 100)}%</b><span>${esc(t('knows'))}</span></div><div><b>${(p.sentiment || 0) >= 0 ? '+' : ''}${(p.sentiment || 0).toFixed(1)}</b><span>${esc(t('tone'))}</span></div></div>
+      <p style="font-size:.9rem">${esc(p.summary || '—')}</p>
+      ${list(t('pos'), p.positives)}${list(t('neg'), p.negatives)}${list(t('unsure'), p.uncertain)}
+    </div>
+  </div>
+  <p class="method">${esc(t('method'))}</p>`;
+}
+$('#visForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#visErr'); err.hidden = true;
+  const body = { brand: $('#fBrand').value.trim(), category: $('#fCat').value.trim(), market: $('#fMarket').value.trim(), competitors: $('#fComp').value, lang, site: scan?.site?.host || '' };
+  if (!body.brand || !body.category) { err.textContent = t('visErrInput'); err.hidden = false; return; }
+  const btn = $('#visBtn'); btn.disabled = true; btn.textContent = t('visRunning');
+  const stop = progress($('#visProgress'), [t('v1'), t('v2'), t('v3')]);
+  try {
+    const res = await fetch(API + '/api/visibility', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 400) throw new Error('visErrInput');
+    if (res.status === 429) throw new Error('visErrRate');
+    if (!res.ok) throw new Error('visErrAi');
+    vis = data; renderVis();
+  } catch (e2) {
+    err.textContent = t(['visErrInput', 'visErrRate', 'visErrAi'].includes(e2.message) ? e2.message : 'visErrAi'); err.hidden = false;
+  } finally { stop(); btn.disabled = false; btn.textContent = t('visBtn'); }
+});
+
+/* ---------------- start ---------------- */
+applyLang();
+const q = new URLSearchParams(location.search).get('url');
+if (q) { $('#url').value = q; runScan(q); }
+})();
+</script>
+</body>
+</html>

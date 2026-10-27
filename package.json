@@ -1,0 +1,7 @@
+{
+  "name": "aiyun-site",
+  "private": true,
+  "type": "module",
+  "description": "aiyun.com.au static site plus the AI Visibility Check API (Vercel functions in /api)",
+  "engines": { "node": ">=20" }
+}

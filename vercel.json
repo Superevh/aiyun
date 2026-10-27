@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/:path((?!api/).*)", "destination": "https://aiyun.com.au/:path", "permanent": false }
+  ]
+}

@@ -1,0 +1,89 @@
+<!--meta {"title":"Planning poker: how to run it well (remote-friendly guide)","description":"How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.","app":"estimate","date":"2026-10-29","order":2}-->
+<p>Planning poker is a simple way for a team to estimate work together. Everyone picks a card in private, all cards are revealed at once, and the team talks about the differences. The number matters less than the conversation it forces: if one person says 2 and another says 13, you have just found a misunderstanding before it cost you a sprint.</p>
+<p>This guide covers how to run it well, especially when your team is remote.</p>
+<!--tryit-->
+<h2>Where planning poker comes from</h2>
+<p>James Grenning described planning poker in 2002 as a way to stop estimation meetings dragging on. Mike Cohn later popularised it in his book <em>Agile Estimating and Planning</em> (2005). It builds on the older Wideband Delphi idea: independent estimates first, then discussion, then re-estimate.</p>
+<h2>How it works, step by step</h2>
+<ol>
+  <li><strong>Read the story.</strong> The product owner explains the backlog item and the acceptance criteria. Keep this to a minute or two.</li>
+  <li><strong>Ask questions.</strong> The team clarifies anything unclear. Do not discuss sizes yet.</li>
+  <li><strong>Everyone votes privately.</strong> Each person picks a card without showing it.</li>
+  <li><strong>Reveal at the same time.</strong> All cards flip together.</li>
+  <li><strong>Discuss the spread.</strong> If votes are close, take the common value and move on. If they are far apart, the highest and lowest voters explain their thinking.</li>
+  <li><strong>Re-vote once or twice.</strong> Usually the team converges by the second round. If not, see "handling outliers" below.</li>
+</ol>
+<h2>Which card deck to use</h2>
+<p>Most teams use a modified Fibonacci sequence:</p>
+<p><strong>0, ½, 1, 2, 3, 5, 8, 13, 20, 40, 100, ?, ☕</strong></p>
+<p>The gaps grow on purpose. Estimates get less precise as work gets bigger, and the deck reflects that. Nobody can honestly tell the difference between a 14 and a 15, but they can tell 8 from 13.</p>
+<ul>
+  <li><strong>?</strong> means "I do not understand this well enough to estimate". Treat it as a signal to clarify, not a failed vote.</li>
+  <li><strong>☕</strong> means "I need a break". Respect it. Estimation fatigue produces bad numbers.</li>
+  <li><strong>Anything above 13</strong> usually means "split this story" rather than "this is a 40".</li>
+</ul>
+<h2>Avoiding anchoring</h2>
+<p>Anchoring is the reason planning poker uses private votes. If a senior engineer says "this is about a 3" before anyone votes, most of the room will drift toward 3. Their guess might be right, but you have lost everyone else's information.</p>
+<p>Ways to prevent it:</p>
+<ul>
+  <li>No numbers out loud before the reveal. The facilitator should step in gently if someone says "it's just a small one".</li>
+  <li>Reveal simultaneously. In a physical room, count down and flip. Online, use a tool that hides votes until everyone has voted.</li>
+  <li>Show who has voted, but never what they voted, until the reveal.</li>
+  <li>Ask the product owner not to vote. Their job is to answer questions about value and scope, not effort.</li>
+</ul>
+<h2>Handling outliers</h2>
+<p>An outlier is the most useful thing that can happen in planning poker. Someone knows something the others do not, or has misunderstood something the others assumed.</p>
+<p>When votes are far apart:</p>
+<ol>
+  <li>Ask the highest and the lowest voter to explain, briefly, with no judgement. "What were you thinking about?" works well.</li>
+  <li>Listen for hidden work: testing, data migration, a dependency on another team, an unfamiliar part of the codebase.</li>
+  <li>Re-vote.</li>
+  <li>If you still cannot agree after two rounds, do one of three things: take the higher estimate, split the story, or park it and add a short spike to find out more.</li>
+</ol>
+<p>Avoid averaging. If three people say 3 and one says 13, the answer is not 5.5. The answer is a conversation about what the 13 person saw.</p>
+<h2>Running planning poker online</h2>
+<p>Remote estimation works well once a few basics are in place:</p>
+<ul>
+  <li><strong>Load the backlog in advance.</strong> Pasting a list of Jira keys or a CSV saves ten minutes of "which ticket are we on?".</li>
+  <li><strong>Try async pre-voting.</strong> For teams across time zones, say Brisbane and Auckland, people can vote on straightforward stories before the meeting. You then only meet to discuss the ones with a spread.</li>
+  <li><strong>Keep cameras on during discussion.</strong> Faces help you notice when someone disagrees but has not said so.</li>
+  <li><strong>Export the results.</strong> Copying numbers back into Jira by hand is where mistakes creep in.</li>
+</ul>
+<p><a href="https://liftapps.com.au/estimate/">EstimateLift</a> works like other planning poker tools but is built around these habits: paste Jira keys or a CSV, vote privately, reveal together, see outliers called out, pre-vote asynchronously, split stories on the spot, and export back to Jira. It also supports t-shirt sizing and function points. It is free, made by AIYUN, and needs no accounts.</p>
+<h2>T-shirt sizing: the lighter alternative</h2>
+<p>For early roadmap work or a large backlog you have never seen before, story points can be too fine-grained. T-shirt sizing uses <strong>XS, S, M, L, XL</strong> instead.</p>
+<table>
+  <thead><tr><th></th><th>Story points</th><th>T-shirt sizes</th></tr></thead>
+  <tbody>
+    <tr><td>Best for</td><td>Sprint-level backlog items</td><td>Epics, roadmap items, first pass over a big backlog</td></tr>
+    <tr><td>Precision</td><td>Medium</td><td>Low, on purpose</td></tr>
+    <tr><td>Speed</td><td>A few minutes per item</td><td>Under a minute per item</td></tr>
+    <tr><td>Works with velocity</td><td>Yes</td><td>Only if you map sizes to point ranges</td></tr>
+  </tbody>
+</table>
+<p>A common pattern is to t-shirt size everything in a quarterly planning session, then use story points only for the items coming into the next couple of sprints.</p>
+<h2>When not to use planning poker</h2>
+<p>Planning poker is a tool, not a ritual. Skip it when:</p>
+<ul>
+  <li><strong>The work is very similar in size.</strong> If most stories are about the same size, counting stories may forecast just as well as points.</li>
+  <li><strong>The team is not doing the work.</strong> Estimates should come from the people building the thing, not from a manager or a separate analysis team.</li>
+  <li><strong>The numbers are used to judge people.</strong> If points are compared across teams or tied to performance reviews, they will inflate and stop being useful.</li>
+  <li><strong>The work is pure discovery.</strong> You cannot estimate "find out why checkout conversion dropped". Timebox it instead.</li>
+  <li><strong>You are estimating to fill a spreadsheet.</strong> If nobody uses the numbers to plan, stop producing them.</li>
+</ul>
+<h2>Tips for a better session</h2>
+<ul>
+  <li>Keep sessions under an hour. After that, quality drops.</li>
+  <li>Agree on one or two reference stories ("this login change was a 3") so the scale stays stable over time.</li>
+  <li>Estimate effort, complexity and uncertainty together, not hours.</li>
+  <li>Let the team re-estimate if they learn something big mid-sprint, but do not chase perfect numbers.</li>
+  <li>Make sure the stories are ready before the session. Estimating a one-line ticket wastes everyone's time.</li>
+</ul>
+<h2>Quick answers</h2>
+<h3>How many people should vote?</h3>
+<p>Everyone who will build or test the work. Usually three to nine people. Beyond that, split into smaller groups.</p>
+<h3>Do story points equal hours?</h3>
+<p>No. Points are relative. A 2 is roughly twice a 1, and that is all. Converting points to hours brings back the precision problems points are meant to avoid.</p>
+<h3>How many stories per session?</h3>
+<p>It varies with story readiness. If you are averaging more than five minutes per story, the stories probably need more refinement first.</p>
+<!--tryit-->

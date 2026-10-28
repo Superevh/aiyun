@@ -19,6 +19,7 @@
 - [Icebreaker games for remote teams that people actually enjoy](https://aiyun.com.au/guides/icebreaker-games-remote-teams/): Icebreaker games for remote teams that people enjoy: quick virtual team building games, no-tool ideas, and which to pick for a 5, 15 or 45 minute slot.
 - [Lean Coffee: how to run a structured-but-agendaless meeting](https://aiyun.com.au/guides/lean-coffee/): The Lean Coffee format explained: how to run an agendaless meeting with topic voting, timeboxes and thumbs votes, online or in person, plus a run sheet.
 - [Team health check: questions, format and how to act on it](https://aiyun.com.au/guides/team-health-check/): A practical team health check guide: a squad health check template with questions, how to run it anonymously, read the results and turn them into action.
+- [How to run a sprint retrospective: a step-by-step facilitator guide](https://aiyun.com.au/guides/how-to-run-a-sprint-retrospective/): How to run a sprint retrospective in 60 minutes: preparation, a minute-by-minute agenda, facilitation tips, remote set-up and how to make the actions actually happen.
 
 ## Chinese
 - [AI云 中文首页](https://aiyun.com.au/zh/)

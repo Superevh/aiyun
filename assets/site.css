@@ -8,7 +8,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--ivory);color:var(--ink);font:16px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
@@ -70,7 +70,7 @@ section{padding:72px 0}
 .app .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;background:#E8F0E9;color:var(--forest);margin-left:6px;vertical-align:2px;letter-spacing:0;text-transform:none}
 @media (max-width:900px){.apps{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.apps{grid-template-columns:1fr}}
-.shots{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:28px}
+.shots{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:16px;margin-top:28px}
 .shots figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#fff}
 .shots figcaption{font-size:13px;color:var(--ink-3);padding:10px 14px;border-top:1px solid var(--line);background:var(--paper)}
 @media (max-width:760px){.shots{grid-template-columns:1fr}}

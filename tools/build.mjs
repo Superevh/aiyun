@@ -9,6 +9,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://aiyun.com.au'
 const MAIL = 'hello@fun-retro.com'
 const BUILT = new Date().toISOString().slice(0, 10)
+const strip = s => String(s).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim()
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const write = (rel, html) => { const f = join(ROOT, rel); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html) }
 const utm = (url, content) => url + (url.includes('?') ? '&' : '?') + `utm_source=aiyun&utm_medium=site&utm_campaign=${content}`
@@ -163,7 +164,7 @@ const appCard = (t, a, campaign) => {
 function home(lang) {
   const t = T[lang], g = loadGuides(lang), zh = lang === 'zh'
   const ld = { '@context': 'https://schema.org', '@graph': [
-    { '@type': 'Organization', name: t.brand, alternateName: ['AIYUN', 'AI云', 'AIYun'], url: SITE, logo: SITE + '/assets/favicon.png', email: MAIL, founder: { '@type': 'Person', name: 'Evan He' }, areaServed: 'AU', sameAs: [LIFT, 'https://fun-retro.com', 'https://github.com/Superevh'] },
+    { '@type': 'Organization', name: t.brand, alternateName: ['AIYUN', 'AI云', 'AIYun'], url: SITE, logo: SITE + '/assets/favicon.png', email: MAIL, founder: { '@type': 'Person', name: 'Evan He' }, areaServed: 'AU', sameAs: [LIFT, 'https://fun-retro.com', 'https://github.com/Superevh', 'https://github.com/Superevh/liftapps', 'https://www.producthunt.com/@evan_he1'] },
     { '@type': 'WebSite', name: t.brand, url: SITE, inLanguage: t.lang },
     ...APPS.map(a => ({ '@type': 'SoftwareApplication', name: a[1], applicationCategory: 'BusinessApplication', operatingSystem: 'Web', url: a[2], offers: { '@type': 'Offer', price: '0', priceCurrency: 'AUD' }, description: zh ? a[7] : a[5] })),
   ] }
@@ -222,8 +223,13 @@ function guidePage(lang, x, siblings) {
   const path = `${zh ? '/zh' : ''}/guides/${x.slug}/`
   const other = existsSync(join(ROOT, `content/guides/${x.slug}.${zh ? 'en' : 'zh'}.html`)) ? `${zh ? '' : '/zh'}/guides/${x.slug}/` : T[zh ? 'en' : 'zh'].home
   const alt = other.includes('/guides/') ? (zh ? { en: other, zh: path } : { en: path, zh: other }) : null
-  const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: x.title, description: x.description, inLanguage: t.lang, datePublished: x.date, dateModified: x.updated || x.date,
+  const faq = [...(x.body.match(/<div class="faq">([\s\S]*?)<\/div>/)?.[1] ?? '').matchAll(/<h3>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)]
+    .map(m => ({ '@type': 'Question', name: strip(m[1]), acceptedAnswer: { '@type': 'Answer', text: strip(m[2]) } }))
+  const article = { '@type': 'Article', headline: x.title, description: x.description, inLanguage: t.lang, datePublished: x.date, dateModified: x.updated || x.date,
     author: { '@type': 'Person', name: 'Evan He', url: SITE }, publisher: { '@type': 'Organization', name: t.brand, logo: { '@type': 'ImageObject', url: SITE + '/assets/favicon.png' } }, mainEntityOfPage: SITE + path }
+  const ld = { '@context': 'https://schema.org', '@graph': [article,
+    { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: t.brand, item: SITE + t.home }, { '@type': 'ListItem', position: 2, name: x.title, item: SITE + path }] },
+    ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])] }
   const tryBox = a ? `<div class="tryit"><img src="/assets/icons/${a[0]}lift.png" alt="" width="56" height="56"><p><b>${a[1]}</b> · ${zh ? a[7] : a[5]}</p><a class="btn btn-dark" href="${utm(zh && a[2].startsWith(LIFT) ? a[2].replace(LIFT, LIFT + '/zh') : a[2], 'guide-' + x.slug)}" data-t="guide-${x.slug}">${t.tryApp}</a></div>` : ''
   const body = x.body.replace(/<!--tryit-->/g, tryBox)
   const more = siblings.filter(s => s.slug !== x.slug).slice(0, 3)
@@ -247,5 +253,19 @@ for (const lang of ['en', 'zh']) {
   for (const x of g) { const p = `${lang === 'zh' ? 'zh/' : ''}guides/${x.slug}/index.html`; write(p, guidePage(lang, x, g)); urls.push('/' + p.replace('index.html', '')) }
 }
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${SITE}${u}</loc><lastmod>${BUILT}</lastmod></url>`).join('\n')}\n</urlset>\n`)
-write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /archive/\n\nSitemap: ${SITE}/sitemap.xml\n`)
+write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /archive/\n\n# AI search crawlers are welcome\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /\n\nUser-agent: Claude-SearchBot\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`)
+const gEn = loadGuides('en')
+write('llms.txt', `# AIYUN (AI云)
+
+> AIYUN is Evan He's AI studio in Australia. It helps teams use AI in a simple, practical, human way (AI workshops, AI prototype sprints, AI-enabled delivery, custom team tools) and makes Lift Apps: nine free, no-sign-up browser tools for agile teams. Chinese brand name: AI云. Contact: ${MAIL}.
+
+## Lift Apps (free, no sign-up)
+${APPS.map(a => `- [${a[1]}](${a[2]}): ${a[4]}. ${a[5]}`).join('\n')}
+
+## Guides
+${gEn.map(g => `- [${g.title}](${SITE}/guides/${g.slug}/): ${g.description}`).join('\n')}
+
+## Chinese
+- [AI云 中文首页](${SITE}/zh/)
+`)
 console.log('built', urls.length, 'pages')

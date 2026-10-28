@@ -2,4 +2,14 @@ User-agent: *
 Allow: /
 Disallow: /archive/
 
+# AI search crawlers are welcome
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
 Sitemap: https://aiyun.com.au/sitemap.xml

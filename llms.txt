@@ -1,0 +1,24 @@
+# AIYUN (AI云)
+
+> AIYUN is Evan He's AI studio in Australia. It helps teams use AI in a simple, practical, human way (AI workshops, AI prototype sprints, AI-enabled delivery, custom team tools) and makes Lift Apps: nine free, no-sign-up browser tools for agile teams. Chinese brand name: AI云. Contact: hello@fun-retro.com.
+
+## Lift Apps (free, no sign-up)
+- [RetroLift](https://fun-retro.com): Retrospectives. Themed retro boards with voting, action items and kudos. Free, no sign-up.
+- [EstimateLift](https://liftapps.com.au/estimate/): Planning poker. Estimate the backlog together and leave with numbers you can paste into Jira.
+- [MeetingLift](https://liftapps.com.au/meeting/): Meetings & lean coffee. Plan, run and follow up on team meetings, icebreakers and lean coffee.
+- [VoteLift](https://liftapps.com.au/vote/): Live polls & Q&A. Your audience joins with a code; results update live.
+- [PulseLift](https://liftapps.com.au/pulse/): Team health check. Know how your team is really doing, and show the trend.
+- [GoalLift](https://liftapps.com.au/goal/): OKRs. Company, department, team and personal OKRs that line up.
+- [DiscoveryLift](https://liftapps.com.au/discovery/): Product discovery. Capture ideas, score them and decide what to build next.
+- [PlanLift](https://liftapps.com.au/plan/): Roadmaps. Roadmaps your team keeps current and stakeholders read at a glance.
+- [SketchLift](https://liftapps.com.au/sketch/): Whiteboard. A hand-drawn whiteboard for diagrams and workshops.
+
+## Guides
+- [25 sprint retrospective ideas and formats (with when to use each)](https://aiyun.com.au/guides/retrospective-ideas/): 25 sprint retrospective ideas and retro formats, with a table showing what each is for and when to use it, plus facilitation tips and how to make actions stick.
+- [Planning poker: how to run it well (remote-friendly guide)](https://aiyun.com.au/guides/planning-poker/): How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.
+- [Icebreaker games for remote teams that people actually enjoy](https://aiyun.com.au/guides/icebreaker-games-remote-teams/): Icebreaker games for remote teams that people enjoy: quick virtual team building games, no-tool ideas, and which to pick for a 5, 15 or 45 minute slot.
+- [Lean Coffee: how to run a structured-but-agendaless meeting](https://aiyun.com.au/guides/lean-coffee/): The Lean Coffee format explained: how to run an agendaless meeting with topic voting, timeboxes and thumbs votes, online or in person, plus a run sheet.
+- [Team health check: questions, format and how to act on it](https://aiyun.com.au/guides/team-health-check/): A practical team health check guide: a squad health check template with questions, how to run it anonymously, read the results and turn them into action.
+
+## Chinese
+- [AI云 中文首页](https://aiyun.com.au/zh/)

@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=2026-10-28">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Planning poker: how to run it well (remote-friendly guide)","description":"How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.","inLanguage":"en","datePublished":"2026-10-29","dateModified":"2026-10-29","author":{"@type":"Person","name":"Evan He","url":"https://aiyun.com.au"},"publisher":{"@type":"Organization","name":"AIYUN","logo":{"@type":"ImageObject","url":"https://aiyun.com.au/assets/favicon.png"}},"mainEntityOfPage":"https://aiyun.com.au/guides/planning-poker/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Planning poker: how to run it well (remote-friendly guide)","description":"How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.","inLanguage":"en","datePublished":"2026-10-29","dateModified":"2026-10-29","author":{"@type":"Person","name":"Evan He","url":"https://aiyun.com.au"},"publisher":{"@type":"Organization","name":"AIYUN","logo":{"@type":"ImageObject","url":"https://aiyun.com.au/assets/favicon.png"}},"mainEntityOfPage":"https://aiyun.com.au/guides/planning-poker/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AIYUN","item":"https://aiyun.com.au/"},{"@type":"ListItem","position":2,"name":"Planning poker: how to run it well (remote-friendly guide)","item":"https://aiyun.com.au/guides/planning-poker/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Fibonacci sequence in planning poker?","acceptedAnswer":{"@type":"Answer","text":"It is the card scale most teams use: a modified Fibonacci sequence of 0, ½, 1, 2, 3, 5, 8, 13, 20, 40 and 100. The gaps grow on purpose, because bigger work is harder to estimate precisely. Many decks also include a ? card for \"I cannot estimate this yet\" and a coffee card for \"I need a break\"."}},{"@type":"Question","name":"How many people should vote in planning poker?","acceptedAnswer":{"@type":"Answer","text":"Everyone who will build or test the work, usually three to nine people. Beyond that, split into smaller groups."}},{"@type":"Question","name":"Do story points equal hours?","acceptedAnswer":{"@type":"Answer","text":"No. Points are relative: a 2 is roughly twice a 1, and that is all. Converting points to hours brings back the precision problems points are meant to avoid."}},{"@type":"Question","name":"How many stories can you estimate in one planning poker session?","acceptedAnswer":{"@type":"Answer","text":"It varies with how ready the stories are. If you are averaging more than five minutes per story, the stories probably need more refinement first. Keeping sessions under an hour helps, and EstimateLift, a free tool by AIYUN, lets people pre-vote asynchronously so the meeting covers only stories with a spread."}}]}]}</script>
 <script src="/aiyun-t.js" defer data-site="aiyun" data-lang="en"></script>
 </head>
 <body>
@@ -37,6 +37,7 @@
 <h2>Where planning poker comes from</h2>
 <p>James Grenning described planning poker in 2002 as a way to stop estimation meetings dragging on. Mike Cohn later popularised it in his book <em>Agile Estimating and Planning</em> (2005). It builds on the older Wideband Delphi idea: independent estimates first, then discussion, then re-estimate.</p>
 <h2>How it works, step by step</h2>
+<p>In planning poker, the product owner reads a backlog item, the team asks clarifying questions, then everyone picks an estimate card in private and all cards are revealed at once. If votes are close, take the common value; if they are far apart, the highest and lowest voters explain and the team re-votes.</p>
 <ol>
   <li><strong>Read the story.</strong> The product owner explains the backlog item and the acceptance criteria. Keep this to a minute or two.</li>
   <li><strong>Ask questions.</strong> The team clarifies anything unclear. Do not discuss sizes yet.</li>
@@ -111,13 +112,17 @@
   <li>Let the team re-estimate if they learn something big mid-sprint, but do not chase perfect numbers.</li>
   <li>Make sure the stories are ready before the session. Estimating a one-line ticket wastes everyone's time.</li>
 </ul>
-<h2>Quick answers</h2>
-<h3>How many people should vote?</h3>
-<p>Everyone who will build or test the work. Usually three to nine people. Beyond that, split into smaller groups.</p>
+<h2 id="faq">Frequently asked questions</h2>
+<div class="faq">
+<h3>What is the Fibonacci sequence in planning poker?</h3>
+<p>It is the card scale most teams use: a modified Fibonacci sequence of 0, ½, 1, 2, 3, 5, 8, 13, 20, 40 and 100. The gaps grow on purpose, because bigger work is harder to estimate precisely. Many decks also include a ? card for "I cannot estimate this yet" and a coffee card for "I need a break".</p>
+<h3>How many people should vote in planning poker?</h3>
+<p>Everyone who will build or test the work, usually three to nine people. Beyond that, split into smaller groups.</p>
 <h3>Do story points equal hours?</h3>
-<p>No. Points are relative. A 2 is roughly twice a 1, and that is all. Converting points to hours brings back the precision problems points are meant to avoid.</p>
-<h3>How many stories per session?</h3>
-<p>It varies with story readiness. If you are averaging more than five minutes per story, the stories probably need more refinement first.</p>
+<p>No. Points are relative: a 2 is roughly twice a 1, and that is all. Converting points to hours brings back the precision problems points are meant to avoid.</p>
+<h3>How many stories can you estimate in one planning poker session?</h3>
+<p>It varies with how ready the stories are. If you are averaging more than five minutes per story, the stories probably need more refinement first. Keeping sessions under an hour helps, and EstimateLift, a free tool by AIYUN, lets people pre-vote asynchronously so the meeting covers only stories with a spread.</p>
+</div>
 <div class="tryit"><img src="/assets/icons/estimatelift.png" alt="" width="56" height="56"><p><b>EstimateLift</b> · Estimate the backlog together and leave with numbers you can paste into Jira.</p><a class="btn btn-dark" href="https://liftapps.com.au/estimate/?utm_source=aiyun&utm_medium=site&utm_campaign=guide-planning-poker" data-t="guide-planning-poker">Try it free</a></div>
 </article>
 <section class="band"><div class="wrap"><div class="guides"><a class="guide" href="/guides/retrospective-ideas/"><small>RetroLift</small><h3>25 sprint retrospective ideas and formats (with when to use each)</h3><p>25 sprint retrospective ideas and retro formats, with a table showing what each is for and when to use it, plus facilitation tips and how to make actions stick.</p></a><a class="guide" href="/guides/icebreaker-games-remote-teams/"><small>RetroLift</small><h3>Icebreaker games for remote teams that people actually enjoy</h3><p>Icebreaker games for remote teams that people enjoy: quick virtual team building games, no-tool ideas, and which to pick for a 5, 15 or 45 minute slot.</p></a><a class="guide" href="/guides/lean-coffee/"><small>MeetingLift</small><h3>Lean Coffee: how to run a structured-but-agendaless meeting</h3><p>The Lean Coffee format explained: how to run an agendaless meeting with topic voting, timeboxes and thumbs votes, online or in person, plus a run sheet.</p></a></div></div></section>

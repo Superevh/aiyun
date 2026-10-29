@@ -3,7 +3,7 @@
 // Usage: <script src="/aiyun-t.js" defer data-site="aiyun" data-lang="zh" data-feedback="on"></script>
 // Keep every copy of this file identical (source of truth: Superevh/aiyun).
 (() => {
-  const URL = 'https://ychcvnzxdcrralwcyzsk.supabase.co/rest/v1/rpc/append_event'
+  const API = 'https://ychcvnzxdcrralwcyzsk.supabase.co/rest/v1/rpc/append_event'
   const ANON = 'sb_publishable_Mx2A59beyzPUQEMlk2nC6A_EZU0qv_z' // publishable key: public by design
   const STATS = 'aiyunst_74dcec30c323ee8d7dddba0d'
   const INBOX = 'aiyunfb_8f51ce38ed5e17c65007c65a'
@@ -14,7 +14,7 @@
 
   const send = (board, action) => {
     if (local && !window.AIYUN_T_DEBUG) return Promise.resolve(console.debug('[aiyun-t]', action))
-    return fetch(URL, { method: 'POST', keepalive: true, headers: { apikey: ANON, Authorization: 'Bearer ' + ANON, 'Content-Type': 'application/json' },
+    return fetch(API, { method: 'POST', keepalive: true, headers: { apikey: ANON, Authorization: 'Bearer ' + ANON, 'Content-Type': 'application/json' },
       body: JSON.stringify({ p_board: board, p_action: action }) })
   }
   const store = {

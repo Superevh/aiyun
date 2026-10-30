@@ -15,7 +15,7 @@ async function all(board) {
   return out
 }
 const count = (arr, f) => Object.entries(arr.reduce((m, x) => { const k = f(x); if (k) m[k] = (m[k] || 0) + 1; return m }, {})).sort((a, b) => b[1] - a[1])
-const ev = (await all(env.STATS_BOARD)).filter(e => e.t >= since && e.e)
+const ev = (await all(env.STATS_BOARD)).filter(e => e.t >= since && e.e && e.u !== 'selftest')
 const pv = ev.filter(e => e.e === 'pv')
 const day = t => new Date(t).toISOString().slice(0, 10)
 console.log(`# AI云 growth report — last ${days} days (to ${new Date().toISOString().slice(0, 16)}Z)\n`)

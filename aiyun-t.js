@@ -24,8 +24,11 @@
   const q = new URLSearchParams(location.search)
   const refHost = (() => { try { const h = new URL(document.referrer).hostname; return h === location.hostname ? '' : h } catch { return '' } })()
   const first = !store.get('aiyun-t-seen'); store.set('aiyun-t-seen', '1')
+  // Our own browsers: open any page once with ?aiyun_internal=1 to stop counting it (=0 to undo).
+  if (q.has('aiyun_internal')) store.set('aiyun-t-internal', q.get('aiyun_internal') === '0' ? '' : '1')
+  const internal = store.get('aiyun-t-internal') === '1'
   const base = () => ({ s: cfg.site, p: location.pathname + (location.hash.startsWith('#/') ? location.hash.split('?')[0] : ''), l: cfg.lang, t: Date.now() })
-  const track = (e, props = {}) => bot ? Promise.resolve() : send(STATS, { e, ...base(), ...props }).catch(() => {})
+  const track = (e, props = {}) => bot || internal ? Promise.resolve() : send(STATS, { e, ...base(), ...props }).catch(() => {})
 
   track('pv', { r: refHost, u: q.get('utm_source') || q.get('ref') || '', c: q.get('utm_campaign') || '', n: first ? 1 : 0, w: innerWidth < 700 ? 'm' : 'd' })
   let lastHash = location.hash

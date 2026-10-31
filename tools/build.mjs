@@ -231,7 +231,9 @@ function guidePage(lang, x, siblings) {
     { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: t.brand, item: SITE + t.home }, { '@type': 'ListItem', position: 2, name: x.title, item: SITE + path }] },
     ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])] }
   const tryBox = a ? `<div class="tryit"><img src="/assets/icons/${a[0]}lift.png" alt="" width="56" height="56"><p><b>${a[1]}</b> · ${zh ? a[7] : a[5]}</p><a class="btn btn-dark" href="${utm(zh && a[2].startsWith(LIFT) ? a[2].replace(LIFT, LIFT + '/zh') : a[2], 'guide-' + x.slug)}" data-t="guide-${x.slug}">${t.tryApp}</a></div>` : ''
-  const body = x.body.replace(/<!--tryit-->/g, tryBox)
+  // A guide can point its try-it box at a page other than the app's home: "try": {"href":…,"text":…}.
+  const box = x.try ? `<div class="tryit"><img src="/assets/icons/${a[0]}lift.png" alt="" width="56" height="56"><p><b>${a[1]}</b> · ${esc(x.try.text)}</p><a class="btn btn-dark" href="${utm(x.try.href, 'guide-' + x.slug)}" data-t="guide-${x.slug}">${esc(x.try.cta)}</a></div>` : tryBox
+  const body = x.body.replace(/<!--tryit-->/g, box)
   const more = siblings.filter(s => s.slug !== x.slug).slice(0, 3)
   return head(t, { title: `${x.title} | ${t.brand}`, desc: x.description, path, alt, type: 'article', ld }) + nav(t, other) + `
 <main><article class="article">

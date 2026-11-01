@@ -10,7 +10,7 @@
   const me = document.currentScript
   const cfg = { site: me?.dataset.site || location.hostname, lang: me?.dataset.lang || (document.documentElement.lang || 'en').slice(0, 2), feedback: me?.dataset.feedback !== 'off' }
   const local = /^(localhost|127\.|\[::1\])/.test(location.hostname) || location.protocol === 'file:'
-  const bot = navigator.webdriver || /bot|crawl|spider|headless|preview|lighthouse/i.test(navigator.userAgent)
+  const bot = navigator.webdriver || /bot|crawl|spider|headless|preview|lighthouse|google-|googleother|inspectiontool/i.test(navigator.userAgent)
 
   const send = (board, action) => {
     if (local && !window.AIYUN_T_DEBUG) return Promise.resolve(console.debug('[aiyun-t]', action))

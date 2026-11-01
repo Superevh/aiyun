@@ -39,6 +39,10 @@
     try { const to = new URL(a.href, location.href); if (to.hostname !== location.hostname && /^https?:/.test(to.protocol)) track('out', { to: to.hostname + to.pathname.slice(0, 60), id: a.dataset.t || '' }) } catch {}
   }, true)
   window.aiyunTrack = track
+  // Real people scroll, tap or type; crawlers that run JS rarely do. One 'eng' per page load tells the two apart in reports.
+  const opened = Date.now(), ENG = ['scroll', 'pointerdown', 'keydown']
+  const engaged = () => { ENG.forEach(x => removeEventListener(x, engaged, true)); track('eng', { ms: Date.now() - opened }) }
+  ENG.forEach(x => addEventListener(x, engaged, { capture: true, passive: true }))
 
   if (!cfg.feedback) return
   const T = cfg.lang === 'zh'

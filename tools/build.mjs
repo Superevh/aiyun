@@ -149,7 +149,7 @@ const nav = (t, otherHref) => `
 const foot = t => `
 <footer><div class="wrap">
   <div>${t.foot} · © ${BUILT.slice(0, 4)}</div>
-  <div><a href="${t.home}#apps">Lift Apps</a><a href="${t.home}#guides">${t.nav[2]}</a><a href="mailto:${MAIL}">${MAIL}</a><a href="/archive/">${t.archive}</a></div>
+  <div><a href="${t.home}#apps">Lift Apps</a><a href="${t.lang === 'en' ? '' : '/zh'}/guides/">${t.nav[2]}</a><a href="mailto:${MAIL}">${MAIL}</a><a href="/archive/">${t.archive}</a></div>
 </div></footer>
 </body></html>
 `
@@ -237,7 +237,7 @@ function guidePage(lang, x, siblings) {
   const more = siblings.filter(s => s.slug !== x.slug).slice(0, 3)
   return head(t, { title: `${x.title} | ${t.brand}`, desc: x.description, path, alt, type: 'article', ld }) + nav(t, other) + `
 <main><article class="article">
-  <div class="crumbs"><a href="${t.home}">${t.brand}</a> / <a href="${t.home}#guides">${t.guidesHome}</a></div>
+  <div class="crumbs"><a href="${t.home}">${t.brand}</a> / <a href="${zh ? '/zh' : ''}/guides/">${t.guidesHome}</a></div>
   <h1>${esc(x.title)}</h1>
   <p class="dek">${esc(x.description)}</p>
   <p class="byline">${t.guideBy} · ${t.updated} ${x.updated || x.date}</p>
@@ -247,11 +247,25 @@ ${more.length ? `<section class="band"><div class="wrap"><div class="guides">${m
 </main>` + foot(t)
 }
 
+function guidesHub(lang, g) {
+  const t = T[lang], zh = lang === 'zh', path = `${zh ? '/zh' : ''}/guides/`, alt = { en: '/guides/', zh: '/zh/guides/' }
+  const ld = { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'CollectionPage', name: t.guidesH, description: t.guidesP, url: SITE + path, inLanguage: t.lang },
+    { '@type': 'ItemList', itemListElement: g.map((x, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${path}${x.slug}/`, name: x.title })) }] }
+  return head(t, { title: `${t.guidesH} | ${t.brand}`, desc: t.guidesP, path, alt, type: 'website', ld }) + nav(t, zh ? alt.en : alt.zh) + `
+<main><section class="band"><div class="wrap">
+  <div class="crumbs"><a href="${t.home}">${t.brand}</a> / ${t.guidesHome}</div>
+  <div class="sec-head"><div><h1>${t.guidesH}</h1><p>${t.guidesP}</p></div></div>
+  <div class="guides">${g.map(x => `<a class="guide" href="${path}${x.slug}/"><small>${appByKey[x.app]?.[1] ?? ''}</small><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></a>`).join('')}</div>
+</div></section></main>` + foot(t)
+}
+
 const urls = []
 for (const lang of ['en', 'zh']) {
   const t = T[lang]
   write(lang === 'en' ? 'index.html' : 'zh/index.html', home(lang)); urls.push(t.home)
   const g = loadGuides(lang)
+  write(`${lang === 'zh' ? 'zh/' : ''}guides/index.html`, guidesHub(lang, g)); urls.push(`${lang === 'zh' ? '/zh' : ''}/guides/`)
   for (const x of g) { const p = `${lang === 'zh' ? 'zh/' : ''}guides/${x.slug}/index.html`; write(p, guidePage(lang, x, g)); urls.push('/' + p.replace('index.html', '')) }
 }
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${SITE}${u}</loc><lastmod>${BUILT}</lastmod></url>`).join('\n')}\n</urlset>\n`)

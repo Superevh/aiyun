@@ -26,7 +26,8 @@ console.log('\n## Referrers'); for (const [k, v] of count(pv, e => e.r).slice(0,
 console.log('\n## Campaigns (utm_source/ref)'); for (const [k, v] of count(pv, e => e.u && e.u + (e.c ? '/' + e.c : '')).slice(0, 15)) console.log(`- ${k}: ${v}`)
 console.log('\n## CTA clicks'); for (const [k, v] of count(ev.filter(e => e.e === 'cta'), e => e.s + ' ' + e.id)) console.log(`- ${k}: ${v}`)
 console.log('\n## Outbound clicks'); for (const [k, v] of count(ev.filter(e => e.e === 'out'), e => e.s + ' → ' + e.to).slice(0, 15)) console.log(`- ${k}: ${v}`)
-const eng = ev.filter(e => e.e === 'eng')
+// Under half a second is a scroll event fired by page load, not a person.
+const eng = ev.filter(e => e.e === 'eng' && e.ms >= 500)
 console.log(`\nEngaged page loads (scrolled, tapped or typed; added 2026-11-02): ${eng.length}`); for (const [k, v] of count(eng, e => e.s + ' ' + e.p).slice(0, 15)) console.log(`- ${k}: ${v}`)
 console.log(`\nLift Apps usage (app page views): ${pv.filter(e => e.s === 'liftapps-app' || (e.s === 'retrolift' && e.p.includes('#/'))).length}; feedback panel opens: ${ev.filter(e => e.e === 'fb_open').length}`)
 const fb = (await all(env.FEEDBACK_BOARD)).filter(e => e.t >= since && e.e === 'fb')

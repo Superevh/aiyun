@@ -264,6 +264,12 @@ write('llms.txt', `# AIYUN (AI云)
 ## Lift Apps (free, no sign-up)
 ${APPS.map(a => `- [${a[1]}](${a[2]}): ${a[4]}. ${a[5]}`).join('\n')}
 
+## RetroLift resources
+- [Free agile tools](https://fun-retro.com/tools/): Planning poker, Monte Carlo forecast, sprint capacity, meeting cost, WSJF and RICE scoring and more.
+- [Retrospective templates](https://fun-retro.com/templates/): 15 formats and how to run them.
+- [163 icebreaker questions](https://fun-retro.com/icebreaker-questions/): Sorted by type.
+- [Team games](https://fun-retro.com/games/): Free multiplayer browser games.
+
 ## Guides
 ${gEn.map(g => `- [${g.title}](${SITE}/guides/${g.slug}/): ${g.description}`).join('\n')}
 

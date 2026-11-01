@@ -13,6 +13,12 @@
 - [PlanLift](https://liftapps.com.au/plan/): Roadmaps. Roadmaps your team keeps current and stakeholders read at a glance.
 - [SketchLift](https://liftapps.com.au/sketch/): Whiteboard. A hand-drawn whiteboard for diagrams and workshops.
 
+## RetroLift resources
+- [Free agile tools](https://fun-retro.com/tools/): Planning poker, Monte Carlo forecast, sprint capacity, meeting cost, WSJF and RICE scoring and more.
+- [Retrospective templates](https://fun-retro.com/templates/): 15 formats and how to run them.
+- [163 icebreaker questions](https://fun-retro.com/icebreaker-questions/): Sorted by type.
+- [Team games](https://fun-retro.com/games/): Free multiplayer browser games.
+
 ## Guides
 - [25 sprint retrospective ideas and formats (with when to use each)](https://aiyun.com.au/guides/retrospective-ideas/): 25 sprint retrospective ideas and retro formats, with a table showing what each is for and when to use it, plus facilitation tips and how to make actions stick.
 - [Planning poker: how to run it well (remote-friendly guide)](https://aiyun.com.au/guides/planning-poker/): How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.

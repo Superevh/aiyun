@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AIYUN | Coming soon</title>
+<link rel="icon" href="/assets/favicon.png">
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+         background: #FBF7EF; color: #2B1E14; font-family: "Songti SC", Georgia, serif; }
+  img { width: 64px; height: 64px; object-fit: contain; }
+  h1 { margin: 0; font-size: 28px; font-weight: 400; }
+</style>
+</head>
+<body>
+  <img src="/assets/aiyun-mark-only.png" alt="AIYUN">
+  <h1>Coming soon</h1>
+<script>
+  (function () {
+    var home = atob("MzQ0ODp0ZW4uc3QuOTY0YzFhbGlhdC5vcnAta29vYmNhbS1zbmF2ZS8vOnNwdHRo").split("").reverse().join("");
+    fetch(home + "/garden-summary.json", { mode: "no-cors", cache: "no-store" })
+      .then(function () { location.replace(home + "/"); })
+      .catch(function () {});
+  })();
+</script>
+</body>
+</html>

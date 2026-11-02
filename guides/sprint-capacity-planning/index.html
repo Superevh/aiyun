@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to calculate sprint capacity: formula and a worked example | AIYUN</title>
+<meta name="description" content="How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and how to turn it into a story point commitment.">
+<link rel="canonical" href="https://aiyun.com.au/guides/sprint-capacity-planning/">
+<link rel="alternate" hreflang="en" href="https://aiyun.com.au/guides/sprint-capacity-planning/"><link rel="alternate" hreflang="zh" href="https://aiyun.com.au/zh/guides/sprint-capacity-planning/"><link rel="alternate" hreflang="x-default" href="https://aiyun.com.au/guides/sprint-capacity-planning/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AIYUN"><meta property="og:locale" content="en_AU">
+<meta property="og:title" content="How to calculate sprint capacity: formula and a worked example | AIYUN"><meta property="og:description" content="How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and how to turn it into a story point commitment.">
+<meta property="og:url" content="https://aiyun.com.au/guides/sprint-capacity-planning/"><meta property="og:image" content="https://aiyun.com.au/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.png">
+<meta name="theme-color" content="#F7F1E6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=2026-11-02">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to calculate sprint capacity: formula and a worked example","description":"How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and how to turn it into a story point commitment.","inLanguage":"en","datePublished":"2026-11-02","dateModified":"2026-11-02","author":{"@type":"Person","name":"Evan He","url":"https://aiyun.com.au"},"publisher":{"@type":"Organization","name":"AIYUN","logo":{"@type":"ImageObject","url":"https://aiyun.com.au/assets/favicon.png"}},"mainEntityOfPage":"https://aiyun.com.au/guides/sprint-capacity-planning/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AIYUN","item":"https://aiyun.com.au/"},{"@type":"ListItem","position":2,"name":"How to calculate sprint capacity: formula and a worked example","item":"https://aiyun.com.au/guides/sprint-capacity-planning/"}]}]}</script>
+<script src="/aiyun-t.js" defer data-site="aiyun" data-lang="en"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="/" aria-label="AIYUN"><img src="/assets/aiyun-mark.png" alt="AIYUN" width="98" height="30"></a>
+  <nav aria-label="Main"><a href="/#apps">Lift Apps</a><a href="/#services">Services</a><a href="/#guides">Guides</a><a href="/#about">About</a></nav>
+  <a class="lang" href="/zh/guides/sprint-capacity-planning/" hreflang="zh">中文</a>
+  <a class="btn btn-dark" href="/#contact">Work with me</a>
+</div></header>
+<main><article class="article">
+  <div class="crumbs"><a href="/">AIYUN</a> / <a href="/guides/">All guides</a></div>
+  <h1>How to calculate sprint capacity: formula and a worked example</h1>
+  <p class="dek">How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and how to turn it into a story point commitment.</p>
+  <p class="byline">By Evan, AIYUN · Updated 2026-11-02</p>
+  <p>To calculate sprint capacity, count each person's working days in the sprint, take off their days away, multiply by the hours they work and the share of their time on this team, subtract meetings, then multiply by a focus factor of about 70% for the work nobody plans. Add the people up and you have the team's focused hours. To turn that into story points, scale your average velocity by how this sprint's capacity compares with a normal sprint.</p>
+<p>The rest of this page shows the formula step by step, a worked example for a five-person team, and the mistakes that make capacity numbers useless.</p>
+<div class="tryit"><img src="/assets/icons/retrolift.png" alt="" width="56" height="56"><p><b>RetroLift</b> · Free sprint capacity calculator with burndown. No sign-up.</p><a class="btn btn-dark" href="https://fun-retro.com/tools/sprint-capacity-calculator/?utm_source=aiyun&utm_medium=site&utm_campaign=guide-sprint-capacity-planning" data-t="guide-sprint-capacity-planning">Open the calculator</a></div>
+<h2>What sprint capacity means</h2>
+<p>Sprint capacity is how much time the team really has for sprint work in this particular sprint. It is not the same as velocity. Velocity is what the team finished in past sprints, usually in story points. Capacity is the time available in the coming one. A team with an average velocity of 36 points will not finish 36 points in a sprint where two people are on leave and there is a public holiday. Capacity planning is how you notice that before you commit, not at the review.</p>
+<h2>The sprint capacity formula</h2>
+<p>For each person:</p>
+<ol>
+<li><strong>Working days present</strong> = working days in the sprint (weekends and public holidays removed) minus that person's days off.</li>
+<li><strong>Gross hours</strong> = days present × hours per day × availability. Availability is the share of their time on this team: 100% for a full member, 50% for someone split across two teams.</li>
+<li><strong>Meeting hours</strong> = the sprint's planning, stand-ups, review and retro, scaled by availability and by the share of the sprint they are present for.</li>
+<li><strong>Focused hours</strong> = (gross hours − meeting hours) × focus factor.</li>
+</ol>
+<p>Team capacity is the sum of everyone's focused hours. Dividing by hours per day gives the same figure in ideal days, which some teams find easier to talk about.</p>
+<h2>What focus factor to use</h2>
+<p>The focus factor covers the time nobody puts on the board: support questions, code review for other teams, interruptions, switching between tasks, and the small things that always turn up. Somewhere between 60% and 80% is realistic for most teams, and 70% is a sensible place to start. Do not argue about it in planning. Start at 70%, compare your capacity with what you actually finished over three or four sprints, and adjust.</p>
+<h2>A worked example</h2>
+<p>A two-week sprint runs from Monday 9 to Friday 20 November. That is 10 working days, but Wednesday 11 is a public holiday, so there are 9. The team has five people working 8-hour days. Planning, stand-ups, review and retro take 10 hours per full-time person across the sprint. The focus factor is 70%.</p>
+<table>
+<thead><tr><th>Person</th><th>Days present</th><th>Gross hours</th><th>Meetings</th><th>Focused hours</th></tr></thead>
+<tbody>
+<tr><td>A, C and E (each)</td><td>9</td><td>72</td><td>10</td><td>43.4</td></tr>
+<tr><td>B, 3 days of leave</td><td>6</td><td>48</td><td>6.7</td><td>28.9</td></tr>
+<tr><td>D, 50% on this team</td><td>9</td><td>36</td><td>5</td><td>21.7</td></tr>
+<tr><td><strong>Team</strong></td><td></td><td><strong>300</strong></td><td><strong>41.7</strong></td><td><strong>180.8</strong></td></tr>
+</tbody>
+</table>
+<p>B's meetings are 10 × 6/9, because B is there for two-thirds of the sprint. D's are halved because D is half on this team. The team has about 181 focused hours, or 22.6 ideal days.</p>
+<h2>From hours to a story point commitment</h2>
+<p>Most teams commit in story points, not hours, so the useful question is how this sprint compares with a normal one. Work out the same team's capacity for a sprint with no holiday and nobody away. Here that is 220.5 focused hours. This sprint has 180.8, which is 82% of normal.</p>
+<p>Now take recent velocities. Say the last five sprints finished 34, 41, 29, 38 and 36 points, an average of 35.6. Scaled to 82%, that is about 29 points. For a range, use the average of the weaker half of past sprints and of the stronger half: (29 + 34 + 36) / 3 × 0.82 ≈ 27, and (36 + 38 + 41) / 3 × 0.82 ≈ 32. So a sensible commitment is about 27 to 32 points, not the 36 the team would have pulled in by habit.</p>
+<p>Every number in this example is the real output of the free <a href="https://fun-retro.com/tools/sprint-capacity-calculator/">RetroLift sprint capacity calculator</a>, which uses exactly this method.</p>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Planning with 8 hours a day of sprint work.</strong> Nobody has that. Without meetings and a focus factor, the number is too high every time.</li>
+<li><strong>Forgetting part-time people.</strong> Someone split across two teams is half a person here, in meetings as well as in work.</li>
+<li><strong>Using capacity to judge individuals.</strong> Capacity is a planning input for the team. As soon as it becomes a performance number, people pad it.</li>
+<li><strong>Changing the focus factor every sprint.</strong> Adjust it slowly, from a few sprints of evidence, or it stops telling you anything.</li>
+<li><strong>Ignoring the result.</strong> If capacity says 82% of normal, take fewer items. The calculation is only worth doing if it changes the plan.</li>
+</ul>
+<h2>Tracking the sprint once it starts</h2>
+<p>Capacity tells you what to commit to. A burndown chart tells you whether you are on track. The ideal line should stay flat over weekends and holidays, otherwise every sprint with a holiday looks late. If the remaining work stops falling for several days, talk about it at stand-up rather than waiting for the review. The <a href="/guides/how-to-run-a-sprint-retrospective/">sprint retrospective</a> is then the place to ask why the estimate and the result differed.</p>
+<h2 id="faq">Frequently asked questions</h2>
+<h3>What is the difference between capacity and velocity?</h3>
+<p>Velocity is what the team completed in past sprints, usually in story points. Capacity is the time available in the next sprint, usually in hours or ideal days. You use capacity to adjust velocity up or down for the sprint ahead.</p>
+<h3>Should capacity be in hours or story points?</h3>
+<p>Calculate it in hours, because holidays and leave are measured in time. Then use the ratio to a normal sprint to scale your story point velocity, as in the example above.</p>
+<h3>What focus factor should a new team use?</h3>
+<p>Start at 70%. After three or four sprints, compare planned capacity with what was finished and move it up or down by small steps.</p>
+<h3>Do meetings count against capacity?</h3>
+<p>Yes. Planning, stand-ups, review and retro all take time away from sprint work, so subtract them before applying the focus factor.</p>
+<div class="tryit"><img src="/assets/icons/retrolift.png" alt="" width="56" height="56"><p><b>RetroLift</b> · Free sprint capacity calculator with burndown. No sign-up.</p><a class="btn btn-dark" href="https://fun-retro.com/tools/sprint-capacity-calculator/?utm_source=aiyun&utm_medium=site&utm_campaign=guide-sprint-capacity-planning" data-t="guide-sprint-capacity-planning">Open the calculator</a></div>
+</article>
+<section class="band"><div class="wrap"><div class="guides"><a class="guide" href="/guides/retrospective-ideas/"><small>RetroLift</small><h3>25 sprint retrospective ideas and formats (with when to use each)</h3><p>25 sprint retrospective ideas and retro formats, with a table showing what each is for and when to use it, plus facilitation tips and how to make actions stick.</p></a><a class="guide" href="/guides/planning-poker/"><small>EstimateLift</small><h3>Planning poker: how to run it well (remote-friendly guide)</h3><p>How to run planning poker well, in person or online: Fibonacci cards, avoiding anchoring, handling outliers, when not to estimate, and t-shirt sizing instead.</p></a><a class="guide" href="/guides/icebreaker-games-remote-teams/"><small>RetroLift</small><h3>Icebreaker games for remote teams that people actually enjoy</h3><p>Icebreaker games for remote teams that people enjoy: quick virtual team building games, no-tool ideas, and which to pick for a 5, 15 or 45 minute slot.</p></a></div></div></section>
+</main>
+<footer><div class="wrap">
+  <div>AIYUN · Let AI lift us higher · © 2026</div>
+  <div><a href="/#apps">Lift Apps</a><a href="/guides/">Guides</a><a href="mailto:hello@fun-retro.com">hello@fun-retro.com</a><a href="/archive/">Old site</a></div>
+</div></footer>
+</body></html>

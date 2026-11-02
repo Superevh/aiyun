@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>迭代容量怎么算：公式和一个完整例子 | AI云</title>
+<meta name="description" content="按工时计算迭代容量：工作日、请假、会议和专注系数，附 5 人团队的完整计算，以及如何换算成故事点承诺。">
+<link rel="canonical" href="https://aiyun.com.au/zh/guides/sprint-capacity-planning/">
+<link rel="alternate" hreflang="en" href="https://aiyun.com.au/guides/sprint-capacity-planning/"><link rel="alternate" hreflang="zh" href="https://aiyun.com.au/zh/guides/sprint-capacity-planning/"><link rel="alternate" hreflang="x-default" href="https://aiyun.com.au/guides/sprint-capacity-planning/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AI云"><meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="迭代容量怎么算：公式和一个完整例子 | AI云"><meta property="og:description" content="按工时计算迭代容量：工作日、请假、会议和专注系数，附 5 人团队的完整计算，以及如何换算成故事点承诺。">
+<meta property="og:url" content="https://aiyun.com.au/zh/guides/sprint-capacity-planning/"><meta property="og:image" content="https://aiyun.com.au/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.png">
+<meta name="theme-color" content="#F7F1E6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=2026-11-02">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"迭代容量怎么算：公式和一个完整例子","description":"按工时计算迭代容量：工作日、请假、会议和专注系数，附 5 人团队的完整计算，以及如何换算成故事点承诺。","inLanguage":"zh-CN","datePublished":"2026-11-02","dateModified":"2026-11-02","author":{"@type":"Person","name":"Evan He","url":"https://aiyun.com.au"},"publisher":{"@type":"Organization","name":"AI云","logo":{"@type":"ImageObject","url":"https://aiyun.com.au/assets/favicon.png"}},"mainEntityOfPage":"https://aiyun.com.au/zh/guides/sprint-capacity-planning/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI云","item":"https://aiyun.com.au/zh/"},{"@type":"ListItem","position":2,"name":"迭代容量怎么算：公式和一个完整例子","item":"https://aiyun.com.au/zh/guides/sprint-capacity-planning/"}]}]}</script>
+<script src="/aiyun-t.js" defer data-site="aiyun" data-lang="zh"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="/zh/" aria-label="AI云"><img src="/assets/aiyun-mark-only.png" alt="" width="38" height="30"><span>AI云</span></a>
+  <nav aria-label="Main"><a href="/zh/#apps">Lift Apps</a><a href="/zh/#services">服务</a><a href="/zh/#guides">指南</a><a href="/zh/#about">关于</a></nav>
+  <a class="lang" href="/guides/sprint-capacity-planning/" hreflang="en">EN</a>
+  <a class="btn btn-dark" href="/zh/#contact">合作咨询</a>
+</div></header>
+<main><article class="article">
+  <div class="crumbs"><a href="/zh/">AI云</a> / <a href="/zh/guides/">全部指南</a></div>
+  <h1>迭代容量怎么算：公式和一个完整例子</h1>
+  <p class="dek">按工时计算迭代容量：工作日、请假、会议和专注系数，附 5 人团队的完整计算，以及如何换算成故事点承诺。</p>
+  <p class="byline">作者：Evan，AI云 · 更新于 2026-11-02</p>
+  <p>计算迭代容量的方法是：先数出每个人在这个迭代里的工作日，减去请假天数，乘以每天工时和他投入这个团队的比例，再减去会议时间，最后乘以 70% 左右的专注系数，扣掉那些没人计划、却总会出现的工作。把所有人加起来，就是团队的专注工时。要换算成故事点，就按这个迭代和正常迭代的容量比例，缩放团队的平均速率。</p>
+<p>下面一步步讲公式，给一个 5 人团队的完整例子，再说说让容量数字失去意义的常见错误。</p>
+<div class="tryit"><img src="/assets/icons/retrolift.png" alt="" width="56" height="56"><p><b>RetroLift</b> · 免费迭代容量计算器，含燃尽图，无需注册。</p><a class="btn btn-dark" href="https://fun-retro.com/zh/tools/sprint-capacity-calculator/?utm_source=aiyun&utm_medium=site&utm_campaign=guide-sprint-capacity-planning" data-t="guide-sprint-capacity-planning">打开计算器</a></div>
+<h2>迭代容量是什么</h2>
+<p>迭代容量是团队在这一个迭代里真正能用在迭代工作上的时间。它和速率不是一回事。速率是团队过去几个迭代完成了多少，通常用故事点表示；容量是接下来这个迭代有多少时间。一个平均速率 36 点的团队，如果这个迭代有两个人休假、还赶上公共假期，就完成不了 36 点。容量规划的作用，就是在承诺之前发现这一点，而不是等到评审会上才发现。</p>
+<h2>迭代容量公式</h2>
+<p>每个人分别算：</p>
+<ol>
+<li><strong>在岗天数</strong> = 迭代内工作日（去掉周末和公共假期）− 这个人的请假天数。</li>
+<li><strong>总工时</strong> = 在岗天数 × 每天工时 × 投入比例。投入比例是他在这个团队上的时间占比：全职成员 100%，同时在两个团队的人 50%。</li>
+<li><strong>会议工时</strong> = 迭代内的计划会、站会、评审会和复盘会，按投入比例和在岗天数占比缩放。</li>
+<li><strong>专注工时</strong> =（总工时 − 会议工时）× 专注系数。</li>
+</ol>
+<p>团队容量就是所有人专注工时的总和。再除以每天工时，就得到以“理想人天”表示的同一个数，有些团队更习惯这样讨论。</p>
+<h2>专注系数填多少</h2>
+<p>专注系数扣掉的是没人写上看板的时间：回答支持问题、帮别的团队看代码、被打断、在任务之间切换，以及总会冒出来的小事。对大多数团队来说，60% 到 80% 比较现实，70% 是个合适的起点。别在计划会上争这个数。先用 70%，连续三四个迭代对比算出来的容量和实际完成的工作，再慢慢调整。</p>
+<h2>一个完整例子</h2>
+<p>一个两周的迭代，从 11 月 9 日周一到 11 月 20 日周五，共 10 个工作日，但 11 日周三是公共假期，所以只有 9 天。团队 5 个人，每天工作 8 小时。整个迭代里，计划会、站会、评审会和复盘会每个全职成员共占 10 小时。专注系数 70%。</p>
+<table>
+<thead><tr><th>成员</th><th>在岗天数</th><th>总工时</th><th>会议</th><th>专注工时</th></tr></thead>
+<tbody>
+<tr><td>A、C、E（每人）</td><td>9</td><td>72</td><td>10</td><td>43.4</td></tr>
+<tr><td>B，请假 3 天</td><td>6</td><td>48</td><td>6.7</td><td>28.9</td></tr>
+<tr><td>D，50% 时间在本团队</td><td>9</td><td>36</td><td>5</td><td>21.7</td></tr>
+<tr><td><strong>团队</strong></td><td></td><td><strong>300</strong></td><td><strong>41.7</strong></td><td><strong>180.8</strong></td></tr>
+</tbody>
+</table>
+<p>B 的会议工时是 10 × 6/9，因为 B 只在三分之二的迭代里在岗。D 的会议工时减半，因为 D 只有一半时间在这个团队。团队大约有 181 个专注工时，也就是 22.6 个理想人天。</p>
+<h2>从工时换算成故事点承诺</h2>
+<p>多数团队用故事点做承诺，而不是工时，所以真正有用的问题是：这个迭代和正常迭代比起来怎样。先算同一个团队在没有假期、没人请假时的容量，这里是 220.5 个专注工时。这个迭代是 180.8，相当于正常的 82%。</p>
+<p>再看最近的速率。假设最近 5 个迭代分别完成了 34、41、29、38、36 点，平均 35.6 点。按 82% 缩放，大约是 29 点。要给一个范围，就分别取过去较弱一半和较强一半迭代的平均值：(29 + 34 + 36) / 3 × 0.82 ≈ 27，(36 + 38 + 41) / 3 × 0.82 ≈ 32。所以合理的承诺是 27 到 32 点左右，而不是团队按习惯会拉进来的 36 点。</p>
+<p>这个例子里的每个数字，都是免费的 <a href="https://fun-retro.com/zh/tools/sprint-capacity-calculator/">RetroLift 迭代容量计算器</a>的实际输出，它用的就是这套方法。</p>
+<h2>常见错误</h2>
+<ul>
+<li><strong>按每天 8 小时迭代工作来计划。</strong>没有人能做到。不扣会议、不乘专注系数，算出来的数每次都偏高。</li>
+<li><strong>忘了兼职成员。</strong>同时在两个团队的人，在这里只算半个人，会议也一样。</li>
+<li><strong>用容量评价个人。</strong>容量是团队的计划依据。一旦变成绩效数字，大家就会往里面注水。</li>
+<li><strong>每个迭代都改专注系数。</strong>要根据几个迭代的结果慢慢调，否则这个数就失去了参考价值。</li>
+<li><strong>算完不用。</strong>如果容量只有正常的 82%，就少接一些工作。只有能改变计划，这个计算才值得做。</li>
+</ul>
+<h2>迭代开始后怎么跟踪</h2>
+<p>容量告诉你该承诺多少，燃尽图告诉你进度是否正常。理想线在周末和假期应该是平的，否则每个有假期的迭代看起来都会落后。如果剩余工作连续几天不下降，就在站会上提出来，不要等到评审会。之后的<a href="/zh/guides/how-to-run-a-sprint-retrospective/">迭代复盘</a>，正是讨论估算和结果为什么不同的地方。</p>
+<h2 id="faq">常见问题</h2>
+<h3>容量和速率有什么区别？</h3>
+<p>速率是团队过去几个迭代完成的工作量，通常用故事点表示。容量是下一个迭代可用的时间，通常用工时或理想人天表示。用容量把速率按接下来的迭代调高或调低。</p>
+<h3>容量应该用工时还是故事点？</h3>
+<p>用工时算，因为假期和请假都是按时间计的。再用它和正常迭代的比例去缩放故事点速率，就像上面的例子。</p>
+<h3>新团队的专注系数填多少？</h3>
+<p>从 70% 开始。三四个迭代之后，对比计划容量和实际完成量，每次小幅上调或下调。</p>
+<h3>会议要从容量里扣掉吗？</h3>
+<p>要。计划会、站会、评审会和复盘会都会占用迭代工作时间，所以在乘专注系数之前先扣掉。</p>
+<div class="tryit"><img src="/assets/icons/retrolift.png" alt="" width="56" height="56"><p><b>RetroLift</b> · 免费迭代容量计算器，含燃尽图，无需注册。</p><a class="btn btn-dark" href="https://fun-retro.com/zh/tools/sprint-capacity-calculator/?utm_source=aiyun&utm_medium=site&utm_campaign=guide-sprint-capacity-planning" data-t="guide-sprint-capacity-planning">打开计算器</a></div>
+</article>
+<section class="band"><div class="wrap"><div class="guides"><a class="guide" href="/zh/guides/retrospective-ideas/"><small>RetroLift</small><h3>25 个冲刺复盘创意与形式（附各自适用场景）</h3><p>25 个冲刺复盘创意与复盘形式，一张表说清每种形式的用途和适用场景，另附主持技巧，以及如何让复盘行动项真正落地、不再石沉大海。</p></a><a class="guide" href="/zh/guides/planning-poker/"><small>EstimateLift</small><h3>计划扑克怎么玩才有效（远程团队也适用）</h3><p>计划扑克完整指南：现场和在线都适用。讲清斐波那契牌组、如何避免锚定效应、怎样处理离群估值、什么时候不该估点，以及更轻量的 T 恤尺码估算法。</p></a><a class="guide" href="/zh/guides/icebreaker-games-remote-teams/"><small>RetroLift</small><h3>远程团队破冰游戏：大家真心愿意玩的那种</h3><p>远程团队破冰游戏合集：在线团建小游戏、零工具破冰方法，以及 5 分钟、15 分钟、45 分钟的会议各适合玩什么，外加让破冰不尴尬的主持技巧。</p></a></div></div></section>
+</main>
+<footer><div class="wrap">
+  <div>AI云 · Let AI lift us higher · © 2026</div>
+  <div><a href="/zh/#apps">Lift Apps</a><a href="/zh/guides/">指南</a><a href="mailto:hello@fun-retro.com">hello@fun-retro.com</a><a href="/archive/">旧版网站</a></div>
+</div></footer>
+</body></html>

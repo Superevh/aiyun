@@ -1,0 +1,53 @@
+<!--meta {"title":"How to calculate sprint capacity: formula and a worked example","description":"How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and how to turn it into a story point commitment.","app":"retro","date":"2026-11-02","order":8,"updated":"2026-11-02","try":{"href":"https://fun-retro.com/tools/sprint-capacity-calculator/","text":"Free sprint capacity calculator with burndown. No sign-up.","cta":"Open the calculator"}}-->
+<p>To calculate sprint capacity, count each person's working days in the sprint, take off their days away, multiply by the hours they work and the share of their time on this team, subtract meetings, then multiply by a focus factor of about 70% for the work nobody plans. Add the people up and you have the team's focused hours. To turn that into story points, scale your average velocity by how this sprint's capacity compares with a normal sprint.</p>
+<p>The rest of this page shows the formula step by step, a worked example for a five-person team, and the mistakes that make capacity numbers useless.</p>
+<!--tryit-->
+<h2>What sprint capacity means</h2>
+<p>Sprint capacity is how much time the team really has for sprint work in this particular sprint. It is not the same as velocity. Velocity is what the team finished in past sprints, usually in story points. Capacity is the time available in the coming one. A team with an average velocity of 36 points will not finish 36 points in a sprint where two people are on leave and there is a public holiday. Capacity planning is how you notice that before you commit, not at the review.</p>
+<h2>The sprint capacity formula</h2>
+<p>For each person:</p>
+<ol>
+<li><strong>Working days present</strong> = working days in the sprint (weekends and public holidays removed) minus that person's days off.</li>
+<li><strong>Gross hours</strong> = days present × hours per day × availability. Availability is the share of their time on this team: 100% for a full member, 50% for someone split across two teams.</li>
+<li><strong>Meeting hours</strong> = the sprint's planning, stand-ups, review and retro, scaled by availability and by the share of the sprint they are present for.</li>
+<li><strong>Focused hours</strong> = (gross hours − meeting hours) × focus factor.</li>
+</ol>
+<p>Team capacity is the sum of everyone's focused hours. Dividing by hours per day gives the same figure in ideal days, which some teams find easier to talk about.</p>
+<h2>What focus factor to use</h2>
+<p>The focus factor covers the time nobody puts on the board: support questions, code review for other teams, interruptions, switching between tasks, and the small things that always turn up. Somewhere between 60% and 80% is realistic for most teams, and 70% is a sensible place to start. Do not argue about it in planning. Start at 70%, compare your capacity with what you actually finished over three or four sprints, and adjust.</p>
+<h2>A worked example</h2>
+<p>A two-week sprint runs from Monday 9 to Friday 20 November. That is 10 working days, but Wednesday 11 is a public holiday, so there are 9. The team has five people working 8-hour days. Planning, stand-ups, review and retro take 10 hours per full-time person across the sprint. The focus factor is 70%.</p>
+<table>
+<thead><tr><th>Person</th><th>Days present</th><th>Gross hours</th><th>Meetings</th><th>Focused hours</th></tr></thead>
+<tbody>
+<tr><td>A, C and E (each)</td><td>9</td><td>72</td><td>10</td><td>43.4</td></tr>
+<tr><td>B, 3 days of leave</td><td>6</td><td>48</td><td>6.7</td><td>28.9</td></tr>
+<tr><td>D, 50% on this team</td><td>9</td><td>36</td><td>5</td><td>21.7</td></tr>
+<tr><td><strong>Team</strong></td><td></td><td><strong>300</strong></td><td><strong>41.7</strong></td><td><strong>180.8</strong></td></tr>
+</tbody>
+</table>
+<p>B's meetings are 10 × 6/9, because B is there for two-thirds of the sprint. D's are halved because D is half on this team. The team has about 181 focused hours, or 22.6 ideal days.</p>
+<h2>From hours to a story point commitment</h2>
+<p>Most teams commit in story points, not hours, so the useful question is how this sprint compares with a normal one. Work out the same team's capacity for a sprint with no holiday and nobody away. Here that is 220.5 focused hours. This sprint has 180.8, which is 82% of normal.</p>
+<p>Now take recent velocities. Say the last five sprints finished 34, 41, 29, 38 and 36 points, an average of 35.6. Scaled to 82%, that is about 29 points. For a range, use the average of the weaker half of past sprints and of the stronger half: (29 + 34 + 36) / 3 × 0.82 ≈ 27, and (36 + 38 + 41) / 3 × 0.82 ≈ 32. So a sensible commitment is about 27 to 32 points, not the 36 the team would have pulled in by habit.</p>
+<p>Every number in this example is the real output of the free <a href="https://fun-retro.com/tools/sprint-capacity-calculator/">RetroLift sprint capacity calculator</a>, which uses exactly this method.</p>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Planning with 8 hours a day of sprint work.</strong> Nobody has that. Without meetings and a focus factor, the number is too high every time.</li>
+<li><strong>Forgetting part-time people.</strong> Someone split across two teams is half a person here, in meetings as well as in work.</li>
+<li><strong>Using capacity to judge individuals.</strong> Capacity is a planning input for the team. As soon as it becomes a performance number, people pad it.</li>
+<li><strong>Changing the focus factor every sprint.</strong> Adjust it slowly, from a few sprints of evidence, or it stops telling you anything.</li>
+<li><strong>Ignoring the result.</strong> If capacity says 82% of normal, take fewer items. The calculation is only worth doing if it changes the plan.</li>
+</ul>
+<h2>Tracking the sprint once it starts</h2>
+<p>Capacity tells you what to commit to. A burndown chart tells you whether you are on track. The ideal line should stay flat over weekends and holidays, otherwise every sprint with a holiday looks late. If the remaining work stops falling for several days, talk about it at stand-up rather than waiting for the review. The <a href="/guides/how-to-run-a-sprint-retrospective/">sprint retrospective</a> is then the place to ask why the estimate and the result differed.</p>
+<h2 id="faq">Frequently asked questions</h2>
+<h3>What is the difference between capacity and velocity?</h3>
+<p>Velocity is what the team completed in past sprints, usually in story points. Capacity is the time available in the next sprint, usually in hours or ideal days. You use capacity to adjust velocity up or down for the sprint ahead.</p>
+<h3>Should capacity be in hours or story points?</h3>
+<p>Calculate it in hours, because holidays and leave are measured in time. Then use the ratio to a normal sprint to scale your story point velocity, as in the example above.</p>
+<h3>What focus factor should a new team use?</h3>
+<p>Start at 70%. After three or four sprints, compare planned capacity with what was finished and move it up or down by small steps.</p>
+<h3>Do meetings count against capacity?</h3>
+<p>Yes. Planning, stand-ups, review and retro all take time away from sprint work, so subtract them before applying the focus factor.</p>
+<!--tryit-->

@@ -33,7 +33,7 @@ const T = {
   en: {
     lang: 'en', brand: 'AIYUN', home: '/', other: '/zh/', otherLabel: '中文', locale: 'en_AU',
     title: 'AIYUN — Practical AI for teams, and free Lift Apps for agile teams',
-    desc: 'AIYUN helps teams use AI in a simple, practical, human way: AI workshops, prototype sprints and AI-enabled delivery. Try Lift Apps, nine free tools for retros, planning poker, meetings, polls and OKRs.',
+    desc: 'AIYUN helps teams use AI in a practical, human way: workshops, prototype sprints and AI-enabled delivery. Plus Lift Apps, nine free tools for agile teams.',
     nav: ['Lift Apps', 'Services', 'Guides', 'About'], cta: 'Work with me',
     eyebrow: 'AIYUN · Explore · Connect · Create',
     h1: 'Practical AI for teams that <span class="gold">ship</span>.',

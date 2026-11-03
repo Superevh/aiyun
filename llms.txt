@@ -28,6 +28,7 @@
 - [How to run a sprint retrospective: a step-by-step facilitator guide](https://aiyun.com.au/guides/how-to-run-a-sprint-retrospective/): How to run a sprint retrospective in 60 minutes: preparation, a minute-by-minute agenda, facilitation tips, remote set-up and actions that actually happen.
 - [Virtual team building games: 10 free ones you can start from a link](https://aiyun.com.au/guides/virtual-team-building-games/): Ten free virtual team building games that run in the browser with no sign-up, which suit 5 or 40 people, and ready-made plans for a 10, 30 or 60 minute session.
 - [How to calculate sprint capacity: formula and a worked example](https://aiyun.com.au/guides/sprint-capacity-planning/): How to calculate sprint capacity in hours: working days, days off, meetings and a focus factor, with a worked five-person example and story points.
+- [AI prompts for sprint retrospectives: a practical guide for Scrum Masters](https://aiyun.com.au/guides/ai-prompts-for-retrospectives/): Seven copy-ready AI prompts for retrospectives: prepare, group cards, find themes, draft actions and write the summary. Works with ChatGPT, Claude or Copilot.
 
 ## Chinese
 - [AI云 中文首页](https://aiyun.com.au/zh/)

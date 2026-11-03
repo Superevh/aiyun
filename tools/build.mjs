@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 // Builds the AI云 site: / (EN), /zh/ (中文), /guides/<slug>/ and /zh/guides/<slug>/, sitemap.xml, robots.txt.
 // Run: node tools/build.mjs   (no dependencies). Guide bodies live in content/guides/<slug>.<lang>.html,
 // each starting with <!--meta {...}--> (title, description, app, date, order).
@@ -9,6 +10,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://aiyun.com.au'
 const MAIL = 'hello@fun-retro.com'
 const BUILT = new Date().toISOString().slice(0, 10)
+// Stylesheet version follows its content, so a CSS change reaches browsers the same day.
+const CSSV = createHash('sha1').update(readFileSync(new URL('../assets/site.css', import.meta.url))).digest('hex').slice(0, 8)
 const strip = s => String(s).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim()
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const write = (rel, html) => { const f = join(ROOT, rel); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html) }
@@ -132,7 +135,7 @@ ${alt ? `<link rel="alternate" hreflang="en" href="${SITE}${alt.en}"><link rel="
 <meta name="theme-color" content="#F7F1E6">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=${BUILT}">
+<link rel="stylesheet" href="/assets/site.css?v=${CSSV}">
 ${ld ? `<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 <script src="/aiyun-t.js" defer data-site="aiyun" data-lang="${t.lang.slice(0, 2)}"></script>
 </head>

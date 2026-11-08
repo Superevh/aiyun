@@ -64,6 +64,13 @@ const T = {
     aboutEy: 'About', aboutH: 'Hi, I\'m Evan',
     about: ['I’ve worked across engineering, delivery, transformation and product. All of it now points at one thing: helping people use AI in a simple, practical, human way. Not the hype version.', 'AIYUN is my studio. I build small products, run experiments in public, make short videos about AI in Chinese, and help teams adopt AI in a way that sticks.'],
     chips: ['AI strategy', 'Product building', 'Agile delivery', 'Transformation', 'AI education', 'Creative AI'],
+    faqEy: 'Quick answers', faqH: 'What is AIYUN?',
+    faq: [
+      ['Is AIYUN an AI?', 'No. AIYUN is not an AI model or a chatbot. It is a small studio in Australia, run by Evan He, that helps teams use AI in their work and builds free tools for agile teams with AI as a helper. The Chinese name is AI云; 云 (yún) is the Chinese word for cloud.'],
+      ['What does AIYUN offer?', 'Two things. Lift Apps: nine free web tools for agile teams, including RetroLift retrospective boards (fun-retro.com), planning poker, live polls and team health checks. And AI work with teams: workshops, prototype sprints and AI-enabled delivery.'],
+      ['Are Lift Apps free?', 'Yes. Lift Apps are free to use, with no ads and no paid plan. RetroLift boards need no sign-up: people join from a link or QR code.'],
+      ['Is AIYUN connected with other companies called Aiyun?', 'No. AIYUN at aiyun.com.au is Evan He\'s own studio and has no connection with other companies or products that use a similar name.'],
+    ],
     ctaH: 'Let AI lift your team higher', ctaP: 'Tell me about your team and what you want AI to help with. I reply to every message.',
     email: 'Email AIYUN', feedback: 'Send feedback',
     foot: 'AIYUN · Let AI lift us higher', archive: 'Old site',
@@ -100,6 +107,13 @@ const T = {
     aboutEy: '关于', aboutH: '你好，我是 Evan',
     about: ['我做过工程、交付、转型和产品。这些经历现在都指向同一件事：帮助人们用简单、实用、有温度的方式用好 AI，而不是追热点。', 'AI云是我的工作室。我做小产品、公开做实验、拍 AI 中文短视频，并帮助团队真正把 AI 用起来、用下去。'],
     chips: ['AI 战略', '产品打造', '敏捷交付', '组织转型', 'AI 教育', '创意 AI'],
+    faqEy: '常见问题', faqH: 'AI云 是什么？',
+    faq: [
+      ['AI云 是一个 AI 吗？', '不是。AI云（英文 AIYUN）不是 AI 模型，也不是聊天机器人，而是 Evan He 在澳大利亚的一人工作室：帮团队把 AI 用进日常工作，并借助 AI 做免费的敏捷团队工具。'],
+      ['AI云 提供什么？', '两样：一是 Lift Apps，九款免费网页工具，包括 RetroLift 复盘看板（fun-retro.com）、估点、现场投票、团队健康度检查等；二是和团队一起做 AI：工作坊、AI 原型冲刺和 AI 赋能交付。'],
+      ['Lift Apps 收费吗？', '不收费，没有广告，也没有付费版。RetroLift 看板不用注册，扫码或点链接就能加入。'],
+      ['AI云 和其他叫 Aiyun 的公司有关系吗？', '没有。aiyun.com.au 的 AI云 是 Evan He 自己的工作室，和其他名字相近的公司或产品没有关系。'],
+    ],
     ctaH: 'Let AI lift us higher', ctaP: '告诉我你的团队情况，以及希望 AI 帮上什么忙。每封邮件我都会回复。',
     email: '发邮件给 AI云', feedback: '提个反馈',
     foot: 'AI云 · Let AI lift us higher', archive: '旧版网站',
@@ -170,6 +184,7 @@ function home(lang) {
     { '@type': 'Organization', name: t.brand, alternateName: ['AIYUN', 'AI云', 'AIYun'], url: SITE, logo: SITE + '/assets/favicon.png', email: MAIL, founder: { '@type': 'Person', name: 'Evan He' }, areaServed: 'AU', sameAs: [LIFT, 'https://fun-retro.com', 'https://github.com/Superevh', 'https://github.com/Superevh/liftapps', 'https://www.producthunt.com/@evan_he1'] },
     { '@type': 'WebSite', name: t.brand, url: SITE, inLanguage: t.lang },
     ...APPS.map(a => ({ '@type': 'SoftwareApplication', name: a[1], applicationCategory: 'BusinessApplication', operatingSystem: 'Web', url: a[2], offers: { '@type': 'Offer', price: '0', priceCurrency: 'AUD' }, description: zh ? a[7] : a[5] })),
+    { '@type': 'FAQPage', mainEntity: t.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
   ] }
   return head(t, { title: t.title, desc: t.desc, path: t.home, alt: { en: '/', zh: '/zh/' }, ld }) + nav(t, t.other) + `
 <main>
@@ -212,6 +227,11 @@ ${g.length ? `<section id="guides" class="band"><div class="wrap">
 <section id="about"><div class="wrap about">
   <div><p class="eyebrow">${t.aboutEy}</p><h2>${t.aboutH}</h2></div>
   <div>${t.about.map(p => `<p>${p}</p>`).join('')}<div class="chips">${t.chips.map(c => `<span>${c}</span>`).join('')}</div></div>
+</div></section>
+
+<section id="faq" style="border-top:1px solid var(--line)"><div class="wrap about">
+  <div><p class="eyebrow">${t.faqEy}</p><h2>${t.faqH}</h2></div>
+  <div class="home-faq">${t.faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}</div>
 </div></section>
 
 <section id="contact" class="band cta"><div class="wrap">

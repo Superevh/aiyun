@@ -1,6 +1,6 @@
-<!--meta {"title":"AI prompts for sprint retrospectives: a practical guide for Scrum Masters","description":"Seven copy-ready AI prompts for retrospectives: prepare, group cards, find themes, draft actions and write the summary. Works with ChatGPT, Claude or Copilot.","app":"retro","date":"2026-11-04","order":9,"updated":"2026-11-04"}-->
+<!--meta {"title":"12 AI prompts for retrospectives: sprint, project, incident and personal retros","description":"Twelve copy-ready AI prompts for retrospectives: pick a format, group cards, find causes, draft actions and write the summary, plus project, incident and personal retros. Works with ChatGPT, Claude or Copilot.","app":"retro","date":"2026-11-04","order":9,"updated":"2026-11-09"}-->
 <p>AI will not run your retrospective for you, and it should not. The conversation between people is the point. But a chat assistant such as ChatGPT, Claude or Copilot is very good at the slow parts around the meeting: picking a format, grouping forty sticky notes, spotting a theme that keeps coming back, and turning a messy discussion into three clear actions and a short summary.</p>
-<p>This guide gives you seven prompts that work, the order to use them in, and the line you should not cross.</p>
+<p>This guide gives you twelve prompts that work: the first seven cover before, during and after a sprint retrospective, and five more cover the end of a project, an incident, following up actions, the facilitator's opening and a personal weekly review. It also gives the order to use them in, and the line you should not cross.</p>
 <!--tryit-->
 <h2>The workflow in one paragraph</h2>
 <p>Run the retro as usual on a shared board. When the team has written and voted, export the board as text, paste it into your AI assistant with one of the prompts below, and read the answer back to the team as a suggestion to discuss, not a verdict. In <a href="https://fun-retro.com">RetroLift</a>, open the board menu and choose <strong>Copy to clipboard</strong>: you get every column, card, vote count, comment and action item as Markdown, without the names of who wrote what.</p>
@@ -41,6 +41,38 @@ what went well, the main theme we discussed, and the action items with owners. U
 Which problems keep coming back? Which actions did not seem to change anything?
 Quote the cards that support each point.</code></pre>
 <p>Keep the exports in a folder after each retro and this becomes the most useful prompt of all: it shows the team its own patterns.</p>
+<h2>More situations: project, incident and personal retros</h2>
+<h3>8. A lessons learned retro at the end of a project</h3>
+<pre><code>We have just finished a [length] project: [two or three sentences on the goal and the result].
+Below are the team's cards, sorted into "went well", "went wrong" and "learned".
+Turn them into a lessons learned summary: at most five points per group, each quoting the cards behind it,
+then three specific recommendations for the next project. Do not invent anything that is not on the cards.
+
+[paste the cards]</code></pre>
+<p>Use it with the <a href="https://fun-retro.com/templates/lessons-learned-template/">lessons learned template</a>: fill in the four columns, export the board, then hand it to the AI.</p>
+<h3>9. A blameless retro after an incident</h3>
+<pre><code>Below are the timeline of a production incident and the team's notes: [paste].
+Write a blameless review: what happened, the impact, why the actions taken made sense at the time,
+what made the problem easier to happen, and at most three improvements to stop it happening again.
+Do not name anyone, and do not give "someone was careless" as a cause.</code></pre>
+<p>"Why the actions made sense at the time" is the key line. It moves the discussion from who got it wrong to what in the process made the mistake easy.</p>
+<h3>10. Follow up last retro's actions first</h3>
+<pre><code>These are the action items from our last retro: [paste].
+This is what happened this sprint: [a few sentences or the board export].
+For each action, say whether it looks done, partly done or untouched, quote what supports that,
+and for each untouched one write a question I can ask the team at the start of the retro.</code></pre>
+<p>Spend three minutes on last time's actions at the start, and the team will believe that what the retro agrees actually matters.</p>
+<h3>11. Write the facilitator's opening</h3>
+<pre><code>Write a retro opening I can say in about a minute.
+The team has [number] people, the sprint was [smooth / hard / tense], and today we are using [format].
+Cover the goal for today, the rough plan, the agreement to focus on the work rather than people, and that anyone can pass.
+Keep it relaxed and free of buzzwords.</code></pre>
+<h3>12. A personal weekly retro</h3>
+<pre><code>I want to do a personal weekly retro. My week: [a few sentences: what I finished, where I got stuck, my energy].
+Ask me five questions, one at a time, and wait for my answer before the next:
+the most valuable thing this week, the most draining thing, what might have caused it, one habit to keep next week, one thing to change.
+Then sum up my answers in three lines: keep, change, first thing next week.</code></pre>
+<p>Asking the AI to put one question at a time works better than asking it to write a summary for you: the answers are yours, so you are more likely to act on them.</p>
 <h2>What not to give the AI</h2>
 <ul>
   <li><strong>Check your company's AI policy first.</strong> Many organisations allow only approved tools for internal information.</li>
@@ -72,5 +104,9 @@ Quote the cards that support each point.</code></pre>
 <p>Only if your company allows it. Remove names and anything confidential first, and prefer a business account that does not use your data for training.</p>
 <h3>How do I get my board into the AI tool?</h3>
 <p>Export it as text. RetroLift, a free retro board by AIYUN, copies the whole board as Markdown in one click, including votes, comments and action items.</p>
+<h3>Can I use AI for a personal retrospective?</h3>
+<p>Yes. Use prompt 12 above: the AI asks one question at a time, you answer, and it sums up your answers as keep, change and first thing next week. Any chat assistant is enough.</p>
+<h3>How is a project retro prompt different from a sprint retro prompt?</h3>
+<p>A sprint retro looks at the last couple of weeks and asks what to change next sprint. A project retro looks at the whole project and asks what to pass on to the next one. Prompt 8 is written for project retros and works best with a lessons learned template.</p>
 </div>
 <!--tryit-->

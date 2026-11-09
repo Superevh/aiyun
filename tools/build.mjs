@@ -166,6 +166,7 @@ const nav = (t, otherHref) => `
 const foot = t => `
 <footer><div class="wrap">
   <div>${t.foot} · © ${BUILT.slice(0, 4)}</div>
+  <div style="flex-basis:100%">${t.lang === 'en' ? 'Free tools: <a href="https://fun-retro.com/">Retro board</a><a href="https://fun-retro.com/icebreaker-questions/work-icebreaker-questions/">Icebreaker questions for work</a><a href="https://fun-retro.com/tools/random-team-generator/">Random team generator</a><a href="https://fun-retro.com/tools/random-name-picker/">Name picker wheel</a><a href="https://fun-retro.com/templates/lessons-learned-template/">Lessons learned template</a><a href="https://fun-retro.com/games/zoom-in/">Guess the picture game</a>' : '免费工具：<a href="https://fun-retro.com/zh/templates/">复盘模板</a><a href="https://fun-retro.com/zh/icebreaker-questions/work-icebreaker-questions/">工作破冰问题</a><a href="https://fun-retro.com/zh/tools/random-team-generator/">随机分组</a><a href="https://fun-retro.com/zh/tools/random-name-picker/">随机抽人转盘</a><a href="https://fun-retro.com/zh/templates/lessons-learned-template/">经验教训模板</a><a href="https://fun-retro.com/zh/games/zoom-in/">看图猜物</a>'}</div>
   <div><a href="${t.home}#apps">Lift Apps</a><a href="${t.lang === 'en' ? '' : '/zh'}/guides/">${t.nav[2]}</a><a href="mailto:${MAIL}">${MAIL}</a><a href="/archive/">${t.archive}</a></div>
 </div></footer>
 </body></html>

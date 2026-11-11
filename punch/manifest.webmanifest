@@ -1,7 +1,7 @@
 {
-  "name": "次卡 · 去一次，盖一印",
-  "short_name": "次卡",
-  "description": "最简单的次卡打卡：去一次盖一枚印，还剩几次一眼看清。",
+  "name": "一印 · 去一次，盖一印",
+  "short_name": "一印",
+  "description": "一印：最简单的次卡打卡，去一次盖一枚印，还剩几次一眼看清。",
   "lang": "zh-CN",
   "start_url": "/punch/",
   "scope": "/punch/",

@@ -1,6 +1,6 @@
 // 次卡打卡 service worker: keeps the app shell available offline (gyms often have poor signal).
 // Data never goes through here: Supabase API calls are left to the network.
-const CACHE = "aiyun-punch-v2";
+const CACHE = "aiyun-punch-v3";
 const SHELL = [
   "/punch/",
   "/punch/manifest.webmanifest",

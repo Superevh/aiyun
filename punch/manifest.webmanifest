@@ -1,0 +1,17 @@
+{
+  "name": "次卡打卡 · AI云",
+  "short_name": "次卡打卡",
+  "description": "最简单的次卡打卡：去一次按一下，还剩几次一眼看清。",
+  "lang": "zh-CN",
+  "start_url": "/punch/",
+  "scope": "/punch/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#140E09",
+  "theme_color": "#140E09",
+  "icons": [
+    { "src": "/punch/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/punch/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/punch/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

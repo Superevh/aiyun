@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#140E09">
+<meta name="robots" content="noindex">
+<title>次卡打卡 · AI云</title>
+<meta name="description" content="最简单的次卡打卡：买了几次，去一次按一下，还剩几次一眼看清。">
+<link rel="manifest" href="/punch/manifest.webmanifest">
+<link rel="icon" href="/punch/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/punch/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="次卡打卡">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F7F1E6; --sand:#DBBE94; --gold:#CCA06A; --bronze:#8C613A; --forest:#11372D; --walnut:#6A472D;
+  --bg-deep:#140E09; --bg:#1C140E; --surface:#271B12; --raised:#33251A;
+  --t1:#F7F1E6; --t2:rgba(247,241,230,.66); --t3:rgba(247,241,230,.38);
+  --line:rgba(219,190,148,.16); --line-md:rgba(219,190,148,.28);
+  --gold-bg:rgba(204,160,106,.12); --gold-bdr:rgba(204,160,106,.42);
+  --warn:#D9A15B;
+  --sans:"Inter","Noto Sans SC",-apple-system,"PingFang SC",sans-serif;
+  --serif:"Noto Serif SC","Songti SC",serif;
+  --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg-deep);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;min-height:100dvh;
+  background:radial-gradient(circle at 72% 6%,rgba(204,160,106,.16),transparent 52%),linear-gradient(170deg,#140E09,#1E150E 55%,#2A1D13);
+  background-attachment:fixed;overscroll-behavior-y:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+input,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.app{max-width:480px;margin:0 auto;padding:calc(var(--safe-t) + 14px) 20px calc(var(--safe-b) + 128px)}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
+.brand{display:flex;align-items:center;gap:8px}
+.brand img{height:18px;width:auto}
+.eyebrow{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--t3);font-weight:500}
+.switch{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--t2);max-width:55%}
+.switch span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:var(--sand)}
+.iconbtn:active{background:var(--surface)}
+svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+.hero{text-align:center;padding:18px 0 6px}
+.cardname{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:.02em;margin:4px 0 2px}
+.cardsub{font-size:13px;color:var(--t3)}
+.ringwrap{position:relative;width:240px;height:240px;margin:22px auto 10px}
+.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{stroke:var(--line)}
+.ring-fg{stroke:var(--gold);transition:stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1)}
+.ringcore{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ringcore .lbl{font-size:12px;letter-spacing:.24em;color:var(--t3)}
+.ringcore .num{font-family:var(--serif);font-weight:700;font-size:84px;line-height:1;color:var(--gold);margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.ringcore .of{font-size:14px;color:var(--t2)}
+.ringcore.zero .num{color:var(--t3)}
+.dots{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:300px;margin:6px auto 0}
+.dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--line-md)}
+.dot.on{background:var(--gold);border-color:var(--gold)}
+.dot.bonus{border-style:dashed}
+.dot.bonus.on{border-style:solid}
+.facts{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chip{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);color:var(--t2)}
+.chip.forest{background:var(--forest);border-color:transparent;color:#B9CDB6}
+.chip.warn{border-color:rgba(217,161,91,.5);color:var(--warn)}
+.insight{margin:22px 0 0;padding:14px 16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.65;color:var(--t2)}
+.insight b{color:var(--t1);font-weight:500}
+.insight .g{color:var(--gold)}
+.insight .w{color:var(--warn)}
+
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:30px 0 8px}
+.sec h2{font-family:var(--serif);font-size:17px;font-weight:600;margin:0}
+.link{font-size:14px;color:var(--sand);padding:8px 0 8px 12px}
+.list{border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 4px;border-bottom:1px solid var(--line)}
+.row:active{background:rgba(219,190,148,.05)}
+.row .n{width:34px;font-family:var(--serif);font-size:15px;color:var(--sand);font-variant-numeric:tabular-nums}
+.row .d{flex:1}
+.row .d1{font-size:15px}
+.row .d2{font-size:12.5px;color:var(--t3);margin-top:2px}
+.row .chev{color:var(--t3)}
+.row.fresh{animation:fresh 1.6s ease}
+@keyframes fresh{0%{background:var(--gold-bg)}100%{background:transparent}}
+.empty{padding:26px 8px;text-align:center;color:var(--t3);font-size:14px;line-height:1.7}
+
+.dock{position:fixed;left:0;right:0;bottom:0;padding:14px 20px calc(var(--safe-b) + 16px);
+  background:linear-gradient(to top,rgba(20,14,9,.98) 55%,rgba(20,14,9,0));z-index:5}
+.dock-in{max-width:440px;margin:0 auto}
+.punch{width:100%;height:68px;border-radius:999px;font-size:19px;font-weight:600;letter-spacing:.12em;
+  background:linear-gradient(180deg,#D8AF7C,#CCA06A 55%,#B88A55);color:#21170F;
+  box-shadow:0 10px 30px rgba(204,160,106,.25),inset 0 1px 0 rgba(255,255,255,.35);
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s ease,filter .2s}
+.punch small{font-size:13px;font-weight:500;letter-spacing:.04em;opacity:.7}
+.punch:active{transform:scale(.97)}
+.punch.done{background:var(--surface);color:var(--sand);box-shadow:none;border:1px solid var(--gold-bdr);letter-spacing:.04em;font-size:17px}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--safe-b) + 104px);transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--raised);border:1px solid var(--line-md);border-radius:14px;padding:12px 12px 12px 16px;
+  display:flex;align-items:center;gap:14px;font-size:14px;width:min(440px,calc(100% - 40px));transition:all .25s ease;z-index:40;
+  box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast .msg{flex:1;line-height:1.5}
+.toast .msg b{color:var(--gold);font-weight:600}
+.toast .undo{color:var(--gold);font-weight:600;padding:8px 10px;border-radius:10px}
+.toast .undo:active{background:var(--gold-bg)}
+
+.scrim{position:fixed;inset:0;background:rgba(10,7,4,.6);opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);max-height:88vh;overflow:auto}
+.sheet.show{transform:none}
+.sheet-in{max-width:480px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;padding:10px 20px calc(var(--safe-b) + 22px)}
+.grab{width:40px;height:4px;border-radius:4px;background:var(--line-md);margin:0 auto 14px}
+.sheet h3{font-family:var(--serif);font-size:20px;margin:4px 0 6px}
+.sheet p.sub{color:var(--t2);font-size:14px;margin:0 0 16px;line-height:1.6}
+.field{margin:0 0 14px}
+.field label{display:block;font-size:12.5px;color:var(--t3);margin-bottom:6px;letter-spacing:.04em}
+.field input{width:100%;height:50px;border-radius:12px;border:1px solid var(--line-md);background:var(--surface);padding:0 14px;font-size:16px;outline:none;color-scheme:dark}
+.field input:focus{border-color:var(--gold-bdr)}
+.field input[type=date],.field input[type=datetime-local]{-webkit-appearance:none;appearance:none;min-width:0;max-width:100%;display:block;padding:0 10px;font-size:15px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.grid2 .field{min-width:0}
+.err{font-size:13px;color:var(--warn);min-height:18px;margin:-4px 0 8px;line-height:1.5}
+.btn{width:100%;height:52px;border-radius:14px;font-size:16px;font-weight:600;margin-top:8px}
+.btn.pri{background:var(--gold);color:#21170F}
+.btn.pri[disabled]{opacity:.5}
+.btn.dan{color:#E3A08A;border:1px solid rgba(227,160,138,.35)}
+.btn.ghost{color:var(--t2)}
+.menu .item{display:flex;align-items:center;gap:12px;width:100%;padding:15px 4px;border-bottom:1px solid var(--line);font-size:16px;text-align:left}
+.menu .item.cur{color:var(--gold)}
+.menu .item small{margin-left:auto;color:var(--t3);font-size:13px;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stepper{display:flex;align-items:center;border:1px solid var(--line-md);border-radius:12px;background:var(--surface);height:50px}
+.stepper button{width:46px;height:100%;font-size:22px;color:var(--sand)}
+.stepper input{flex:1;min-width:0;text-align:center;border:0;background:none;height:100%;font-size:18px;outline:none;font-variant-numeric:tabular-nums}
+.total{text-align:center;color:var(--t2);font-size:14px;margin:-2px 0 16px}
+.total b{color:var(--gold);font-family:var(--serif);font-size:20px}
+
+.welcome{text-align:center;padding:9vh 4px 0}
+.welcome .logo{height:56px;width:auto;opacity:.95}
+.welcome h1{font-family:var(--serif);font-size:30px;line-height:1.35;margin:18px 0 10px}
+.welcome h1 em{font-style:normal;color:var(--gold)}
+.welcome p{color:var(--t2);font-size:15px;line-height:1.7;margin:0 0 26px}
+.auth{max-width:340px;margin:0 auto;text-align:left}
+.code{letter-spacing:.5em;text-align:center;font-size:22px!important;font-variant-numeric:tabular-nums}
+.small{font-size:13px;color:var(--t3);text-align:center;line-height:1.7;margin-top:14px}
+.small button{color:var(--sand);padding:4px}
+
+.sync{font-size:11.5px;color:var(--t3);text-align:center;margin-top:28px;letter-spacing:.04em}
+.sync i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#7FA48A;margin-right:6px;vertical-align:1px}
+.sync.local i{background:var(--warn)}
+.sync.wait i{background:var(--t3)}
+.skel{height:240px;width:240px;border-radius:50%;margin:60px auto;border:10px solid var(--surface);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app"><div class="skel" aria-label="加载中"></div></div>
+<div class="dock" id="dock" hidden><div class="dock-in"><button class="punch" id="punchBtn"></button></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="msg" id="toastMsg"></div><button class="undo" id="toastUndo">撤销</button></div>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="sheet-in"><div class="grab"></div><div id="sheetBody"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(() => {
+"use strict";
+const SB_URL = "https://ychcvnzxdcrralwcyzsk.supabase.co";
+const SB_KEY = "sb_publishable_Mx2A59beyzPUQEMlk2nC6A_EZU0qv_z"; // publishable key: public by design, data protected by RLS
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() :
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => { const r = Math.random()*16|0; return (c === "x" ? r : (r&3|8)).toString(16); }));
+const DAY = 864e5;
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseYmd = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const WK = ["周日","周一","周二","周三","周四","周五","周六"];
+const fmtDay = d => `${d.getMonth()+1}月${d.getDate()}日 ${WK[d.getDay()]}`;
+const fmtTime = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const fmtFull = ts => { const d = new Date(ts); const y = d.getFullYear() !== new Date().getFullYear() ? d.getFullYear()+"年" : ""; return `${y}${fmtDay(d)} ${fmtTime(d)}`; };
+const startOfDay = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+function rel(ts){
+  const days = Math.round((startOfDay(new Date()) - startOfDay(new Date(ts))) / DAY);
+  if (days === 0) { const m = Math.round((Date.now() - ts) / 6e4); return m < 1 ? "刚刚" : m < 60 ? `${m} 分钟前` : "今天"; }
+  if (days === 1) return "昨天";
+  if (days === 2) return "前天";
+  if (days < 7) return `${days} 天前`;
+  if (days < 60) return `${Math.floor(days/7)} 周前`;
+  return `${Math.floor(days/30)} 个月前`;
+}
+const toLocalInput = ts => { const d = new Date(ts); return `${ymd(d)}T${fmtTime(d)}`; };
+const fromLocalInput = s => { if (!s) return NaN; const [a,b] = s.split("T"); const d = parseYmd(a); const [h,m] = (b||"0:0").split(":").map(Number); d.setHours(h, m, 0, 0); return d.getTime(); };
+const ls = {
+  get(k, f){ try { const v = localStorage.getItem(k); return v == null ? f : JSON.parse(v); } catch { return f; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k){ try { localStorage.removeItem(k); } catch {} }
+};
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch {} };
+const ICON = {
+  menu:'<svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>',
+  down:'<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M6 9l6 6 6-6"/></svg>',
+  chev:'<svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 6l6 6-6 6"/></svg>',
+  plus:'<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+};
+
+/* ---------- model ---------- */
+const live = c => (c.records||[]).filter(r => !r.deleted);
+const total = c => (c.paid|0) + (c.bonus|0);
+const sorted = c => live(c).sort((a,b) => a.ts - b.ts);
+const used = c => live(c).length;
+const left = c => total(c) - used(c);
+
+/* ---------- state ---------- */
+const S = { user: null, cards: {}, outbox: [], sel: ls.get("aiyun.punch.sel", null), online: navigator.onLine, syncing: false, lastSync: 0, ready: false };
+const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: "aiyun-punch-auth" } }) : null;
+const cacheKey = () => "aiyun.punch.v2." + S.user.id;
+function persist(){ if (S.user) ls.set(cacheKey(), { cards: S.cards, outbox: S.outbox }); }
+
+/* ---------- outbox: every change is an idempotent upsert, retried until the server has it ---------- */
+const cardRow = c => ({ id: c.id, user_id: S.user.id, name: c.name, paid: c.paid, bonus: c.bonus, start_date: c.start, expiry_date: c.expiry || null, archived: !!c.archived });
+const recRow = (c, r) => ({ id: r.id, card_id: c.id, user_id: S.user.id, ts: new Date(r.ts).toISOString(), edited: !!r.edited, deleted_at: r.deleted ? new Date(r.deleted).toISOString() : null });
+function queue(op){
+  S.outbox = S.outbox.filter(o => !(o.t === op.t && o.id === op.id));
+  if (op.t === "delcard") S.outbox = S.outbox.filter(o => !(o.t === "card" && o.id === op.id) && !(o.t === "rec" && o.card === op.id));
+  S.outbox.push(op); persist(); flushSoon();
+}
+function saveCard(c){ S.cards[c.id] = c; queue({ t: "card", id: c.id, row: cardRow(c) }); render(); }
+function saveRec(c, r){ S.cards[c.id] = c; queue({ t: "rec", id: r.id, card: c.id, row: recRow(c, r) }); render(); }
+function deleteCard(id){ delete S.cards[id]; queue({ t: "delcard", id }); render(); }
+
+let flushTimer;
+function flushSoon(ms = 50){ clearTimeout(flushTimer); flushTimer = setTimeout(flush, ms); }
+const isNetErr = e => !e || !e.code || /fetch|network|load failed|timeout/i.test(e.message || "");
+async function flush(){
+  if (!sb || !S.user || S.syncing || !S.outbox.length) return;
+  if (!navigator.onLine) { S.online = false; render(); return; }
+  S.syncing = true;
+  const batch = [...S.outbox];
+  const groups = [["card", "punch_cards"], ["rec", "punch_records"]];
+  let failed = false;
+  try {
+    for (const [t, table] of groups) {
+      const ops = batch.filter(o => o.t === t); if (!ops.length) continue;
+      const { error } = await sb.from(table).upsert(ops.map(o => o.row), { onConflict: "id" });
+      if (error) throw error;
+      S.outbox = S.outbox.filter(o => !ops.includes(o));
+    }
+    const dels = batch.filter(o => o.t === "delcard");
+    if (dels.length) {
+      const { error } = await sb.from("punch_cards").delete().in("id", dels.map(o => o.id));
+      if (error) throw error;
+      S.outbox = S.outbox.filter(o => !dels.includes(o));
+    }
+    S.online = true; S.lastSync = Date.now();
+  } catch (e) {
+    failed = true;
+    if (isNetErr(e)) { S.online = false; }
+    else {
+      console.warn("sync rejected", e);
+      // a change the server refuses won't succeed on retry: drop it after 3 tries and say so
+      batch.forEach(o => { o.tries = (o.tries || 0) + 1; });
+      const dead = S.outbox.filter(o => o.tries >= 3);
+      if (dead.length) { S.outbox = S.outbox.filter(o => o.tries < 3); toast("有一条改动服务器没接受，已跳过，请刷新后再看一下", null); }
+    }
+  }
+  S.syncing = false; persist(); render();
+  if (failed) flushSoon(15000); else if (S.outbox.length) flushSoon();
+}
+
+/* ---------- pull: server truth + anything still waiting in the outbox ---------- */
+async function pull(){
+  if (!sb || !S.user || !navigator.onLine) return;
+  const [c, r] = await Promise.all([
+    sb.from("punch_cards").select("*").order("created_at"),
+    sb.from("punch_records").select("id,card_id,ts,edited,deleted_at").is("deleted_at", null).order("ts").limit(5000),
+  ]);
+  if (c.error || r.error) { if (isNetErr(c.error || r.error)) { S.online = false; render(); } return; }
+  const cards = {};
+  c.data.forEach(x => cards[x.id] = { id: x.id, name: x.name, paid: x.paid, bonus: x.bonus, start: x.start_date, expiry: x.expiry_date || "", archived: x.archived, createdAt: Date.parse(x.created_at), records: [] });
+  r.data.forEach(x => { const k = cards[x.card_id]; if (k) k.records.push({ id: x.id, ts: Date.parse(x.ts), edited: x.edited }); });
+  // keep local versions of anything not yet confirmed by the server
+  const pendingCards = new Set(S.outbox.filter(o => o.t !== "delcard").map(o => o.t === "card" ? o.id : o.card));
+  pendingCards.forEach(id => { if (S.cards[id]) cards[id] = S.cards[id]; });
+  S.outbox.filter(o => o.t === "delcard").forEach(o => delete cards[o.id]);
+  S.cards = cards; S.online = true; S.lastSync = Date.now(); S.ready = true; persist(); render();
+}
+
+/* ---------- auth ---------- */
+async function setUser(u){
+  if (!u) { S.user = null; S.cards = {}; S.outbox = []; S.ready = true; render(); return; }
+  const same = S.user && S.user.id === u.id;
+  S.user = { id: u.id, email: u.email };
+  ls.set("aiyun.punch.lastUser", S.user);
+  if (!same) { const cache = ls.get(cacheKey(), null); S.cards = (cache && cache.cards) || {}; S.outbox = (cache && cache.outbox) || []; S.ready = !!cache; render(); }
+  flushSoon(); await pull().catch(() => {}); S.ready = true; render();
+}
+async function boot(){
+  if (!sb) {
+    // CDN unreachable (offline at the gym): keep working from this device's copy, sync later
+    const u = ls.get("aiyun.punch.lastUser", null);
+    if (u) { S.user = u; const cache = ls.get(cacheKey(), {}); S.cards = cache.cards || {}; S.outbox = cache.outbox || []; S.online = false; S.ready = true; render(); }
+    else { S.ready = true; renderOfflineNoUser(); }
+    return;
+  }
+  sb.auth.onAuthStateChange((ev, session) => {
+    if (ev === "SIGNED_OUT") setUser(null);
+    else if (session && (!S.user || S.user.id !== session.user.id)) setUser(session.user);
+  });
+  const { data } = await sb.auth.getSession();
+  if (data && data.session) await setUser(data.session.user);
+  else {
+    const u = ls.get("aiyun.punch.lastUser", null);
+    if (u && !navigator.onLine) { S.user = u; const cache = ls.get(cacheKey(), {}); S.cards = cache.cards || {}; S.outbox = cache.outbox || []; S.online = false; S.ready = true; render(); }
+    else setUser(null);
+  }
+}
+window.addEventListener("online", () => { S.online = true; flushSoon(); pull().catch(()=>{}); });
+window.addEventListener("offline", () => { S.online = false; render(); });
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { flushSoon(); if (Date.now() - S.lastSync > 20e3) pull().catch(()=>{}); render(); } });
+setInterval(() => { if (!document.hidden && !$("#sheet").classList.contains("show")) render(); }, 60e3);
+
+/* ---------- selection ---------- */
+function current(){
+  let c = S.cards[S.sel];
+  if (!c) {
+    const all = Object.values(S.cards).sort((a,b) => (a.archived - b.archived) || (b.createdAt||0) - (a.createdAt||0));
+    c = all[0]; if (c) { S.sel = c.id; ls.set("aiyun.punch.sel", c.id); }
+  }
+  return c || null;
+}
+function select(id){ S.sel = id; ls.set("aiyun.punch.sel", id); render(); }
+
+/* ---------- insight ---------- */
+function insight(c){
+  const recs = sorted(c), n = recs.length, rem = left(c), lines = [];
+  if (n) lines.push(`上一次：<b>${rel(recs[n-1].ts)}</b> · ${fmtFull(recs[n-1].ts)}`);
+  const start = parseYmd(c.start), days = Math.max(1, (Date.now() - start) / DAY);
+  const exp = c.expiry ? parseYmd(c.expiry) : null;
+  const daysLeft = exp ? Math.ceil((exp - startOfDay(new Date())) / DAY) : null;
+  if (rem > 0 && n >= 2 && days >= 7) {
+    const perWeek = n / days * 7, finish = new Date(Date.now() + rem / perWeek * 7 * DAY);
+    lines.push(`节奏：平均每周 <b>${perWeek.toFixed(1)}</b> 次，照这样大约 <span class="g">${finish.getMonth()+1}月${finish.getDate()}日</span> 用完`);
+    if (exp && daysLeft > 0) {
+      const waste = Math.round(rem - perWeek * daysLeft / 7);
+      if (waste >= 1) lines.push(`<span class="w">提醒：照这个节奏，到期时还会剩约 ${waste} 次，每周需要 ${(rem / daysLeft * 7).toFixed(1)} 次才用得完</span>`);
+    }
+  } else if (rem > 0 && exp && daysLeft > 0) {
+    lines.push(`还有 <b>${daysLeft}</b> 天到期，每周去 <span class="g">${(rem / daysLeft * 7).toFixed(1)}</span> 次刚好用完`);
+  }
+  if (rem === 0 && n) lines.push(`这张卡已全部用完。共 ${n} 次，用时 ${Math.max(1, Math.round((recs[n-1].ts - start)/DAY))} 天。`);
+  return lines;
+}
+
+/* ---------- render ---------- */
+let freshId = null;
+function syncLine(){
+  if (!S.online) return `<div class="sync local"><i></i>离线中 · 改动已存在手机上${S.outbox.length ? `（${S.outbox.length} 条待同步）` : ""}，联网后自动同步</div>`;
+  if (S.outbox.length) return `<div class="sync wait"><i></i>正在同步…</div>`;
+  return `<div class="sync"><i></i>已同步到云端 · ${esc(S.user.email || "")}</div>`;
+}
+function render(){
+  const app = $("#app"), dock = $("#dock");
+  if (!S.ready) return;
+  if (!S.user) { dock.hidden = true; return renderLogin(); }
+  const c = current();
+  if (!c) {
+    dock.hidden = true;
+    app.innerHTML = `<div class="top"><span class="brand"><img src="/punch/icons/mark.png" alt=""><span class="eyebrow">AI云 · 次卡</span></span><button class="iconbtn" id="acctBtn" aria-label="账号">${ICON.menu}</button></div>
+      <div class="welcome"><h1>买了几次，<em>去一次按一下</em><br>还剩几次一眼看清</h1>
+      <p>拳击课、游泳、理发、私教……<br>任何按次计费的卡都能放进来。</p>
+      <button class="btn pri" id="startBtn" style="max-width:320px">添加第一张次卡</button></div>${syncLine()}`;
+    $("#startBtn").onclick = () => openCardForm();
+    $("#acctBtn").onclick = openAccount;
+    return;
+  }
+  const T = total(c), U = used(c), R = T - U, recs = sorted(c);
+  const exp = c.expiry ? parseYmd(c.expiry) : null;
+  const daysLeft = exp ? Math.ceil((exp - startOfDay(new Date())) / DAY) : null;
+  const C = 2 * Math.PI * 104, frac = T ? Math.min(1, U / T) : 0;
+  let facts = `<span class="chip">开始 ${c.start.replace(/-/g, ".")}</span>`;
+  if (exp) facts += daysLeft < 0 ? `<span class="chip warn">已于 ${c.expiry.replace(/-/g,".")} 到期</span>`
+    : daysLeft <= 14 ? `<span class="chip warn">${daysLeft === 0 ? "今天到期" : `${daysLeft} 天后到期`}</span>`
+    : `<span class="chip">有效至 ${c.expiry.replace(/-/g,".")}</span>`;
+  if (c.bonus > 0) facts += `<span class="chip forest">${c.paid} 次 + 送 ${c.bonus} 次</span>`;
+  if (c.archived) facts += `<span class="chip">已归档</span>`;
+  const dots = Array.from({length: Math.min(T, 60)}, (_, i) => `<span class="dot${i < U ? " on" : ""}${i >= c.paid ? " bonus" : ""}"></span>`).join("");
+  const ins = insight(c);
+  const multi = Object.keys(S.cards).length > 1;
+  const rows = recs.map((r, i) => ({ r, n: i + 1 })).reverse().map(({r, n}) =>
+    `<button class="row${r.id === freshId ? " fresh" : ""}" data-rec="${r.id}"><span class="n">#${n}</span><span class="d"><div class="d1">${fmtDay(new Date(r.ts))} · ${fmtTime(new Date(r.ts))}</div><div class="d2">${rel(r.ts)}${r.edited ? " · 已改时间" : ""}</div></span><span class="chev">${ICON.chev}</span></button>`).join("");
+
+  app.innerHTML = `
+  <div class="top">
+    <span class="brand"><img src="/punch/icons/mark.png" alt=""><span class="eyebrow">AI云 · 次卡</span></span>
+    ${multi ? `<button class="switch" id="switchBtn"><span>${esc(c.name)}</span>${ICON.down}</button>` : ""}
+    <button class="iconbtn" id="menuBtn" aria-label="更多">${ICON.menu}</button>
+  </div>
+  <section class="hero">
+    <div class="cardname">${esc(c.name)}</div>
+    <div class="cardsub">共 ${T} 次 · 已用 ${U} 次</div>
+    <div class="ringwrap">
+      <svg viewBox="0 0 240 240" aria-hidden="true">
+        <circle class="ring-bg" cx="120" cy="120" r="104" fill="none" stroke-width="6"/>
+        <circle class="ring-fg" cx="120" cy="120" r="104" fill="none" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - frac)}" ${U === 0 ? 'style="opacity:0"' : ""}/>
+      </svg>
+      <div class="ringcore${R <= 0 ? " zero" : ""}" aria-label="剩余 ${R} 次，共 ${T} 次">
+        <div class="lbl">剩余</div><div class="num">${Math.max(0, R)}</div><div class="of">/ ${T} 次</div>
+      </div>
+    </div>
+    <div class="dots" aria-hidden="true">${dots}</div>
+    <div class="facts">${facts}</div>
+  </section>
+  ${ins.length ? `<div class="insight">${ins.join("<br>")}</div>` : ""}
+  <div class="sec"><h2>打卡记录</h2><button class="link" id="addPast">+ 补记一次</button></div>
+  <div class="list">${rows || `<div class="empty">还没有打卡。<br>去上课时，点下面的按钮就行。</div>`}</div>
+  ${syncLine()}`;
+  freshId = null;
+
+  dock.hidden = false;
+  const b = $("#punchBtn");
+  if (R <= 0) { b.className = "punch done"; b.innerHTML = "已用完 · 续一张新卡"; b.onclick = () => openCardForm(null, c); }
+  else if (c.archived) { b.className = "punch done"; b.innerHTML = "已归档 · 点此恢复"; b.onclick = () => { c.archived = false; saveCard(c); }; }
+  else { b.className = "punch"; b.innerHTML = `打卡 <small>第 ${U + 1} 次</small>`; b.onclick = onPunch; }
+
+  $("#menuBtn").onclick = () => openMenu(c);
+  if (multi) $("#switchBtn").onclick = openSwitcher;
+  $("#addPast").onclick = () => openRecord(c, null);
+  app.querySelectorAll("[data-rec]").forEach(el => el.onclick = () => openRecord(c, el.dataset.rec));
+}
+
+/* ---------- login (email + one-time code; works inside the home-screen app) ---------- */
+let loginEmail = ls.get("aiyun.punch.email", ""), codeSent = false, cooldown = 0, cdTimer;
+function renderLogin(){
+  const app = $("#app");
+  app.innerHTML = `<div class="welcome">
+    <img class="logo" src="/punch/icons/mark.png" alt="AI云">
+    <h1>次卡打卡<br><em>去一次，按一下</em></h1>
+    <p>记录保存在云端，换手机也不会丢。</p>
+    <div class="auth">
+      ${/MicroMessenger/i.test(navigator.userAgent) ? `<div class="insight" style="margin:0 0 14px;font-size:13.5px">在微信里打开的？Google 登录在微信里用不了。请点右上角 <b>···</b>，选「在浏览器打开」，再登录并添加到主屏幕。</div>` : ""}
+      <button class="btn pri" id="google" type="button" style="display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#21170F" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/></svg>
+        用 Google 登录</button>
+      <div class="small" style="margin:18px 0 6px">或者用邮箱</div>
+    </div>
+    <form class="auth" id="authForm" novalidate>
+      ${!codeSent ? `
+        <div class="field"><input type="email" id="email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${esc(loginEmail)}" aria-label="邮箱"></div>
+        <div class="err" id="err"></div>
+        <button class="btn ghost" id="go" style="border:1px solid var(--line-md);margin-top:0">发送登录邮件</button>
+        <div class="small">第一次用会自动建账号，不需要密码。</div>`
+      : `
+        <p style="font-size:14px;color:var(--t2);line-height:1.7;margin:0 0 14px;text-align:center">登录邮件已发到 <b style="color:var(--t1)">${esc(loginEmail)}</b><br>在<b style="color:var(--t1)">这台手机</b>上打开邮件，点里面的链接就登录了。</p>
+        <div class="field"><label>邮件里如果有数字验证码，也可以填这里</label><input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="······"></div>
+        <div class="err" id="err"></div>
+        <button class="btn pri" id="go">用验证码登录</button>
+        <div class="small">没收到？看看垃圾邮件。<button type="button" id="resend"></button><br><button type="button" id="back">换个邮箱</button></div>`}
+    </form></div>`;
+  const form = $("#authForm"), err = $("#err"), go = $("#go");
+  $("#google").onclick = async () => {
+    const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + "/punch/" } });
+    if (error) err.textContent = isNetErr(error) ? "网络不通，请检查网络" : "Google 登录失败：" + error.message;
+  };
+  const setCd = () => { const r = $("#resend"); if (!r) return; r.textContent = cooldown > 0 ? `${cooldown} 秒后可重发` : "重新发送"; r.disabled = cooldown > 0; };
+  if (codeSent) { setCd(); $("#resend").onclick = () => send(true); $("#back").onclick = () => { codeSent = false; renderLogin(); }; setTimeout(() => $("#code") && $("#code").focus(), 50); }
+  async function send(isResend){
+    if (cooldown > 0) return;
+    const email = (isResend ? loginEmail : $("#email").value).trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "请输入正确的邮箱"; return; }
+    go.disabled = true; err.textContent = "";
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: location.origin + "/punch/" } });
+    go.disabled = false;
+    if (error) { err.textContent = /rate|too many|seconds/i.test(error.message) ? "发送太频繁了，请稍等一会再试" : (isNetErr(error) ? "网络不通，请检查网络" : "发送失败：" + error.message); return; }
+    loginEmail = email; ls.set("aiyun.punch.email", email); codeSent = true;
+    cooldown = 60; clearInterval(cdTimer); cdTimer = setInterval(() => { cooldown--; setCd(); if (cooldown <= 0) clearInterval(cdTimer); }, 1000);
+    renderLogin(); if (isResend) toast("已重新发送", null);
+  }
+  form.onsubmit = async e => {
+    e.preventDefault();
+    if (!codeSent) return send(false);
+    const token = $("#code").value.replace(/\D/g, "");
+    if (token.length < 6) { err.textContent = "请输入邮件里的验证码"; return; }
+    go.disabled = true; err.textContent = "";
+    const { data, error } = await sb.auth.verifyOtp({ email: loginEmail, token, type: "email" });
+    go.disabled = false;
+    if (error) { err.textContent = isNetErr(error) ? "网络不通，请检查网络" : "验证码不对或已过期，可以重新发送"; return; }
+    codeSent = false; await setUser(data.user);
+  };
+}
+function renderOfflineNoUser(){
+  $("#app").innerHTML = `<div class="welcome"><img class="logo" src="/punch/icons/mark.png" alt=""><h1>需要联网登录一次</h1><p>第一次使用要联网登录，之后在没信号的地方也能打卡。</p><button class="btn pri" onclick="location.reload()" style="max-width:320px">重试</button></div>`;
+}
+
+/* ---------- punch ---------- */
+let lock = false;
+function onPunch(){
+  if (lock) return;
+  const c = current(); if (!c || left(c) <= 0) return;
+  const recs = sorted(c), last = recs[recs.length - 1];
+  if (last && Date.now() - last.ts < 3 * 3600e3 && Date.now() >= last.ts) {
+    const mins = Math.round((Date.now() - last.ts) / 6e4);
+    return openSheet(`<h3>刚刚已经打过卡了</h3><p class="sub">${mins < 1 ? "不到 1 分钟" : mins < 60 ? mins + " 分钟" : Math.floor(mins/60) + " 小时"}前已经记了一次（${fmtTime(new Date(last.ts))}）。确定要再扣一次吗？</p>
+      <button class="btn pri" id="yes">再打一次</button><button class="btn ghost" id="no">不用了</button>`, s => {
+        s.querySelector("#yes").onclick = () => { closeSheet(); doPunch(c); };
+        s.querySelector("#no").onclick = closeSheet;
+      });
+  }
+  doPunch(c);
+}
+function fixStart(c){
+  const first = sorted(c)[0];
+  if (first && ymd(new Date(first.ts)) < c.start) { c.start = ymd(new Date(first.ts)); return true; }
+  return false;
+}
+function doPunch(c, ts){
+  lock = true; setTimeout(() => lock = false, 1200);
+  const rec = { id: uuid(), ts: ts || Date.now() };
+  c.records = [...(c.records||[]), rec];
+  if (fixStart(c)) saveCard(c);
+  freshId = rec.id; buzz(18); saveRec(c, rec);
+  const n = sorted(c).findIndex(r => r.id === rec.id) + 1, R = left(c);
+  toast(`第 <b>${n}</b> 次已记录 · 剩 <b>${R}</b> 次${R === 0 ? "，卡用完了" : ""}`, () => {
+    const cc = S.cards[c.id]; if (!cc) return;
+    const r = cc.records.find(x => x.id === rec.id); if (!r) return;
+    r.deleted = Date.now(); saveRec(cc, r); toast("已撤销这次打卡", null);
+  });
+}
+
+/* ---------- toast / sheet ---------- */
+let tTimer;
+function toast(html, undo){
+  const t = $("#toast"); $("#toastMsg").innerHTML = html;
+  const u = $("#toastUndo"); u.hidden = !undo;
+  u.onclick = () => { t.classList.remove("show"); clearTimeout(tTimer); undo && undo(); };
+  t.classList.add("show"); clearTimeout(tTimer);
+  tTimer = setTimeout(() => t.classList.remove("show"), undo ? 6000 : 2600);
+}
+function openSheet(html, bind){
+  const body = $("#sheetBody"); body.innerHTML = html;
+  $("#scrim").classList.add("show"); $("#sheet").classList.add("show");
+  bind && bind(body);
+}
+function closeSheet(){ $("#scrim").classList.remove("show"); $("#sheet").classList.remove("show"); }
+$("#scrim").onclick = closeSheet;
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+
+function openRecord(c, recId){
+  const rec = recId ? live(c).find(r => r.id === recId) : null;
+  const n = rec ? sorted(c).findIndex(r => r.id === recId) + 1 : null;
+  if (!rec && left(c) <= 0) return toast("这张卡已经用完了，没法再补记", null);
+  openSheet(`
+    <h3>${rec ? `第 ${n} 次打卡` : "补记一次"}</h3>
+    <p class="sub">${rec ? `记录于 ${fmtFull(rec.ts)}。时间记错了可以改，误点了可以删除。` : "忘记当场打卡？选上课的时间补上。"}</p>
+    <div class="field"><label>上课时间</label><input type="datetime-local" id="ts" value="${toLocalInput(rec ? rec.ts : Date.now())}" max="${toLocalInput(Date.now())}"></div>
+    <div class="err" id="err"></div>
+    <button class="btn pri" id="ok">${rec ? "保存时间" : "补记"}</button>
+    ${rec ? '<button class="btn dan" id="del">删除这次打卡</button>' : ""}
+    <button class="btn ghost" id="cancel">取消</button>`, s => {
+      s.querySelector("#cancel").onclick = closeSheet;
+      s.querySelector("#ok").onclick = () => {
+        const ts = fromLocalInput(s.querySelector("#ts").value);
+        if (isNaN(ts)) return s.querySelector("#err").textContent = "请选择时间";
+        if (ts > Date.now() + 60e3) return s.querySelector("#err").textContent = "不能选未来的时间";
+        closeSheet();
+        if (rec) { rec.ts = ts; rec.edited = true; if (fixStart(c)) saveCard(c); freshId = rec.id; saveRec(c, rec); toast("时间已更新", null); }
+        else doPunch(c, ts);
+      };
+      if (rec) s.querySelector("#del").onclick = () => {
+        closeSheet();
+        rec.deleted = Date.now(); saveRec(c, rec);
+        toast(`已删除第 ${n} 次 · 剩 <b>${left(c)}</b> 次`, () => {
+          const cc = S.cards[c.id]; if (!cc) return;
+          const r = cc.records.find(x => x.id === rec.id); if (!r) return;
+          delete r.deleted; freshId = r.id; saveRec(cc, r);
+        });
+      };
+    });
+}
+
+function openCardForm(edit, renewFrom){
+  const base = edit || renewFrom || null;
+  const v = { name: base ? base.name : "拳击课", paid: base ? base.paid : 10, bonus: base ? base.bonus : 1,
+    start: edit ? edit.start : ymd(new Date()), expiry: edit ? (edit.expiry || "") : "" };
+  const minTotal = edit ? used(edit) : 0;
+  openSheet(`
+    <h3>${edit ? "编辑次卡" : renewFrom ? "续一张新卡" : "新建次卡"}</h3>
+    <p class="sub">${renewFrom ? "旧卡的记录会保留，可以随时切回去看。" : "买了几次、送了几次，从哪天开始。"}</p>
+    <div class="field"><label>名称</label><input id="f_name" maxlength="24" value="${esc(v.name)}" placeholder="例如：拳击课"></div>
+    <div class="grid2">
+      <div class="field"><label>购买次数</label><div class="stepper"><button data-s="paid" data-d="-1">−</button><input id="f_paid" inputmode="numeric" value="${v.paid}"><button data-s="paid" data-d="1">+</button></div></div>
+      <div class="field"><label>赠送次数</label><div class="stepper"><button data-s="bonus" data-d="-1">−</button><input id="f_bonus" inputmode="numeric" value="${v.bonus}"><button data-s="bonus" data-d="1">+</button></div></div>
+    </div>
+    <div class="total" id="f_total"></div>
+    <div class="grid2">
+      <div class="field"><label>开始日期</label><input type="date" id="f_start" value="${v.start}"></div>
+      <div class="field"><label>到期日（可不填）</label><input type="date" id="f_exp" value="${v.expiry}"></div>
+    </div>
+    <div class="err" id="err"></div>
+    <button class="btn pri" id="ok">${edit ? "保存" : "开始使用"}</button>
+    <button class="btn ghost" id="cancel">取消</button>`, s => {
+      const q = id => s.querySelector(id);
+      const num = id => Math.max(0, parseInt(q(id).value, 10) || 0);
+      const upd = () => { q("#f_total").innerHTML = `一共 <b>${num("#f_paid") + num("#f_bonus")}</b> 次`; };
+      s.querySelectorAll("[data-s]").forEach(b => b.onclick = () => {
+        const inp = q("#f_" + b.dataset.s); inp.value = Math.max(0, Math.min(999, (parseInt(inp.value,10)||0) + Number(b.dataset.d))); upd();
+      });
+      q("#f_paid").oninput = q("#f_bonus").oninput = upd; upd();
+      q("#cancel").onclick = closeSheet;
+      q("#ok").onclick = () => {
+        const name = q("#f_name").value.trim(), paid = num("#f_paid"), bonus = num("#f_bonus"), start = q("#f_start").value, expiry = q("#f_exp").value;
+        const err = q("#err");
+        if (!name) return err.textContent = "给这张卡起个名字";
+        if (paid + bonus < 1) return err.textContent = "总次数至少 1 次";
+        if (paid + bonus > 999) return err.textContent = "次数太多了，最多 999 次";
+        if (!start) return err.textContent = "请选择开始日期";
+        if (expiry && expiry < start) return err.textContent = "到期日不能早于开始日期";
+        if (edit && paid + bonus < minTotal) return err.textContent = `已经打了 ${minTotal} 次，总次数不能少于 ${minTotal}`;
+        if (edit) { const first = sorted(edit)[0]; if (first && ymd(new Date(first.ts)) < start) return err.textContent = `第 1 次打卡在 ${ymd(new Date(first.ts))}，开始日期不能晚于它`; }
+        closeSheet();
+        if (edit) { Object.assign(edit, { name, paid, bonus, start, expiry }); saveCard(edit); toast("已保存", null); }
+        else {
+          if (renewFrom) { renewFrom.archived = true; saveCard(renewFrom); }
+          const card = { id: uuid(), name, paid, bonus, start, expiry, records: [], archived: false, createdAt: Date.now() };
+          S.sel = card.id; ls.set("aiyun.punch.sel", card.id); saveCard(card);
+          toast(`「${esc(name)}」已创建，共 ${paid + bonus} 次`, null);
+        }
+      };
+    });
+}
+
+function openAccount(){
+  openSheet(`<div class="menu"><h3 style="margin-bottom:8px">账号</h3>
+    <div class="item" style="cursor:default">登录邮箱<small>${esc(S.user.email || "")}</small></div>
+    <button class="item" id="m_out">退出登录</button></div>
+    <button class="btn ghost" id="cancel">关闭</button>`, s => {
+      s.querySelector("#cancel").onclick = closeSheet;
+      s.querySelector("#m_out").onclick = async () => {
+        if (S.outbox.length) return toast("还有改动没同步，联网同步后再退出", null);
+        closeSheet(); ls.del(cacheKey()); ls.del("aiyun.punch.lastUser"); if (sb) await sb.auth.signOut(); setUser(null);
+      };
+    });
+}
+
+function openMenu(c){
+  openSheet(`<div class="menu">
+    <h3 style="margin-bottom:8px">${esc(c.name)}</h3>
+    <button class="item" id="m_new">${ICON.plus} 新建一张次卡</button>
+    <button class="item" id="m_edit">编辑这张卡<small>次数、日期</small></button>
+    <button class="item" id="m_copy">复制打卡记录<small>发给教练核对</small></button>
+    <button class="item" id="m_arch">${c.archived ? "取消归档" : "归档这张卡"}<small>记录保留</small></button>
+    <button class="item" id="m_del" style="color:#E3A08A">删除这张卡</button>
+    <button class="item" id="m_acct">账号<small>${esc(S.user.email || "")}</small></button>
+    </div><button class="btn ghost" id="cancel">关闭</button>`, s => {
+      const q = id => s.querySelector(id);
+      q("#cancel").onclick = closeSheet;
+      q("#m_new").onclick = () => openCardForm();
+      q("#m_edit").onclick = () => openCardForm(c);
+      q("#m_acct").onclick = openAccount;
+      q("#m_copy").onclick = async () => {
+        const lines = [`${c.name}：共 ${total(c)} 次（${c.paid}+${c.bonus}），已用 ${used(c)}，剩 ${left(c)}`, `开始 ${c.start}${c.expiry ? "，到期 " + c.expiry : ""}`, ...sorted(c).map((r,i) => `#${i+1}  ${fmtFull(r.ts)}`)];
+        const text = lines.join("\n");
+        try { await navigator.clipboard.writeText(text); closeSheet(); toast("已复制，可以粘贴到微信", null); }
+        catch { openSheet(`<h3>复制打卡记录</h3><p class="sub">长按下面的文字全选复制。</p><textarea readonly style="width:100%;height:220px;background:var(--surface);border:1px solid var(--line-md);border-radius:12px;color:var(--t1);padding:12px;font:14px/1.6 var(--sans)">${esc(text)}</textarea><button class="btn ghost" id="cancel">关闭</button>`, s2 => s2.querySelector("#cancel").onclick = closeSheet); }
+      };
+      q("#m_arch").onclick = () => { c.archived = !c.archived; closeSheet(); saveCard(c); toast(c.archived ? "已归档" : "已恢复", null); };
+      q("#m_del").onclick = () => openSheet(`<h3>删除「${esc(c.name)}」？</h3><p class="sub">这张卡和它的 ${used(c)} 条打卡记录都会被删除，无法恢复。只是不用了的话，建议“归档”。</p>
+        <button class="btn dan" id="yes">确认删除</button><button class="btn ghost" id="no">取消</button>`, s2 => {
+          s2.querySelector("#no").onclick = closeSheet;
+          s2.querySelector("#yes").onclick = () => { closeSheet(); S.sel = null; deleteCard(c.id); toast("已删除", null); };
+        });
+    });
+}
+
+function openSwitcher(){
+  const all = Object.values(S.cards).sort((a,b) => (a.archived - b.archived) || (b.createdAt||0) - (a.createdAt||0));
+  openSheet(`<div class="menu"><h3 style="margin-bottom:8px">我的次卡</h3>
+    ${all.map(c => `<button class="item${c.id === S.sel ? " cur" : ""}" data-id="${c.id}">${esc(c.name)}<small>${c.archived ? "已归档 · " : ""}剩 ${left(c)} / ${total(c)}</small></button>`).join("")}
+    <button class="item" id="m_new">${ICON.plus} 新建一张次卡</button></div>
+    <button class="btn ghost" id="cancel">关闭</button>`, s => {
+      s.querySelectorAll("[data-id]").forEach(b => b.onclick = () => { closeSheet(); select(b.dataset.id); });
+      s.querySelector("#m_new").onclick = () => openCardForm();
+      s.querySelector("#cancel").onclick = closeSheet;
+    });
+}
+
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/punch/sw.js", { scope: "/punch/" }).catch(() => {}));
+boot();
+})();
+</script>
+<script src="/aiyun-t.js" defer data-site="aiyun" data-lang="zh" data-feedback="off"></script>
+</body>
+</html>

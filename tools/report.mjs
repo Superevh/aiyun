@@ -29,6 +29,10 @@ console.log('\n## Outbound clicks'); for (const [k, v] of count(ev.filter(e => e
 // Under half a second is a scroll event fired by page load, not a person.
 const eng = ev.filter(e => e.e === 'eng' && e.ms >= 500)
 console.log(`\nEngaged page loads (scrolled, tapped or typed; added 2026-11-02): ${eng.length}`); for (const [k, v] of count(eng, e => e.s + ' ' + e.p).slice(0, 15)) console.log(`- ${k}: ${v}`)
+// Bare hits: a new visitor, no referrer, no campaign, and no engagement or further event from that page within 2 minutes.
+// On 2026-11-14/15 such hits came every ~25.7 minutes, one page each, which looks automated. Kept in the raw count, listed here.
+const bare = pv.filter(e => e.n && !e.r && !e.u && !ev.some(x => x !== e && x.s === e.s && x.t >= e.t && x.t - e.t < 12e4 && (x.e !== 'pv' || x.p !== e.p)))
+console.log(`\nBare hits (new visitor, no referrer or campaign, nothing else within 2 min; possibly automated): ${bare.length} of ${pv.filter(e => e.n).length} new visitors`)
 console.log(`\nLift Apps usage (app page views): ${pv.filter(e => e.s === 'liftapps-app' || (e.s === 'retrolift' && e.p.includes('#/'))).length}; feedback panel opens: ${ev.filter(e => e.e === 'fb_open').length}`)
 const fb = (await all(env.FEEDBACK_BOARD)).filter(e => e.t >= since && e.e === 'fb')
 console.log(`\n## Feedback (${fb.length})`); for (const f of fb) console.log(`- [${day(f.t)}] ${f.s}${f.p} (${f.mood || '-'}, ${f.l}): ${(f.msg || '').replace(/\s+/g, ' ')}`)

@@ -2,6 +2,7 @@
 // Writes go to two append-only documents in the shared Supabase store (append_event RPC); no cookies, no IPs, no third parties.
 // Usage: <script src="/aiyun-t.js" defer data-site="aiyun" data-lang="zh" data-feedback="on"></script>
 // Keep every copy of this file identical (source of truth: Superevh/aiyun).
+// pv carries z, the browser's time zone offset in minutes (added 2026-11-15, H167), to tell data-centre visitors (usually 0) from people.
 (() => {
   const API = 'https://ychcvnzxdcrralwcyzsk.supabase.co/rest/v1/rpc/append_event'
   const ANON = 'sb_publishable_Mx2A59beyzPUQEMlk2nC6A_EZU0qv_z' // publishable key: public by design
@@ -30,7 +31,7 @@
   const base = () => ({ s: cfg.site, p: location.pathname + (location.hash.startsWith('#/') ? location.hash.split('?')[0] : ''), l: cfg.lang, t: Date.now() })
   const track = (e, props = {}) => bot || internal ? Promise.resolve() : send(STATS, { e, ...base(), ...props }).catch(() => {})
 
-  track('pv', { r: refHost, u: q.get('utm_source') || q.get('ref') || '', c: q.get('utm_campaign') || '', n: first ? 1 : 0, w: innerWidth < 700 ? 'm' : 'd' })
+  track('pv', { r: refHost, u: q.get('utm_source') || q.get('ref') || '', c: q.get('utm_campaign') || '', n: first ? 1 : 0, w: innerWidth < 700 ? 'm' : 'd', z: new Date().getTimezoneOffset() })
   let lastHash = location.hash
   addEventListener('hashchange', () => { if (location.hash.split('?')[0] !== lastHash.split('?')[0]) { lastHash = location.hash; track('pv', { r: '', n: 0, w: innerWidth < 700 ? 'm' : 'd' }) } })
   // Outbound clicks, so we can see which links send people to the apps.

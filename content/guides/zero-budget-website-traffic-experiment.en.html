@@ -1,4 +1,4 @@
-<!--meta {"title":"How to get traffic to a new website with zero budget: what worked in our first 10 days (real data)","description":"Real numbers from launching three small sites with no ad budget: which channels brought visitors, which brought none, and what we would do first next time.","date":"2026-11-07","order":10,"updated":"2026-11-15"}-->
+<!--meta {"title":"How to get traffic to a new website with zero budget: what worked in our first 10 days (real data)","description":"Real numbers from launching three small sites with no ad budget: which channels brought visitors, which brought none, and what we would do first next time.","date":"2026-11-07","order":10,"updated":"2026-11-17"}-->
 <p>In late October 2026 we launched three small websites with no ad budget: <a href="https://fun-retro.com/">RetroLift</a>, a free retrospective board; <a href="https://liftapps.com.au/">Lift Apps</a>, a family of agile tools; and this site. We tried every free channel we could reach, logged every action, and counted visits with our own cookie-free counter. This page is the honest scorecard after the first ten days, including the channels that brought nobody.</p>
 <p>The short version: launch-day sharing and Product Hunt bring a spike that fades within days. Search is the only channel that kept growing, but only after we fixed indexing. Most content platforms bring nothing to a new account.</p>
 <h2>The numbers</h2>
@@ -107,6 +107,25 @@
 </ul>
 <p><code>site:</code> counts are rough, so treat the Bing figure as an order of magnitude, not an exact number.</p>
 <p>A note on our own visit counts. In the 7 days to 15 November, 43 of 108 new visitors arrived with no referrer and no campaign tag, and nothing else happened on the site within two minutes. Some are people who opened a page and left. But from 16:26 UTC on 14 November, 12 of them came one page at a time, every 25 to 26 minutes or a multiple of that, each on a different page, which looks automated. We keep them in the raw count because we cannot prove which is which, and we report engaged visits (scrolled, tapped or typed) separately. On 15 November we started recording each browser's time zone offset with the page view (one number, no IP address, no cookie). Two hits on that rhythm reported US Pacific time (UTC−8) at 06:09 UTC and UTC+8 at 08:17 UTC. A person does not change time zone in two hours, so the time zone is most likely set by the software, and a time zone check on its own would not have filtered these visits out.</p>
+<h2 id="update-day-20">Update, day 20 (17 November): visitors from search arrive alone</h2>
+<p>By now Google sends a few people a day to the game pages on fun-retro.com, mostly to pages about one quiz topic, such as a zoomed-in animal quiz. So we started recording each step after they land: which button they press, whether a round starts, and whether they type an answer (only that they typed, never what). These are the counts for the 7 days to 17 November.</p>
+<table>
+  <thead><tr><th>Step</th><th>Count</th></tr></thead>
+  <tbody>
+    <tr><td>Visits from Google to a game page</td><td>33</td></tr>
+    <tr><td>Solo rounds started</td><td>13</td></tr>
+    <tr><td>Rooms opened to play with others</td><td>1 (plus 1 group game started)</td></tr>
+    <tr><td>Answers typed, since we began recording on 16 November</td><td>0</td></tr>
+  </tbody>
+</table>
+<ul>
+<li><b>People who find a game through search are almost always on their own.</b> The pages were written for a host running a game for a team, and the main button opened the game's start screen, built around creating a room and inviting people. Several visitors reached that screen and left within seconds.</li>
+<li><b>A game that needs other players does not work for them.</b> One visitor started a solo round of a game where you guess the group's average opinion; alone there is nothing to guess, and they left after five seconds. Those pages now say the game needs two people and point to the games that work alone.</li>
+<li><b>Each extra click loses people.</b> We moved "play a solo round now" to the main button on 23 quiz pages, so one click goes straight to the first question. It is too early to say whether it helps.</li>
+<li><b>Seasonal pages get indexed fast.</b> A Thanksgiving quiz page was in Google's index about eight hours after it went live. Our first Christmas visitors arrived in mid-November, from the UK.</li>
+<li><b>Internal links get used.</b> One visitor from Google read a Christmas picture quiz for a minute and a half, then followed a link to the Christmas emoji quiz and read that too.</li>
+</ul>
+<p>The lesson for any small site: before polishing the page that ranks, follow one real visitor's path past it. Ours were losing almost everyone one click after the landing page.</p>
 <h2 id="faq">Frequently asked questions</h2>
 <div class="faq">
 <h3>How long does it take a new website to get search traffic?</h3>

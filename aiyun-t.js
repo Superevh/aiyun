@@ -64,7 +64,10 @@
 .ayf-moods button,.ayf-panel textarea{background:#1C140E;color:#F7F1E6;border-color:rgba(219,190,148,.28)}.ayf-moods button[aria-pressed=true]{background:#CCA06A;color:#2B1E14}}`
   const mount = () => {
     if (document.querySelector('.ayf-btn')) return
-    const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st)
+    // A constructed stylesheet isn't inline CSS, so it still applies on pages whose CSP has no 'unsafe-inline'
+    // (liftapps.com.au); older browsers fall back to a <style> tag.
+    try { const sh = new CSSStyleSheet(); sh.replaceSync(css); document.adoptedStyleSheets = [...document.adoptedStyleSheets, sh] }
+    catch { const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st) }
     const btn = document.createElement('button'); btn.className = 'ayf-btn'; btn.type = 'button'; btn.textContent = T.btn; btn.setAttribute('aria-expanded', 'false')
     const pn = document.createElement('div'); pn.className = 'ayf-panel'; pn.setAttribute('role', 'dialog'); pn.setAttribute('aria-label', T.title)
     pn.innerHTML = `<h3></h3><p></p><div class="ayf-moods"></div><textarea maxlength="4000"></textarea><label></label><div class="ayf-row"><button type="button" class="ayf-x"></button><button type="button" class="ayf-send"></button></div><div class="ayf-msg" aria-live="polite"></div>`
